@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 
-function ListGroup() {
-  // item list goes here
-  const items = ["Red", "Green", "Blue"];
+interface Props {
+  items: string[];
+  heading: string;
+  onItemSelected: (item: String) => void; // take in string, returns void
+}
+
+function ListGroup({ items, heading, onItemSelected }: Props) {
+  // destructure the props interface
 
   // state hook
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -16,7 +21,7 @@ function ListGroup() {
 
   return (
     <>
-      <h1>List</h1>
+      <h1>{heading}</h1>
       {getMessage}
       <ul className="list-group">
         {items.map((item, index) => (
@@ -27,7 +32,13 @@ function ListGroup() {
                 : "list-group-item"
             }
             key={item}
-            onClick={() => setSelectedIndex(index)}
+            onClick={() => {
+              // set index
+              setSelectedIndex(index);
+
+              // call the custom select function
+              onItemSelected(item);
+            }}
           >
             {item}
           </li>
