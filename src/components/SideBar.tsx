@@ -1,5 +1,6 @@
 import { Drawer, List, ListItem, ListItemText } from "@mui/material";
 import { useState } from "react";
+import { Box } from "@mui/material";
 
 export default function SideBar() {
   // open state
@@ -17,6 +18,7 @@ export default function SideBar() {
           sx: {
             width: drawerWidth,
             boxSizing: "border-box",
+            position: "relative",
           },
         },
       }}

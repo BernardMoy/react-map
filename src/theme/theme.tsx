@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material/styles";
+import "@fontsource/open-sans";
 
 const theme = createTheme({
   palette: {
@@ -10,7 +11,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    h1: { fontSize: "3rem", fontWeight: 600 },
+    fontFamily: "'Open Sans', sans-serif",
   },
 });
 
