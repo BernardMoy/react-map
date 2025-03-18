@@ -11,6 +11,8 @@ export default function Home() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
+        height: "100vh",
+        overflow: "hidden",
       }}
     >
       <Box sx={{ m: TITLE_MARGIN }}>
@@ -21,7 +23,14 @@ export default function Home() {
       <Divider />
 
       {/* Fill the remaining heights */}
-      <Box sx={{ display: "flex", flexDirection: "row", flexGrow: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          flexGrow: 1,
+          overflow: "auto",
+        }}
+      >
         <SideBar />
 
         <Box sx={{ m: CONTENT_MARGIN }}>

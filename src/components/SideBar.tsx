@@ -6,7 +6,26 @@ import { DRAWER_WIDTH } from "./Values";
 
 export default function SideBar() {
   // open state
-  const lineList = ["Red", "Blue", "Green"];
+  const lineList = [
+    "Red",
+    "Blue",
+    "Green",
+    "Blue",
+    "Green",
+    "Blue",
+    "Green",
+    "Blue",
+    "Green",
+    "Blue",
+    "Green",
+    "Blue",
+    "Green",
+    "Blue",
+    "Green",
+    "Blue",
+    "Green",
+    "last",
+  ];
 
   return (
     <Drawer
