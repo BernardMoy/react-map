@@ -67,11 +67,13 @@ export default function SideBar() {
           <CustomButton
             text={"Stations"}
             variant={selected == 0 ? "contained" : "outlined"}
+            color={"secondary"}
             onClick={onStationsClicked}
           />
           <CustomButton
             text={"Lines"}
             variant={selected == 1 ? "contained" : "outlined"}
+            color={"secondary"}
             onClick={onLinesClicked}
           />
         </Box>

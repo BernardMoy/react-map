@@ -36,6 +36,7 @@ export default function TopBar() {
         <CustomButton
           text={"Add Node"}
           variant={"outlined"}
+          color={"primary"}
           startIcon={<AddIcon />}
           onClick={onAddNodeClicked}
         />
@@ -43,6 +44,7 @@ export default function TopBar() {
         <CustomButton
           text={"Add Line"}
           variant={"outlined"}
+          color={"primary"}
           startIcon={<AddIcon />}
           onClick={onAddLineClicked}
         />
