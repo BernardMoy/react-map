@@ -28,7 +28,6 @@ export default function Home() {
           display: "flex",
           flexDirection: "row",
           flexGrow: 1,
-          overflow: "auto",
         }}
       >
         <SideBar />

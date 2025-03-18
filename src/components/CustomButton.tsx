@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 
 interface Props {
   text: String;
-  variant: "outlined" | "contained";
+  variant: "outlined" | "contained" | "text";
   startIcon?: React.ReactNode; // JSX element --> <AddIcon />
   onClick: () => void;
 }

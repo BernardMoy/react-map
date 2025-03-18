@@ -5,7 +5,6 @@ import CustomButton from "./CustomButton";
 import { DRAWER_WIDTH } from "./Values";
 
 export default function SideBar() {
-  // open state
   const lineList = [
     "Red",
     "Blue",
@@ -26,6 +25,20 @@ export default function SideBar() {
     "Green",
     "last",
   ];
+
+  const nodeList = ["A", "B", "C", "D"];
+
+  // state if nodes or edges are selected (Nodes are 0, edges are 1)
+  const [selected, setSelected] = useState(0);
+
+  // function when the two header buttons are clicked
+  const onStationsClicked = () => {
+    setSelected(0);
+  };
+
+  const onLinesClicked = () => {
+    setSelected(1);
+  };
 
   return (
     <Drawer
@@ -53,13 +66,13 @@ export default function SideBar() {
         <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
           <CustomButton
             text={"Stations"}
-            variant={"outlined"}
-            onClick={() => {}}
+            variant={selected == 0 ? "contained" : "outlined"}
+            onClick={onStationsClicked}
           />
           <CustomButton
             text={"Lines"}
-            variant={"outlined"}
-            onClick={() => {}}
+            variant={selected == 1 ? "contained" : "outlined"}
+            onClick={onLinesClicked}
           />
         </Box>
 
