@@ -1,1 +1,2 @@
-export const CONTENT_MARGIN = 8;
+export const CONTENT_MARGIN = 4;
+export const TITLE_MARGIN = 8;
