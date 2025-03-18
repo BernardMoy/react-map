@@ -1,12 +1,12 @@
 import { Drawer, List, ListItem, ListItemText } from "@mui/material";
 import { useState } from "react";
 import { Box } from "@mui/material";
+import CustomButton from "./CustomButton";
+import { DRAWER_WIDTH } from "./Values";
 
 export default function SideBar() {
   // open state
-  const [open, setOpen] = useState(true);
   const lineList = ["Red", "Blue", "Green"];
-  const drawerWidth = 240;
 
   return (
     <Drawer
@@ -16,20 +16,42 @@ export default function SideBar() {
         paper: {
           // the width of the drawer is overwritten here
           sx: {
-            width: drawerWidth,
+            width: DRAWER_WIDTH,
             boxSizing: "border-box",
             position: "relative",
           },
         },
       }}
     >
-      <List>
-        {lineList.map((value) => (
-          <ListItem key={value}>
-            <ListItemText primary={value} />
-          </ListItem>
-        ))}
-      </List>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+        }}
+      >
+        {/* The two buttons specifying display nodes of edges */}
+        <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+          <CustomButton
+            text={"Stations"}
+            variant={"outlined"}
+            onClick={() => {}}
+          />
+          <CustomButton
+            text={"Lines"}
+            variant={"outlined"}
+            onClick={() => {}}
+          />
+        </Box>
+
+        <List>
+          {lineList.map((value) => (
+            <ListItem key={value}>
+              <ListItemText primary={value} />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </Drawer>
   );
 }

@@ -20,7 +20,6 @@ export default function TopBar() {
         justifyContent: "start",
         gap: TITLE_MARGIN,
       }}
-      m={TITLE_MARGIN}
     >
       {/* Title text */}
       <Typography variant="h3">Text goes here</Typography>

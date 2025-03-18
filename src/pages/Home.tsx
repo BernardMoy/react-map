@@ -1,7 +1,8 @@
 import SideBar from "../components/SideBar";
-import { Box } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import TopBar from "../components/TopBar";
 import Content from "../components/Content";
+import { CONTENT_MARGIN, TITLE_MARGIN } from "../components/Values";
 
 export default function Home() {
   return (
@@ -12,11 +13,20 @@ export default function Home() {
         justifyContent: "flex-start",
       }}
     >
-      <TopBar />
+      <Box sx={{ m: TITLE_MARGIN }}>
+        <TopBar />
+      </Box>
+
+      {/* Horizontal divider */}
+      <Divider />
+
       {/* Fill the remaining heights */}
       <Box sx={{ display: "flex", flexDirection: "row", flexGrow: 1 }}>
         <SideBar />
-        <Content />
+
+        <Box sx={{ m: CONTENT_MARGIN }}>
+          <Content />
+        </Box>
       </Box>
     </Box>
   );
