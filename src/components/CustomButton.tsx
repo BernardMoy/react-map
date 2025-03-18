@@ -1,10 +1,9 @@
 import { Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 
 interface Props {
   text: String;
   variant: "outlined" | "contained";
-  startIcon?: React.ReactNode; // JSX element <AddIcon />
+  startIcon?: React.ReactNode; // JSX element --> <AddIcon />
   onClick: () => void;
 }
 
@@ -20,6 +19,7 @@ export default function CustomButton({
       color="primary"
       startIcon={startIcon}
       sx={{ textTransform: "none" }}
+      onClick={onClick}
     >
       {text}
     </Button>
