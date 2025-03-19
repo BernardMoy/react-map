@@ -22,7 +22,7 @@ export default function TopBar() {
       }}
     >
       {/* Title text */}
-      <Typography variant="h3">Text goes here</Typography>
+      <Typography variant="h3">Graph Modeling</Typography>
 
       {/* row of buttons */}
       <Box
@@ -39,6 +39,14 @@ export default function TopBar() {
           color={"primary"}
           startIcon={<AddIcon />}
           onClick={onAddNodeClicked}
+        />
+
+        <CustomButton
+          text={"Add Connection"}
+          variant={"outlined"}
+          color={"primary"}
+          startIcon={<AddIcon />}
+          onClick={() => {}}
         />
 
         <CustomButton

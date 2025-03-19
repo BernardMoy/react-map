@@ -26,7 +26,7 @@ export default function SideBar() {
     "last",
   ];
 
-  const nodeList = ["A", "B", "C", "D"];
+  const stationList = ["A", "B", "C", "D"];
 
   // state if nodes or edges are selected (Nodes are 0, edges are 1)
   const [selected, setSelected] = useState(0);
@@ -66,24 +66,31 @@ export default function SideBar() {
         <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
           <CustomButton
             text={"Stations"}
-            variant={selected == 0 ? "contained" : "outlined"}
+            variant={selected === 0 ? "contained" : "outlined"}
             color={"secondary"}
             onClick={onStationsClicked}
           />
           <CustomButton
             text={"Lines"}
-            variant={selected == 1 ? "contained" : "outlined"}
+            variant={selected === 1 ? "contained" : "outlined"}
             color={"secondary"}
             onClick={onLinesClicked}
           />
         </Box>
 
         <List>
-          {lineList.map((value) => (
-            <ListItem key={value}>
-              <ListItemText primary={value} />
-            </ListItem>
-          ))}
+          {selected === 0
+            ? stationList.map((value, index) => (
+                // unique keys are necessary here
+                <ListItem key={`station ${index}`}>
+                  <ListItemText primary={value} />
+                </ListItem>
+              ))
+            : lineList.map((value, index) => (
+                <ListItem key={`line ${index}`}>
+                  <ListItemText primary={value} />
+                </ListItem>
+              ))}
         </List>
       </Box>
     </Drawer>
