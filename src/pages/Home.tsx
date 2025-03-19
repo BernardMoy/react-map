@@ -11,6 +11,8 @@ interface TopBarContextProps {
   setAddNodeSelected: React.Dispatch<React.SetStateAction<boolean>>;
   addEdgeSelected: boolean;
   setAddEdgeSelected: React.Dispatch<React.SetStateAction<boolean>>;
+  lines: string[];
+  setLines: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 // interface to store all items for the sidebar
@@ -25,6 +27,8 @@ export const TopBarContext = createContext<TopBarContextProps>({
   setAddNodeSelected: () => {},
   addEdgeSelected: false,
   setAddEdgeSelected: () => {},
+  lines: [],
+  setLines: () => {},
 });
 
 export const SideBarContext = createContext<SideBarContextProps>({
@@ -59,6 +63,8 @@ export default function Home() {
             setAddNodeSelected,
             addEdgeSelected,
             setAddEdgeSelected,
+            lines,
+            setLines,
           }}
         >
           <TopBar />

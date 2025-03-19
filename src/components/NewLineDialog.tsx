@@ -7,13 +7,19 @@ import {
 } from "@mui/material";
 import { CONTENT_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
+import { useState } from "react";
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  lines: string[]; // pass the lines variable from context
+  setLines: (value: string[]) => void;
 }
 
 export default function NewLineDialog({ open, onClose }: Props) {
+  // store the input text
+  const [lineInput, setLineInput] = useState("");
+
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle> Add new line</DialogTitle>
@@ -28,6 +34,7 @@ export default function NewLineDialog({ open, onClose }: Props) {
           color="primary"
           type="text"
           sx={{ my: CONTENT_MARGIN }}
+          onChange={(text) => setLineInput(text.target.value)}
         />
       </DialogContent>
 

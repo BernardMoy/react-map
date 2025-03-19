@@ -13,12 +13,15 @@ export default function TopBar() {
     setAddNodeSelected,
     addEdgeSelected,
     setAddEdgeSelected,
+    lines,
+    setLines,
   } = useContext(TopBarContext);
 
   // state of the dialogs whether they are open
   const [openNewLineDialog, setOpenNewLineDialog] = useState(false);
   const handleNewLineDialogClose = () => setOpenNewLineDialog(false);
 
+  // functions when the ADD buttons are clicked
   const onAddNodeClicked = () => {
     setAddNodeSelected(!addNodeSelected);
     setAddEdgeSelected(false);
@@ -82,6 +85,8 @@ export default function TopBar() {
       <NewLineDialog
         open={openNewLineDialog}
         onClose={handleNewLineDialogClose}
+        lines={lines}
+        setLines={setLines}
       ></NewLineDialog>
     </Box>
   );

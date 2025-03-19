@@ -5,6 +5,7 @@ interface Props {
   variant: "outlined" | "contained" | "text";
   color: "primary" | "secondary" | "success" | "error";
   startIcon?: React.ReactNode; // JSX element --> <AddIcon />
+  type?: "submit";
   onClick: () => void;
 }
 
@@ -13,6 +14,7 @@ export default function CustomButton({
   variant,
   color,
   startIcon,
+  type,
   onClick,
 }: Props) {
   return (
@@ -21,6 +23,7 @@ export default function CustomButton({
       color={color}
       startIcon={startIcon}
       sx={{ textTransform: "none" }}
+      type={type}
       onClick={onClick}
     >
       {text}
