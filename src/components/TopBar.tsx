@@ -3,7 +3,7 @@ import { CONTENT_MARGIN, TITLE_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
 import AddIcon from "@mui/icons-material/Add";
 import { useContext, useState } from "react";
-import NewNodeDialog from "./NewNodeDialog";
+import NewLineDialog from "./NewLineDialog";
 import { TopBarContext } from "../pages/Home";
 
 export default function TopBar() {
@@ -16,8 +16,8 @@ export default function TopBar() {
   } = useContext(TopBarContext);
 
   // state of the dialogs whether they are open
-  const [openNewNodeDialog, setOpenNewNodeDialog] = useState(false);
-  const handleNewNodeDialogClose = () => setOpenNewNodeDialog(false);
+  const [openNewLineDialog, setOpenNewLineDialog] = useState(false);
+  const handleNewLineDialogClose = () => setOpenNewLineDialog(false);
 
   const onAddNodeClicked = () => {
     setAddNodeSelected(!addNodeSelected);
@@ -28,7 +28,9 @@ export default function TopBar() {
     setAddNodeSelected(false);
   };
 
-  const onAddLineClicked = () => {};
+  const onAddLineClicked = () => {
+    setOpenNewLineDialog(true);
+  };
 
   return (
     <Box
@@ -77,10 +79,10 @@ export default function TopBar() {
       </Box>
 
       {/* Dialogs */}
-      <NewNodeDialog
-        open={openNewNodeDialog}
-        onClose={handleNewNodeDialogClose}
-      ></NewNodeDialog>
+      <NewLineDialog
+        open={openNewLineDialog}
+        onClose={handleNewLineDialogClose}
+      ></NewLineDialog>
     </Box>
   );
 }

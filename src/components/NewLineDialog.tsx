@@ -13,18 +13,18 @@ interface Props {
   onClose: () => void;
 }
 
-export default function NewNodeDialog({ open, onClose }: Props) {
+export default function NewLineDialog({ open, onClose }: Props) {
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle> Add new node </DialogTitle>
+      <DialogTitle> Add new line</DialogTitle>
 
-      {/* The input field of the node name */}
+      {/* The input field of the line name */}
       <DialogContent>
         <TextField
           autoFocus
-          id="nodeNameTextField"
+          id="lineNameTextField"
           variant="outlined"
-          label="Node name"
+          label="Line name"
           color="primary"
           type="text"
           sx={{ my: CONTENT_MARGIN }}

@@ -13,12 +13,23 @@ interface TopBarContextProps {
   setAddEdgeSelected: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+// interface to store all items for the sidebar
+interface SideBarContextProps {
+  lines: string[];
+  setLines: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
 // create the contexts here and initialise them with values
 export const TopBarContext = createContext<TopBarContextProps>({
-  addNodeSelected: false,
+  addNodeSelected: false, // the default values are passed here
   setAddNodeSelected: () => {},
   addEdgeSelected: false,
   setAddEdgeSelected: () => {},
+});
+
+export const SideBarContext = createContext<SideBarContextProps>({
+  lines: [],
+  setLines: () => {},
 });
 
 export default function Home() {
@@ -27,6 +38,9 @@ export default function Home() {
 
   // state of whether the add edge button is selected
   const [addEdgeSelected, setAddEdgeSelected] = useState(false);
+
+  // state to store the list of lines
+  const [lines, setLines] = useState<string[]>([]);
 
   return (
     <Box
@@ -63,7 +77,14 @@ export default function Home() {
           overflow: "auto",
         }}
       >
-        <SideBar />
+        <SideBarContext.Provider
+          value={{
+            lines,
+            setLines,
+          }}
+        >
+          <SideBar />
+        </SideBarContext.Provider>
 
         <Box sx={{ m: CONTENT_MARGIN }}>
           <Content />

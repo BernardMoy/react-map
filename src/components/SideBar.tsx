@@ -1,30 +1,13 @@
 import { Drawer, List, ListItem, ListItemText } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Box } from "@mui/material";
 import CustomButton from "./CustomButton";
 import { DRAWER_WIDTH } from "./Values";
+import { SideBarContext } from "../pages/Home";
 
 export default function SideBar() {
-  const lineList = [
-    "Red",
-    "Blue",
-    "Green",
-    "Blue",
-    "Green",
-    "Blue",
-    "Green",
-    "Blue",
-    "Green",
-    "Blue",
-    "Green",
-    "Blue",
-    "Green",
-    "Blue",
-    "Green",
-    "Blue",
-    "Green",
-    "last",
-  ];
+  // get the context
+  const { lines, setLines } = useContext(SideBarContext);
 
   const stationList = ["A", "B", "C", "D"];
 
@@ -86,7 +69,7 @@ export default function SideBar() {
                   <ListItemText primary={value} />
                 </ListItem>
               ))
-            : lineList.map((value, index) => (
+            : lines.map((value, index) => (
                 <ListItem key={`line ${index}`}>
                   <ListItemText primary={value} />
                 </ListItem>
