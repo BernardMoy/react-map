@@ -12,7 +12,6 @@ export default function Home() {
         flexDirection: "column",
         justifyContent: "flex-start",
         height: "100vh",
-        overflow: "hidden",
       }}
     >
       <Box sx={{ m: TITLE_MARGIN }}>
@@ -28,6 +27,7 @@ export default function Home() {
           display: "flex",
           flexDirection: "row",
           flexGrow: 1,
+          overflow: "auto",
         }}
       >
         <SideBar />
