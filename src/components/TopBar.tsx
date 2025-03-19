@@ -2,16 +2,23 @@ import { Box, Typography } from "@mui/material";
 import { CONTENT_MARGIN, TITLE_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
 import AddIcon from "@mui/icons-material/Add";
-
-const onAddNodeClicked = () => {
-  console.log("Add node clicked");
-};
-
-const onAddLineClicked = () => {
-  console.log("Add line clicked");
-};
+import { useState } from "react";
+import NewNodeDialog from "./NewNodeDialog";
 
 export default function TopBar() {
+  // state of the dialogs whether they are open
+  const [openNewNodeDialog, setOpenNewNodeDialog] = useState(false);
+  const handleNewNodeDialogClose = () => setOpenNewNodeDialog(false);
+
+  const onAddNodeClicked = () => {
+    console.log("Add node clicked");
+    setOpenNewNodeDialog(true);
+  };
+
+  const onAddLineClicked = () => {
+    console.log("Add line clicked");
+  };
+
   return (
     <Box
       sx={{
@@ -57,6 +64,12 @@ export default function TopBar() {
           onClick={onAddLineClicked}
         />
       </Box>
+
+      {/* Dialogs */}
+      <NewNodeDialog
+        open={openNewNodeDialog}
+        onClose={handleNewNodeDialogClose}
+      ></NewNodeDialog>
     </Box>
   );
 }
