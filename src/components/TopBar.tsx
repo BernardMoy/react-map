@@ -84,7 +84,7 @@ export default function TopBar() {
       {/* Dialogs */}
       <NewLineDialog
         open={openNewLineDialog}
-        onClose={handleNewLineDialogClose}
+        setOpen={setOpenNewLineDialog}
         lines={lines}
         setLines={setLines}
       ></NewLineDialog>
