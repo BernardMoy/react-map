@@ -2,22 +2,33 @@ import { Box, Typography } from "@mui/material";
 import { CONTENT_MARGIN, TITLE_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
 import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import NewNodeDialog from "./NewNodeDialog";
+import { TopBarContext } from "../pages/Home";
 
 export default function TopBar() {
+  // get the context
+  const {
+    addNodeSelected,
+    setAddNodeSelected,
+    addEdgeSelected,
+    setAddEdgeSelected,
+  } = useContext(TopBarContext);
+
   // state of the dialogs whether they are open
   const [openNewNodeDialog, setOpenNewNodeDialog] = useState(false);
   const handleNewNodeDialogClose = () => setOpenNewNodeDialog(false);
 
   const onAddNodeClicked = () => {
-    console.log("Add node clicked");
-    setOpenNewNodeDialog(true);
+    setAddNodeSelected(!addNodeSelected);
+    setAddEdgeSelected(false);
+  };
+  const onAddConnectionClicked = () => {
+    setAddEdgeSelected(!addEdgeSelected);
+    setAddNodeSelected(false);
   };
 
-  const onAddLineClicked = () => {
-    console.log("Add line clicked");
-  };
+  const onAddLineClicked = () => {};
 
   return (
     <Box
@@ -42,7 +53,7 @@ export default function TopBar() {
       >
         <CustomButton
           text={"Add Node"}
-          variant={"outlined"}
+          variant={addNodeSelected ? "contained" : "outlined"}
           color={"primary"}
           startIcon={<AddIcon />}
           onClick={onAddNodeClicked}
@@ -50,10 +61,10 @@ export default function TopBar() {
 
         <CustomButton
           text={"Add Connection"}
-          variant={"outlined"}
+          variant={addEdgeSelected ? "contained" : "outlined"}
           color={"primary"}
           startIcon={<AddIcon />}
-          onClick={() => {}}
+          onClick={onAddConnectionClicked}
         />
 
         <CustomButton

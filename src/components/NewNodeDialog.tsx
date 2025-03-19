@@ -4,9 +4,9 @@ import {
   DialogTitle,
   DialogActions,
   TextField,
-  Button,
 } from "@mui/material";
 import { CONTENT_MARGIN } from "./Values";
+import CustomButton from "./CustomButton";
 
 interface Props {
   open: boolean;
@@ -33,12 +33,18 @@ export default function NewNodeDialog({ open, onClose }: Props) {
 
       {/* The confirm and dismiss buttons */}
       <DialogActions>
-        <Button onClick={onClose} variant="outlined" color="primary">
-          Cancel
-        </Button>
-        <Button onClick={onClose} variant="contained" color="primary">
-          Add
-        </Button>
+        <CustomButton
+          text="Cancel"
+          variant="outlined"
+          color="primary"
+          onClick={onClose}
+        />
+        <CustomButton
+          text="Add"
+          variant="contained"
+          color="primary"
+          onClick={onClose}
+        />
       </DialogActions>
     </Dialog>
   );
