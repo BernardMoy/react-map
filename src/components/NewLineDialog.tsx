@@ -9,12 +9,13 @@ import {
 import { CONTENT_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
 import { useState } from "react";
+import { Line } from "../pages/Home";
 
 interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
-  lines: string[]; // pass the lines variable from context
-  setLines: (value: string[]) => void;
+  lines: Line[]; // pass the lines variable from context
+  setLines: (value: Line[]) => void;
 }
 
 export default function NewLineDialog({
@@ -39,7 +40,11 @@ export default function NewLineDialog({
     event.preventDefault();
 
     // add the new line stored in lineInput to the list of lines
-    setLines([...lines, lineInput]);
+    const newLine: Line = {
+      lineName: lineInput,
+      lineColor: color,
+    };
+    setLines([...lines, newLine]);
 
     // close the dialog at the end
     setOpen(false);

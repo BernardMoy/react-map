@@ -5,20 +5,26 @@ import Content from "../components/Content";
 import { CONTENT_MARGIN, TITLE_MARGIN } from "../components/Values";
 import React, { createContext, useEffect, useState } from "react";
 
+// each line const of a name and color (Both strings)
+export interface Line {
+  lineName: String;
+  lineColor: String;
+}
+
 // interface to store all items passed to the top bar context
 interface TopBarContextProps {
   addNodeSelected: boolean;
   setAddNodeSelected: React.Dispatch<React.SetStateAction<boolean>>;
   addEdgeSelected: boolean;
   setAddEdgeSelected: React.Dispatch<React.SetStateAction<boolean>>;
-  lines: string[];
-  setLines: React.Dispatch<React.SetStateAction<string[]>>;
+  lines: Line[];
+  setLines: React.Dispatch<React.SetStateAction<Line[]>>;
 }
 
 // interface to store all items for the sidebar
-interface SideBarContextProps {
-  lines: string[];
-  setLines: React.Dispatch<React.SetStateAction<string[]>>;
+export interface SideBarContextProps {
+  lines: Line[];
+  setLines: React.Dispatch<React.SetStateAction<Line[]>>;
 }
 
 // create the contexts here and initialise them with values
@@ -58,7 +64,7 @@ export default function Home() {
   const [addEdgeSelected, setAddEdgeSelected] = useState(false);
 
   // state to store the list of lines
-  const [lines, setLines] = useState<string[]>([]);
+  const [lines, setLines] = useState<Line[]>([]);
 
   return (
     <Box
