@@ -1,9 +1,10 @@
-import { Drawer, List, ListItem, ListItemText } from "@mui/material";
+import { Drawer, Icon, List, ListItem, ListItemText } from "@mui/material";
 import { useContext, useState } from "react";
 import { Box } from "@mui/material";
 import CustomButton from "./CustomButton";
-import { DRAWER_WIDTH } from "./Values";
+import { CONTENT_MARGIN, DRAWER_WIDTH } from "./Values";
 import { SideBarContext } from "../pages/Home";
+import CircleIcon from "@mui/icons-material/Circle";
 
 export default function SideBar() {
   // get the context
@@ -70,8 +71,12 @@ export default function SideBar() {
                 </ListItem>
               ))
             : lines.map((value, index) => (
+                // display a list of lines with name and color
                 <ListItem key={`line ${index}`}>
-                  <ListItemText primary={value} />
+                  <Box display="flex" gap={CONTENT_MARGIN} alignItems="center">
+                    <CircleIcon style={{ color: value.lineColor }} />
+                    <ListItemText primary={value.lineName} />
+                  </Box>
                 </ListItem>
               ))}
         </List>
