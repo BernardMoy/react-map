@@ -19,7 +19,6 @@ export default function TopBar() {
 
   // state of the dialogs whether they are open
   const [openNewLineDialog, setOpenNewLineDialog] = useState(false);
-  const handleNewLineDialogClose = () => setOpenNewLineDialog(false);
 
   // functions when the ADD buttons are clicked
   const onAddNodeClicked = () => {
@@ -84,7 +83,7 @@ export default function TopBar() {
       {/* Dialogs */}
       <NewLineDialog
         open={openNewLineDialog}
-        setOpen={setOpenNewLineDialog}
+        setOpen={setOpenNewLineDialog} // this is necessary to control the open state
         lines={lines}
         setLines={setLines}
       ></NewLineDialog>

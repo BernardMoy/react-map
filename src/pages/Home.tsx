@@ -3,7 +3,7 @@ import { Box, Divider } from "@mui/material";
 import TopBar from "../components/TopBar";
 import Content from "../components/Content";
 import { CONTENT_MARGIN, TITLE_MARGIN } from "../components/Values";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 // interface to store all items passed to the top bar context
 interface TopBarContextProps {
@@ -37,6 +37,20 @@ export const SideBarContext = createContext<SideBarContextProps>({
 });
 
 export default function Home() {
+  // prevent exiting the window if there are unsaved changes
+  useEffect(() => {
+    function handleOnBeforeUnload(event: BeforeUnloadEvent) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+    window.addEventListener("beforeunload", handleOnBeforeUnload, {
+      capture: true,
+    });
+
+    return () =>
+      window.removeEventListener("beforeunload", handleOnBeforeUnload);
+  });
+
   // state of whether the add node button is selected
   const [addNodeSelected, setAddNodeSelected] = useState(false);
 

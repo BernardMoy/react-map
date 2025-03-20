@@ -26,10 +26,20 @@ export default function NewLineDialog({
   const [lineInput, setLineInput] = useState("");
 
   const handleClose = () => {
+    // directly close the dialog
     setOpen(false);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    // prevent full page refresh
+    event.preventDefault();
+
+    // add the new line stored in lineInput to the list of lines
+    setLines([...lines, lineInput]);
+
+    // close the dialog at the end
+    setOpen(false);
+  };
 
   return (
     <Dialog open={open} onClose={handleClose}>
