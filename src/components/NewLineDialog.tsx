@@ -4,6 +4,7 @@ import {
   DialogTitle,
   DialogActions,
   TextField,
+  Box,
 } from "@mui/material";
 import { CONTENT_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
@@ -24,6 +25,9 @@ export default function NewLineDialog({
 }: Props) {
   // store the input text
   const [lineInput, setLineInput] = useState("");
+
+  // store the input color
+  const [color, setColor] = useState("#FFFFFF");
 
   const handleClose = () => {
     // directly close the dialog
@@ -46,19 +50,32 @@ export default function NewLineDialog({
       <DialogTitle> Add new line</DialogTitle>
 
       <form onSubmit={handleSubmit}>
-        {/* The input field of the line name */}
         <DialogContent>
-          <TextField
-            autoFocus
-            id="lineNameTextField"
-            variant="outlined"
-            label="Line name"
-            color="primary"
-            type="text"
-            sx={{ my: CONTENT_MARGIN }}
-            onChange={(text) => setLineInput(text.target.value)}
-            required // automatically creates warning when not filled in
-          />
+          <Box display="flex" flexDirection="column" gap={CONTENT_MARGIN}>
+            {/* The input field of the line name */}
+            <TextField
+              autoFocus
+              id="lineNameTextField"
+              variant="outlined"
+              label="Line name"
+              color="primary"
+              type="text"
+              sx={{ my: CONTENT_MARGIN }}
+              onChange={(text) => setLineInput(text.target.value)}
+              required // automatically creates warning when not filled in
+            />
+
+            {/* The input field of the line color */}
+            <Box display="flex" flexDirection="row" gap={CONTENT_MARGIN}>
+              Line color
+              <input
+                type="color"
+                value={color}
+                onChange={(color) => setColor(color.target.value)}
+                required
+              />
+            </Box>
+          </Box>
         </DialogContent>
 
         {/* The confirm and dismiss buttons */}

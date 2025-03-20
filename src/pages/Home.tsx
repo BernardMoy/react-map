@@ -97,14 +97,16 @@ export default function Home() {
           overflow: "auto",
         }}
       >
-        <SideBarContext.Provider
-          value={{
-            lines,
-            setLines,
-          }}
-        >
-          <SideBar />
-        </SideBarContext.Provider>
+        <Box sx={{ my: CONTENT_MARGIN }}>
+          <SideBarContext.Provider
+            value={{
+              lines,
+              setLines,
+            }}
+          >
+            <SideBar />
+          </SideBarContext.Provider>
+        </Box>
 
         <Box sx={{ m: CONTENT_MARGIN }}>
           <Content />
