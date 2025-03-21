@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
+import GraphView from "./GraphView";
 
 export default function Content() {
-  return <Box>Content goes here</Box>;
+  return <GraphView />;
 }

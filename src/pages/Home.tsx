@@ -7,8 +7,8 @@ import React, { createContext, useEffect, useState } from "react";
 
 // each line const of a name and color (Both strings)
 export interface Line {
-  lineName: String;
-  lineColor: String;
+  lineName: string;
+  lineColor: string;
 }
 
 // interface to store all items passed to the top bar context
