@@ -145,7 +145,7 @@ export default function Home() {
           </SideBarContext.Provider>
         </Box>
 
-        <Box sx={{ p: CONTENT_MARGIN }}>
+        <Box sx={{ m: CONTENT_MARGIN }}>
           <ContentContext.Provider
             value={{
               nodes,

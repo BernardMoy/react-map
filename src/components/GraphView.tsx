@@ -7,6 +7,24 @@ import {
   NODE_COLOR_SELECTED,
 } from "./Values";
 import { ContentContext } from "../pages/Home";
+import NewNodeDialog from "./NewNodeDialog";
+
+// modify the values of the node when hovered or selected through this function
+export const onNodeChosen = function (
+  values: any,
+  id: IdType,
+  selected: boolean,
+  hovering: boolean
+) {
+  if (selected) {
+    values.color = NODE_COLOR_SELECTED;
+    values.borderWidth = 2;
+    values.borderColor = "black";
+  } else if (hovering) {
+    values.color = NODE_COLOR_HOVERED;
+    values.borderWidth = 2;
+  }
+};
 
 export default function GraphView() {
   // get the context
@@ -23,22 +41,12 @@ export default function GraphView() {
 
   const ref = useRef<HTMLDivElement>(null);
 
-  // modify the values of the node when hovered or selected through this function
-  const onNodeChosen = function (
-    values: any,
-    id: IdType,
-    selected: boolean,
-    hovering: boolean
-  ) {
-    if (selected) {
-      values.color = NODE_COLOR_SELECTED;
-      values.borderWidth = 2;
-      values.borderColor = "black";
-    } else if (hovering) {
-      values.color = NODE_COLOR_HOVERED;
-      values.borderWidth = 2;
-    }
-  };
+  // state of the dialogs whether they are open
+  const [openNewNodeDialog, setOpenNewNodeDialog] = useState(false);
+
+  // state of the clicked position
+  const [posX, setPosX] = useState(0);
+  const [posY, setPosY] = useState(0);
 
   // graph options
   const options = {
@@ -68,24 +76,12 @@ export default function GraphView() {
     // set up functions to activate when the canvas is clicked
     network.on("click", (params) => {
       if (params.nodes.length == 0 && params.edges.length == 0) {
-        // get the x and y positions
-        const posX = params.pointer.canvas.x;
-        const posY = params.pointer.canvas.y;
+        // update the x and y positions
+        setPosX(params.pointer.canvas.x);
+        setPosY(params.pointer.canvas.y);
 
-        // create a new node
-        const newNode = {
-          id: Date.now(), // generate a unique id for each node (Mandatory)
-          label: "New",
-          color: NODE_COLOR,
-          chosen: { node: onNodeChosen, label: false },
-          x: posX,
-          y: posY,
-        };
-
-        // add the node to the state
-        nodes.add(newNode);
-
-        console.log(`(${posX}, ${posY})`);
+        // open the dialog and add new node there
+        setOpenNewNodeDialog(true);
       }
     });
 
@@ -99,6 +95,16 @@ export default function GraphView() {
         height: "100%",
         backgroundColor: BACKGROUND_COLOR,
       }}
-    />
+    >
+      {/* Dialog of creating new node */}
+      <NewNodeDialog
+        open={openNewNodeDialog}
+        setOpen={setOpenNewNodeDialog}
+        nodes={nodes}
+        setNodes={setNodes}
+        posX={posX}
+        posY={posY}
+      />
+    </div>
   );
 }

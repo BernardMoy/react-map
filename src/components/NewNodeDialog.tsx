@@ -7,29 +7,31 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import { CONTENT_MARGIN } from "./Values";
+import { CONTENT_MARGIN, NODE_COLOR } from "./Values";
 import CustomButton from "./CustomButton";
 import { useState } from "react";
-import { Line } from "../pages/Home";
+import { DataSet, Node } from "vis-network/standalone";
+import { onNodeChosen } from "./GraphView";
 
 interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
-  lines: Line[]; // pass the lines variable from context
-  setLines: (value: Line[]) => void;
+  nodes: DataSet<Node>;
+  setNodes: (value: DataSet<Node>) => void; // not necessary as "DataSet<Node>" itself is reactive
+  posX: number;
+  posY: number;
 }
 
-export default function NewLineDialog({
+export default function NewNodeDialog({
   open,
   setOpen,
-  lines,
-  setLines,
+  nodes,
+  setNodes,
+  posX,
+  posY,
 }: Props) {
   // store the input text
-  const [lineInput, setLineInput] = useState("");
-
-  // store the input color
-  const [color, setColor] = useState("#FFFFFF");
+  const [nodeInput, setNodeInput] = useState("");
 
   const handleClose = () => {
     // directly close the dialog
@@ -40,12 +42,18 @@ export default function NewLineDialog({
     // prevent full page refresh
     event.preventDefault();
 
-    // add the new line stored in lineInput to the list of lines
-    const newLine: Line = {
-      lineName: lineInput,
-      lineColor: color,
+    // add the new Node stored in NodeInput to the list of Nodes
+    const newNode = {
+      id: Date.now(), // generate a unique id for each node (Mandatory)
+      label: nodeInput,
+      color: NODE_COLOR,
+      chosen: { node: onNodeChosen, label: false },
+      x: posX,
+      y: posY,
     };
-    setLines([...lines, newLine]);
+
+    // add the node to the state
+    nodes.add(newNode);
 
     // close the dialog at the end
     setOpen(false);
@@ -53,35 +61,24 @@ export default function NewLineDialog({
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle> Add new line</DialogTitle>
+      <DialogTitle> Add new node</DialogTitle>
 
       <form onSubmit={handleSubmit}>
         <DialogContent>
           <Box display="flex" flexDirection="column" gap={CONTENT_MARGIN}>
-            {/* The input field of the line name */}
+            {/* The input field of the Node name */}
             <TextField
+              inputRef={(input) => input && input.focus()} // gain focus automatically
               autoFocus
-              inputRef={(input) => input && input.focus()}
-              id="lineNameTextField"
+              id="NodeNameTextField"
               variant="outlined"
-              label="Line name"
+              label="Node name"
               color="primary"
               type="text"
               sx={{ my: CONTENT_MARGIN }}
-              onChange={(text) => setLineInput(text.target.value)}
+              onChange={(text) => setNodeInput(text.target.value)}
               required // automatically creates warning when not filled in
             />
-
-            {/* The input field of the line color */}
-            <Box display="flex" flexDirection="row" gap={CONTENT_MARGIN}>
-              <Typography variant="body1">Line color</Typography>
-              <input
-                type="color"
-                value={color}
-                onChange={(color) => setColor(color.target.value)}
-                required
-              />
-            </Box>
           </Box>
         </DialogContent>
 
