@@ -1,8 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import { DataSet, IdType, Network, Node } from "vis-network/standalone";
-import { NODE_COLOR, NODE_COLOR_HOVERED, NODE_COLOR_SELECTED } from "./Values";
+import { useContext, useEffect, useRef, useState } from "react";
+import { DataSet, Edge, IdType, Network, Node } from "vis-network/standalone";
+import {
+  BACKGROUND_COLOR,
+  NODE_COLOR,
+  NODE_COLOR_HOVERED,
+  NODE_COLOR_SELECTED,
+} from "./Values";
+import { ContentContext } from "../pages/Home";
 
 export default function GraphView() {
+  // get the context
+  const { nodes, setNodes, edges, setEdges } = useContext(ContentContext);
+
   const ref = useRef<HTMLDivElement>(null);
 
   // modify the values of the node when hovered or selected through this function
@@ -21,36 +30,6 @@ export default function GraphView() {
       values.borderWidth = 2;
     }
   };
-
-  // id is mandatory for nodes
-  const nodesTemp: Node[] = [
-    {
-      id: "A",
-      label: "NodeA",
-      color: NODE_COLOR,
-      chosen: { node: onNodeChosen, label: false },
-    },
-    {
-      id: "B",
-      label: "NodeB",
-      color: NODE_COLOR,
-      chosen: { node: onNodeChosen, label: false },
-    },
-    {
-      id: "C",
-      label: "NodeC",
-      color: NODE_COLOR,
-      chosen: { node: onNodeChosen, label: false },
-    },
-  ];
-
-  // store the nodes here temporarily
-  const [nodes, setNodes] = useState<DataSet<Node>>(new DataSet(nodesTemp));
-
-  const edges = [
-    { from: "A", to: "B", label: "5", color: "#ffb6bd" },
-    { from: "B", to: "C", label: "5", color: "#ffb6bd" },
-  ];
 
   // graph options
   const options = {
@@ -86,7 +65,7 @@ export default function GraphView() {
 
         // create a new node
         const newNode = {
-          id: Date.now(),
+          id: Date.now(), // generate a unique id for each node (Mandatory)
           label: "New",
           color: NODE_COLOR,
           chosen: { node: onNodeChosen, label: false },
@@ -106,7 +85,11 @@ export default function GraphView() {
   return (
     <div
       ref={ref}
-      style={{ width: "100%", height: "100%", border: "1px solid gray" }}
+      style={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: BACKGROUND_COLOR,
+      }}
     />
   );
 }
