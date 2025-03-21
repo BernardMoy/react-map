@@ -5,6 +5,7 @@ import {
   DialogActions,
   TextField,
   Box,
+  Typography,
 } from "@mui/material";
 import { CONTENT_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
@@ -72,7 +73,7 @@ export default function NewLineDialog({
 
             {/* The input field of the line color */}
             <Box display="flex" flexDirection="row" gap={CONTENT_MARGIN}>
-              Line color
+              <Typography variant="body1">Line color</Typography>
               <input
                 type="color"
                 value={color}

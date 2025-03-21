@@ -44,6 +44,7 @@ export const SideBarContext = createContext<SideBarContextProps>({
 
 export default function Home() {
   // prevent exiting the window if there are unsaved changes
+  /*
   useEffect(() => {
     function handleOnBeforeUnload(event: BeforeUnloadEvent) {
       event.preventDefault();
@@ -56,6 +57,7 @@ export default function Home() {
     return () =>
       window.removeEventListener("beforeunload", handleOnBeforeUnload);
   });
+  */
 
   // state of whether the add node button is selected
   const [addNodeSelected, setAddNodeSelected] = useState(false);
