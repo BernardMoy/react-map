@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { IdType, Network } from "vis-network/standalone";
+import { useEffect, useRef, useState } from "react";
+import { DataSet, IdType, Network, Node } from "vis-network/standalone";
 import { NODE_COLOR, NODE_COLOR_HOVERED, NODE_COLOR_SELECTED } from "./Values";
 
 export default function GraphView() {
@@ -22,50 +22,53 @@ export default function GraphView() {
     }
   };
 
+  // id is mandatory for nodes
+  const nodesTemp: Node[] = [
+    {
+      id: "A",
+      label: "NodeA",
+      color: NODE_COLOR,
+      chosen: { node: onNodeChosen, label: false },
+    },
+    {
+      id: "B",
+      label: "NodeB",
+      color: NODE_COLOR,
+      chosen: { node: onNodeChosen, label: false },
+    },
+    {
+      id: "C",
+      label: "NodeC",
+      color: NODE_COLOR,
+      chosen: { node: onNodeChosen, label: false },
+    },
+  ];
+
+  // store the nodes here temporarily
+  const [nodes, setNodes] = useState<DataSet<Node>>(new DataSet(nodesTemp));
+
+  const edges = [
+    { from: "A", to: "B", label: "5", color: "#ffb6bd" },
+    { from: "B", to: "C", label: "5", color: "#ffb6bd" },
+  ];
+
+  // graph options
+  const options = {
+    autoResize: true,
+    height: "100%",
+    width: "100%",
+    physics: {
+      enabled: false,
+    },
+    interaction: {
+      hover: true,
+    },
+  };
+
   useEffect(() => {
     if (!ref.current) {
       return;
     }
-
-    // id is mandatory for nodes
-    const nodes = [
-      {
-        id: "A",
-        label: "NodeA",
-        color: NODE_COLOR,
-        chosen: { node: onNodeChosen, label: false },
-      },
-      {
-        id: "B",
-        label: "NodeB",
-        color: NODE_COLOR,
-        chosen: { node: onNodeChosen, label: false },
-      },
-      {
-        id: "C",
-        label: "NodeC",
-        color: NODE_COLOR,
-        chosen: { node: onNodeChosen, label: false },
-      },
-    ];
-
-    const edges = [
-      { from: "A", to: "B", label: "5", color: "#ffb6bd" },
-      { from: "B", to: "C", label: "5", color: "#ffb6bd" },
-    ];
-
-    // graph options
-    const options = {
-      autoResize: true,
-      height: "100%",
-      width: "100%",
-      physics: {
-        enabled: false,
-      },
-      interaction: {
-        hover: true,
-      },
-    };
 
     // create the graph
     const network = new Network(
@@ -80,6 +83,19 @@ export default function GraphView() {
         // get the x and y positions
         const posX = params.pointer.canvas.x;
         const posY = params.pointer.canvas.y;
+
+        // create a new node
+        const newNode = {
+          id: Date.now(),
+          label: "New",
+          color: NODE_COLOR,
+          chosen: { node: onNodeChosen, label: false },
+          x: posX,
+          y: posY,
+        };
+
+        // add the node to the state
+        nodes.add(newNode);
 
         console.log(`(${posX}, ${posY})`);
       }
