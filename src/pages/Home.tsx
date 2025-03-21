@@ -34,6 +34,10 @@ interface ContentContextProps {
   setNodes: React.Dispatch<React.SetStateAction<DataSet<Node>>>;
   edges: DataSet<Edge>;
   setEdges: React.Dispatch<React.SetStateAction<DataSet<Edge>>>;
+  addNodeSelected: boolean;
+  setAddNodeSelected: React.Dispatch<React.SetStateAction<boolean>>;
+  addEdgeSelected: boolean;
+  setAddEdgeSelected: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // create the contexts here and initialise them with values
@@ -56,6 +60,10 @@ export const ContentContext = createContext<ContentContextProps>({
   setNodes: () => {},
   edges: new DataSet<Edge>([]),
   setEdges: () => {},
+  addNodeSelected: false,
+  setAddNodeSelected: () => {},
+  addEdgeSelected: false,
+  setAddEdgeSelected: () => {},
 });
 
 // main function
@@ -144,6 +152,10 @@ export default function Home() {
               setNodes,
               edges,
               setEdges,
+              addNodeSelected,
+              setAddNodeSelected,
+              addEdgeSelected,
+              setAddEdgeSelected,
             }}
           >
             <Content />

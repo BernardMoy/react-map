@@ -10,7 +10,16 @@ import { ContentContext } from "../pages/Home";
 
 export default function GraphView() {
   // get the context
-  const { nodes, setNodes, edges, setEdges } = useContext(ContentContext);
+  const {
+    nodes,
+    setNodes,
+    edges,
+    setEdges,
+    addNodeSelected,
+    setAddNodeSelected,
+    addEdgeSelected,
+    setAddEdgeSelected,
+  } = useContext(ContentContext);
 
   const ref = useRef<HTMLDivElement>(null);
 
