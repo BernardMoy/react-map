@@ -10,23 +10,31 @@ export default function GraphView() {
     }
 
     const nodes = [
-      { id: 1, label: "Node 1" },
-      { id: 2, label: "Node 2" },
-      { id: 3, label: "Node 3" },
-      { id: 4, label: "Node 4" },
+      { id: "A", label: "NodeA" },
+      { id: "B", label: "NodeB" },
+      { id: "C", label: "NodeC" },
     ];
 
     const edges = [
-      { from: 1, to: 2 },
-      { from: 1, to: 3 },
-      { from: 2, to: 4 },
+      { from: "A", to: "B" },
+      { from: "B", to: "C" },
     ];
+
+    // graph options
+    const options = {
+      autoResize: false,
+      height: "100%",
+      width: "100%",
+      physics: {
+        enabled: false,
+      },
+    };
 
     // create the graph
     const network = new Network(
       ref.current,
       { nodes: nodes, edges: edges },
-      { autoResize: false }
+      options
     );
 
     return () => network.destroy();
