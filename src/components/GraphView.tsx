@@ -39,11 +39,9 @@ export default function GraphView() {
     setAddNodeSelected,
     addEdgeSelected,
     setAddEdgeSelected,
-    selectedNodeIDs,
-    setSelectedNodeIDs,
+    network,
+    graphRef,
   } = useContext(ContentContext);
-
-  const ref = useRef<HTMLDivElement>(null);
 
   // state of the dialogs whether they are open
   const [openNewNodeDialog, setOpenNewNodeDialog] = useState(false);
@@ -52,55 +50,25 @@ export default function GraphView() {
   const [posX, setPosX] = useState(0);
   const [posY, setPosY] = useState(0);
 
-  // graph options
-  const options = {
-    autoResize: true,
-    height: "100%",
-    width: "100%",
-    physics: {
-      enabled: false,
-    },
-    interaction: {
-      hover: true,
-    },
-  };
-
-  useEffect(() => {
-    if (!ref.current) {
+  // set up functions to activate when the canvas is clicked
+  network?.on("click", (params) => {
+    // only perform action if add node selected is true
+    if (!addNodeSelected) {
       return;
     }
+    if (params.nodes.length == 0 && params.edges.length == 0) {
+      // update the x and y positions
+      setPosX(params.pointer.canvas.x);
+      setPosY(params.pointer.canvas.y);
 
-    // create the graph
-    const network = new Network(
-      ref.current,
-      { nodes: nodes, edges: edges },
-      options
-    );
+      // open the dialog and add new node there
+      setOpenNewNodeDialog(true);
+    }
+  });
 
-    // set up functions to activate when the canvas is clicked
-    network.on("click", (params) => {
-      // only perform action if add node selected is true
-      if (!addNodeSelected) {
-        return;
-      }
-      if (params.nodes.length == 0 && params.edges.length == 0) {
-        // update the x and y positions
-        setPosX(params.pointer.canvas.x);
-        setPosY(params.pointer.canvas.y);
-
-        // open the dialog and add new node there
-        setOpenNewNodeDialog(true);
-      }
-    });
-
-    // set selection based on the node ids
-    network.setSelection({ nodes: selectedNodeIDs });
-
-    return () => network.destroy();
-  }, [addNodeSelected]); // re attach the add node selected listener, otherwise the conditional clicking will not work
   return (
     <div
-      ref={ref}
+      ref={graphRef}
       style={{
         width: "100%",
         height: "100%",

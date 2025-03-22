@@ -3,7 +3,7 @@ import { Box, Divider } from "@mui/material";
 import TopBar from "../components/TopBar";
 import Content from "../components/Content";
 import { CONTENT_MARGIN, TITLE_MARGIN } from "../components/Values";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import { DataSet, Edge, IdType, Network, Node } from "vis-network/standalone";
 
 // each line const of a name and color (Both strings)
@@ -28,8 +28,8 @@ interface SideBarContextProps {
   setLines: React.Dispatch<React.SetStateAction<Line[]>>;
   nodeList: Node[];
   setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
-  selectedNodeIDs: IdType[];
-  setSelectedNodeIDs: React.Dispatch<React.SetStateAction<IdType[]>>;
+  network: Network | null;
+  graphRef: React.RefObject<HTMLDivElement | null> | null;
 }
 
 // interface to store all items for the main content (Graph)
@@ -44,8 +44,8 @@ interface ContentContextProps {
   setAddNodeSelected: React.Dispatch<React.SetStateAction<boolean>>;
   addEdgeSelected: boolean;
   setAddEdgeSelected: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedNodeIDs: IdType[];
-  setSelectedNodeIDs: React.Dispatch<React.SetStateAction<IdType[]>>;
+  network: Network | null;
+  graphRef: React.RefObject<HTMLDivElement | null> | null;
 }
 
 // create the contexts here and initialise them with values
@@ -63,8 +63,8 @@ export const SideBarContext = createContext<SideBarContextProps>({
   setLines: () => {},
   nodeList: [],
   setNodeList: () => {},
-  selectedNodeIDs: [],
-  setSelectedNodeIDs: () => {},
+  network: null,
+  graphRef: null,
 });
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -78,8 +78,8 @@ export const ContentContext = createContext<ContentContextProps>({
   setAddNodeSelected: () => {},
   addEdgeSelected: false,
   setAddEdgeSelected: () => {},
-  selectedNodeIDs: [],
-  setSelectedNodeIDs: () => {},
+  network: null,
+  graphRef: null,
 });
 
 // main function
@@ -120,6 +120,41 @@ export default function Home() {
 
   // store a list of selected node ids
   const [selectedNodeIDs, setSelectedNodeIDs] = useState<IdType[]>([]);
+
+  // store the graph ref
+  const graphRef = useRef<HTMLDivElement>(null);
+  const [network, setNetwork] = useState<Network | null>(null);
+
+  // graph options
+  const options = {
+    autoResize: true,
+    height: "100%",
+    width: "100%",
+    physics: {
+      enabled: false,
+    },
+    interaction: {
+      hover: true,
+    },
+  };
+
+  useEffect(() => {
+    if (!graphRef.current) {
+      return;
+    }
+
+    // create the graph
+    const newNetwork = new Network(
+      graphRef.current,
+      { nodes: nodes, edges: edges },
+      options
+    );
+
+    // set the network
+    setNetwork(newNetwork);
+
+    return () => newNetwork.destroy();
+  }, [addNodeSelected]); // re attach the add node selected listener, otherwise the conditional clicking will not work
 
   return (
     <Box
@@ -165,8 +200,8 @@ export default function Home() {
               setLines,
               nodeList,
               setNodeList,
-              selectedNodeIDs,
-              setSelectedNodeIDs,
+              network,
+              graphRef,
             }}
           >
             <SideBar />
@@ -186,8 +221,8 @@ export default function Home() {
               setAddNodeSelected,
               addEdgeSelected,
               setAddEdgeSelected,
-              selectedNodeIDs,
-              setSelectedNodeIDs,
+              network,
+              graphRef,
             }}
           >
             <Content />

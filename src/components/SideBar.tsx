@@ -20,14 +20,8 @@ import CircleIcon from "@mui/icons-material/Circle";
 
 export default function SideBar() {
   // get the context
-  const {
-    lines,
-    setLines,
-    nodeList,
-    setNodeList,
-    selectedNodeIDs,
-    setSelectedNodeIDs,
-  } = useContext(SideBarContext);
+  const { lines, setLines, nodeList, setNodeList, network, graphRef } =
+    useContext(SideBarContext);
 
   // state if nodes or edges are selected (Nodes are 0, edges are 1)
   const [selected, setSelected] = useState(0);
@@ -88,7 +82,6 @@ export default function SideBar() {
                   onClick={() => {
                     // get the id of the selected node
                     const nodeID = value.id ?? "unknown";
-                    setSelectedNodeIDs([...selectedNodeIDs, nodeID]);
                   }}
                   sx={{
                     cursor: "pointer",
