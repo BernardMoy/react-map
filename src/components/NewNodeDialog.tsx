@@ -18,6 +18,8 @@ interface Props {
   setOpen: (value: boolean) => void;
   nodes: DataSet<Node>;
   setNodes: (value: DataSet<Node>) => void; // not necessary as "DataSet<Node>" itself is reactive
+  nodeList: Node[];
+  setNodeList: (value: Node[]) => void;
   posX: number;
   posY: number;
 }
@@ -27,6 +29,8 @@ export default function NewNodeDialog({
   setOpen,
   nodes,
   setNodes,
+  nodeList,
+  setNodeList,
   posX,
   posY,
 }: Props) {
@@ -54,6 +58,9 @@ export default function NewNodeDialog({
 
     // add the node to the state
     nodes.add(newNode);
+
+    // add the node to the node list to trigger re render
+    setNodeList([...nodeList, newNode]);
 
     // close the dialog at the end
     setOpen(false);

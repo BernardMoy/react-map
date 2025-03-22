@@ -26,12 +26,16 @@ interface TopBarContextProps {
 interface SideBarContextProps {
   lines: Line[];
   setLines: React.Dispatch<React.SetStateAction<Line[]>>;
+  nodeList: Node[];
+  setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
 }
 
 // interface to store all items for the main content (Graph)
 interface ContentContextProps {
   nodes: DataSet<Node>;
   setNodes: React.Dispatch<React.SetStateAction<DataSet<Node>>>;
+  nodeList: Node[];
+  setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
   edges: DataSet<Edge>;
   setEdges: React.Dispatch<React.SetStateAction<DataSet<Edge>>>;
   addNodeSelected: boolean;
@@ -53,11 +57,15 @@ export const TopBarContext = createContext<TopBarContextProps>({
 export const SideBarContext = createContext<SideBarContextProps>({
   lines: [],
   setLines: () => {},
+  nodeList: [],
+  setNodeList: () => {},
 });
 
 export const ContentContext = createContext<ContentContextProps>({
   nodes: new DataSet<Node>([]),
   setNodes: () => {},
+  nodeList: [],
+  setNodeList: () => {},
   edges: new DataSet<Edge>([]),
   setEdges: () => {},
   addNodeSelected: false,
@@ -96,6 +104,11 @@ export default function Home() {
   // state to store the list of nodes and edges
   const [nodes, setNodes] = useState<DataSet<Node>>(new DataSet<Node>([]));
   const [edges, setEdges] = useState<DataSet<Edge>>(new DataSet<Edge>([]));
+
+  // store the LIST of nodes and edges
+  // They get re-rendered automatically while the DataSet<> object does not
+  const [nodeList, setNodeList] = useState<Node[]>([]);
+  const [edgeList, setEdgeList] = useState<Edge[]>([]);
 
   return (
     <Box
@@ -139,6 +152,8 @@ export default function Home() {
             value={{
               lines,
               setLines,
+              nodeList,
+              setNodeList,
             }}
           >
             <SideBar />
@@ -150,6 +165,8 @@ export default function Home() {
             value={{
               nodes,
               setNodes,
+              nodeList,
+              setNodeList,
               edges,
               setEdges,
               addNodeSelected,

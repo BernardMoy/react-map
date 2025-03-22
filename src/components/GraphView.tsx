@@ -31,6 +31,8 @@ export default function GraphView() {
   const {
     nodes,
     setNodes,
+    nodeList,
+    setNodeList,
     edges,
     setEdges,
     addNodeSelected,
@@ -102,6 +104,8 @@ export default function GraphView() {
         setOpen={setOpenNewNodeDialog}
         nodes={nodes}
         setNodes={setNodes}
+        nodeList={nodeList}
+        setNodeList={setNodeList}
         posX={posX}
         posY={posY}
       />

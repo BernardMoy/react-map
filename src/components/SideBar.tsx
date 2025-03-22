@@ -8,9 +8,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 
 export default function SideBar() {
   // get the context
-  const { lines, setLines } = useContext(SideBarContext);
-
-  const stationList = ["A", "B", "C", "D"];
+  const { lines, setLines, nodeList, setNodeList } = useContext(SideBarContext);
 
   // state if nodes or edges are selected (Nodes are 0, edges are 1)
   const [selected, setSelected] = useState(0);
@@ -64,10 +62,10 @@ export default function SideBar() {
 
         <List>
           {selected === 0
-            ? stationList.map((value, index) => (
+            ? nodeList.map((value, index) => (
                 // unique keys are necessary here
                 <ListItem key={`station ${index}`}>
-                  <ListItemText primary={value} />
+                  <ListItemText primary={value.label} />
                 </ListItem>
               ))
             : lines.map((value, index) => (
