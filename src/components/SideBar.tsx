@@ -82,6 +82,9 @@ export default function SideBar() {
                   onClick={() => {
                     // get the id of the selected node
                     const nodeID = value.id ?? "unknown";
+
+                    // set focus for the node
+                    network?.focus(nodeID);
                   }}
                   sx={{
                     cursor: "pointer",
