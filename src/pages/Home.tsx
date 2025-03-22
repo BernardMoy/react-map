@@ -28,6 +28,8 @@ interface SideBarContextProps {
   setLines: React.Dispatch<React.SetStateAction<Line[]>>;
   nodeList: Node[];
   setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
+  selectedNodeIDs: IdType[];
+  setSelectedNodeIDs: React.Dispatch<React.SetStateAction<IdType[]>>;
 }
 
 // interface to store all items for the main content (Graph)
@@ -42,6 +44,8 @@ interface ContentContextProps {
   setAddNodeSelected: React.Dispatch<React.SetStateAction<boolean>>;
   addEdgeSelected: boolean;
   setAddEdgeSelected: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedNodeIDs: IdType[];
+  setSelectedNodeIDs: React.Dispatch<React.SetStateAction<IdType[]>>;
 }
 
 // create the contexts here and initialise them with values
@@ -59,6 +63,8 @@ export const SideBarContext = createContext<SideBarContextProps>({
   setLines: () => {},
   nodeList: [],
   setNodeList: () => {},
+  selectedNodeIDs: [],
+  setSelectedNodeIDs: () => {},
 });
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -72,6 +78,8 @@ export const ContentContext = createContext<ContentContextProps>({
   setAddNodeSelected: () => {},
   addEdgeSelected: false,
   setAddEdgeSelected: () => {},
+  selectedNodeIDs: [],
+  setSelectedNodeIDs: () => {},
 });
 
 // main function
@@ -109,6 +117,9 @@ export default function Home() {
   // They get re-rendered automatically while the DataSet<> object does not
   const [nodeList, setNodeList] = useState<Node[]>([]);
   const [edgeList, setEdgeList] = useState<Edge[]>([]);
+
+  // store a list of selected node ids
+  const [selectedNodeIDs, setSelectedNodeIDs] = useState<IdType[]>([]);
 
   return (
     <Box
@@ -154,6 +165,8 @@ export default function Home() {
               setLines,
               nodeList,
               setNodeList,
+              selectedNodeIDs,
+              setSelectedNodeIDs,
             }}
           >
             <SideBar />
@@ -173,6 +186,8 @@ export default function Home() {
               setAddNodeSelected,
               addEdgeSelected,
               setAddEdgeSelected,
+              selectedNodeIDs,
+              setSelectedNodeIDs,
             }}
           >
             <Content />

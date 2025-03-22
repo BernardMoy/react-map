@@ -39,6 +39,8 @@ export default function GraphView() {
     setAddNodeSelected,
     addEdgeSelected,
     setAddEdgeSelected,
+    selectedNodeIDs,
+    setSelectedNodeIDs,
   } = useContext(ContentContext);
 
   const ref = useRef<HTMLDivElement>(null);
@@ -90,6 +92,9 @@ export default function GraphView() {
         setOpenNewNodeDialog(true);
       }
     });
+
+    // set selection based on the node ids
+    network.setSelection({ nodes: selectedNodeIDs });
 
     return () => network.destroy();
   }, [addNodeSelected]); // re attach the add node selected listener, otherwise the conditional clicking will not work
