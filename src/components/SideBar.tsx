@@ -20,7 +20,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 
 export default function SideBar() {
   // get the context
-  const { lines, setLines, nodeList, setNodeList, network, graphRef } =
+  const { lines, setLines, nodeList, setNodeList, network } =
     useContext(SideBarContext);
 
   // state if nodes or edges are selected (Nodes are 0, edges are 1)

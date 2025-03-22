@@ -29,7 +29,6 @@ interface SideBarContextProps {
   nodeList: Node[];
   setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
   network: Network | null;
-  graphRef: React.RefObject<HTMLDivElement | null> | null;
 }
 
 // interface to store all items for the main content (Graph)
@@ -64,7 +63,6 @@ export const SideBarContext = createContext<SideBarContextProps>({
   nodeList: [],
   setNodeList: () => {},
   network: null,
-  graphRef: null,
 });
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -118,30 +116,34 @@ export default function Home() {
   const [nodeList, setNodeList] = useState<Node[]>([]);
   const [edgeList, setEdgeList] = useState<Edge[]>([]);
 
-  // store a list of selected node ids
-  const [selectedNodeIDs, setSelectedNodeIDs] = useState<IdType[]>([]);
-
   // store the graph ref
   const graphRef = useRef<HTMLDivElement>(null);
   const [network, setNetwork] = useState<Network | null>(null);
-
-  // graph options
-  const options = {
-    autoResize: true,
-    height: "100%",
-    width: "100%",
-    physics: {
-      enabled: false,
-    },
-    interaction: {
-      hover: true,
-    },
-  };
 
   useEffect(() => {
     if (!graphRef.current) {
       return;
     }
+
+    // calculate the graph height after subtracting the topbar height
+    const topBarHeight = document.getElementById("topBar")?.offsetHeight || 0;
+    const calculatedGraphHeight =
+      window.innerHeight - topBarHeight - 16 * (CONTENT_MARGIN + TITLE_MARGIN); // values are multiplied by 8 -> 2*8 = 16
+
+    console.log(calculatedGraphHeight);
+
+    // graph options
+    const options = {
+      autoResize: true,
+      width: "100%",
+      height: `${calculatedGraphHeight}px`,
+      physics: {
+        enabled: false,
+      },
+      interaction: {
+        hover: true,
+      },
+    };
 
     // create the graph
     const newNetwork = new Network(
@@ -165,7 +167,7 @@ export default function Home() {
         height: "100vh",
       }}
     >
-      <Box sx={{ m: TITLE_MARGIN }}>
+      <Box id="topBar" sx={{ m: TITLE_MARGIN }}>
         {/* Pass the 4 state variables here to the top bar context */}
         <TopBarContext.Provider
           value={{
@@ -201,7 +203,6 @@ export default function Home() {
               nodeList,
               setNodeList,
               network,
-              graphRef,
             }}
           >
             <SideBar />
