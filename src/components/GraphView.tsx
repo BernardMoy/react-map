@@ -77,6 +77,10 @@ export default function GraphView() {
 
     // set up functions to activate when the canvas is clicked
     network.on("click", (params) => {
+      // only perform action if add node selected is true
+      if (!addNodeSelected) {
+        return;
+      }
       if (params.nodes.length == 0 && params.edges.length == 0) {
         // update the x and y positions
         setPosX(params.pointer.canvas.x);
@@ -88,7 +92,7 @@ export default function GraphView() {
     });
 
     return () => network.destroy();
-  }, []);
+  }, [addNodeSelected]); // re attach the add node selected listener, otherwise the conditional clicking will not work
   return (
     <div
       ref={ref}
