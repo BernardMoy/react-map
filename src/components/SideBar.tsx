@@ -1,8 +1,15 @@
-import { Drawer, Icon, List, ListItem, ListItemText } from "@mui/material";
+import {
+  Drawer,
+  Icon,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { useContext, useState } from "react";
 import { Box } from "@mui/material";
 import CustomButton from "./CustomButton";
-import { CONTENT_MARGIN, DRAWER_WIDTH } from "./Values";
+import { CONTENT_MARGIN, DRAWER_WIDTH, TITLE_MARGIN } from "./Values";
 import { SideBarContext } from "../pages/Home";
 import CircleIcon from "@mui/icons-material/Circle";
 
@@ -78,6 +85,21 @@ export default function SideBar() {
                 </ListItem>
               ))}
         </List>
+
+        {/* The text saying there are no stations or no lines */}
+        <Box display="flex" justifyContent="center" my={TITLE_MARGIN}>
+          {selected === 0
+            ? nodeList.length === 0 && (
+                <Typography variant="body1" color="gray">
+                  There are no stations.
+                </Typography>
+              )
+            : lines.length === 0 && (
+                <Typography variant="body1" color="gray">
+                  There are no lines.
+                </Typography>
+              )}
+        </Box>
       </Box>
     </Drawer>
   );
