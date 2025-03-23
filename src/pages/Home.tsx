@@ -141,9 +141,6 @@ export default function Home() {
   // store the selected graph node
   const [selectedNodeID, setSelectedNodeID] = useState<IdType | null>(null);
 
-  // store the second selected graph node (For creating edges)
-  const [selectedNodeID2, setSelectedNodeID2] = useState<IdType | null>(null);
-
   useEffect(() => {
     if (!graphRef.current) {
       return;
@@ -173,19 +170,6 @@ export default function Home() {
       { nodes: nodes, edges: edges },
       options
     );
-
-    // set up event triggers when the nodes of the graph are clicked
-    newNetwork.on("selectNode", (params) => {
-      // extract the first selected node and store it
-      if (params.nodes.length > 0) {
-        setSelectedNodeID(params.nodes[0]);
-      }
-    });
-
-    newNetwork.on("deselectNode", (params) => {
-      // the deselect event is triggered first
-      setSelectedNodeID(null);
-    });
 
     // reset the selected node on re render
     setSelectedNodeID(null);
