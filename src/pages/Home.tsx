@@ -147,8 +147,6 @@ export default function Home() {
     const calculatedGraphHeight =
       window.innerHeight - topBarHeight - 16 * (CONTENT_MARGIN + TITLE_MARGIN); // values are multiplied by 8 -> 2*8 = 16
 
-    console.log(calculatedGraphHeight);
-
     // graph options
     const options = {
       autoResize: true,

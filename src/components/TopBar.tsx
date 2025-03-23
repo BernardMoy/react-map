@@ -117,6 +117,7 @@ export default function TopBar() {
         setOpen={setOpenDeleteNodeDialog}
         network={network}
         selectedNodeID={selectedNodeID}
+        setSelectedNodeID={setSelectedNodeID}
         nodeList={nodeList}
         setNodeList={setNodeList}
       />

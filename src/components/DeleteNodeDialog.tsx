@@ -15,6 +15,7 @@ interface Props {
   setOpen: (value: boolean) => void;
   network: Network | null;
   selectedNodeID: IdType | null;
+  setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
   nodeList: Node[];
   setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
 }
@@ -24,6 +25,7 @@ export default function DeleteNodeDialog({
   setOpen,
   network,
   selectedNodeID,
+  setSelectedNodeID,
   nodeList,
   setNodeList,
 }: Props) {
@@ -41,6 +43,9 @@ export default function DeleteNodeDialog({
 
     // delete the selected nodes
     network?.deleteSelected();
+
+    // deselect all nodes
+    setSelectedNodeID(null);
 
     // close the dialog at the end
     setOpen(false);
