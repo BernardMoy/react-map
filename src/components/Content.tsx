@@ -6,16 +6,8 @@ import { CONTENT_MARGIN } from "./Values";
 
 export default function Content() {
   // get the context
-  const {
-    nodes,
-    setNodes,
-    edges,
-    setEdges,
-    addNodeSelected,
-    setAddNodeSelected,
-    addEdgeSelected,
-    setAddEdgeSelected,
-  } = useContext(ContentContext);
+  const { addNodeSelected, addEdgeSelected, selectedNodeID } =
+    useContext(ContentContext);
 
   return (
     <Box display="flex" flexDirection="column" gap={CONTENT_MARGIN}>
@@ -24,8 +16,12 @@ export default function Content() {
         <Alert severity="info">Click on the canvas to add a new node.</Alert>
       )}
 
-      {addEdgeSelected && (
+      {addEdgeSelected && selectedNodeID == null && (
         <Alert severity="info">Click on a node to add an edge.</Alert>
+      )}
+
+      {addEdgeSelected && selectedNodeID != null && (
+        <Alert severity="info">Select second node.</Alert>
       )}
 
       {/* Main graph */}

@@ -50,6 +50,8 @@ interface ContentContextProps {
   setAddEdgeSelected: React.Dispatch<React.SetStateAction<boolean>>;
   network: Network | null;
   graphRef: React.RefObject<HTMLDivElement | null> | null;
+  selectedNodeID: IdType | null;
+  setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
 }
 
 // create the contexts here and initialise them with values
@@ -88,6 +90,8 @@ export const ContentContext = createContext<ContentContextProps>({
   setAddEdgeSelected: () => {},
   network: null,
   graphRef: null,
+  selectedNodeID: null,
+  setSelectedNodeID: () => {},
 });
 
 // main function
@@ -137,6 +141,9 @@ export default function Home() {
   // store the selected graph node
   const [selectedNodeID, setSelectedNodeID] = useState<IdType | null>(null);
 
+  // store the second selected graph node (For creating edges)
+  const [selectedNodeID2, setSelectedNodeID2] = useState<IdType | null>(null);
+
   useEffect(() => {
     if (!graphRef.current) {
       return;
@@ -180,6 +187,8 @@ export default function Home() {
       setSelectedNodeID(null);
     });
 
+    // reset the selected node on re render
+    setSelectedNodeID(null);
     // set the network
     setNetwork(newNetwork);
 
@@ -257,6 +266,8 @@ export default function Home() {
               setAddEdgeSelected,
               network,
               graphRef,
+              selectedNodeID,
+              setSelectedNodeID,
             }}
           >
             <Content />
