@@ -20,6 +20,8 @@ export default function TopBar() {
     network,
     selectedNodeID,
     setSelectedNodeID,
+    nodeList,
+    setNodeList,
   } = useContext(TopBarContext);
 
   // state of the dialogs whether they are open
@@ -115,6 +117,8 @@ export default function TopBar() {
         setOpen={setOpenDeleteNodeDialog}
         network={network}
         selectedNodeID={selectedNodeID}
+        nodeList={nodeList}
+        setNodeList={setNodeList}
       />
     </Box>
   );

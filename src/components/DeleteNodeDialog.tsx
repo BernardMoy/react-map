@@ -15,6 +15,8 @@ interface Props {
   setOpen: (value: boolean) => void;
   network: Network | null;
   selectedNodeID: IdType | null;
+  nodeList: Node[];
+  setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
 }
 
 export default function DeleteNodeDialog({
@@ -22,6 +24,8 @@ export default function DeleteNodeDialog({
   setOpen,
   network,
   selectedNodeID,
+  nodeList,
+  setNodeList,
 }: Props) {
   const handleClose = () => {
     // directly close the dialog
@@ -31,6 +35,12 @@ export default function DeleteNodeDialog({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     // prevent full page refresh
     event.preventDefault();
+
+    // remove the selected node from the sidebar
+    setNodeList((prev) => prev.filter((node) => node.id !== selectedNodeID));
+
+    // delete the selected nodes
+    network?.deleteSelected();
 
     // close the dialog at the end
     setOpen(false);

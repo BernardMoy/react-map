@@ -23,6 +23,8 @@ interface TopBarContextProps {
   network: Network | null;
   selectedNodeID: IdType | null;
   setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
+  nodeList: Node[];
+  setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
 }
 
 // interface to store all items for the sidebar
@@ -61,6 +63,8 @@ export const TopBarContext = createContext<TopBarContextProps>({
   network: null,
   selectedNodeID: null,
   setSelectedNodeID: () => {},
+  nodeList: [],
+  setNodeList: () => {},
 });
 
 export const SideBarContext = createContext<SideBarContextProps>({
@@ -206,6 +210,8 @@ export default function Home() {
             network,
             selectedNodeID,
             setSelectedNodeID,
+            nodeList,
+            setNodeList,
           }}
         >
           <TopBar />
