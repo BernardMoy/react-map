@@ -128,8 +128,8 @@ export default function GraphView() {
         setOpen={setOpenNewEdgeDialog}
         nodeID1={selectedNodeIDPrev}
         nodeID2={selectedNodeID}
-        network={network}
-        setSelectedNodeID={setSelectedNodeID}
+        edges={edges}
+        setEdges={setEdges}
       />
     </div>
   );

@@ -10,15 +10,15 @@ import {
 import { CONTENT_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
 import { useState } from "react";
-import { IdType, Network } from "vis-network/standalone";
+import { DataSet, Edge, IdType, Network } from "vis-network/standalone";
 
 interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
   nodeID1: IdType | null;
   nodeID2: IdType | null;
-  network: Network | null;
-  setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>; // for setting the selected node after new edge
+  edges: DataSet<Edge>;
+  setEdges: (value: DataSet<Edge>) => void;
 }
 
 export default function NewEdgeDialog({
@@ -26,8 +26,8 @@ export default function NewEdgeDialog({
   setOpen,
   nodeID1,
   nodeID2,
-  network,
-  setSelectedNodeID,
+  edges,
+  setEdges,
 }: Props) {
   // store the input text
   const [weightInput, setWeightInput] = useState(1);
@@ -41,7 +41,16 @@ export default function NewEdgeDialog({
     // prevent full page refresh
     event.preventDefault();
 
-    // create the edge
+    // create the edge if arguments are correct
+    if (nodeID1 != null && nodeID2 != null) {
+      const newEdge = {
+        id: Date.now(),
+        from: nodeID1,
+        to: nodeID2,
+        label: weightInput.toString(),
+      };
+      edges.add(newEdge);
+    }
 
     // close the dialog at the end
     setOpen(false);
