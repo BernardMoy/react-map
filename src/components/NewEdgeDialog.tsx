@@ -18,6 +18,7 @@ interface Props {
   nodeID1: IdType | null;
   nodeID2: IdType | null;
   network: Network | null;
+  setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>; // for setting the selected node after new edge
 }
 
 export default function NewEdgeDialog({
@@ -26,6 +27,7 @@ export default function NewEdgeDialog({
   nodeID1,
   nodeID2,
   network,
+  setSelectedNodeID,
 }: Props) {
   // store the input text
   const [weightInput, setWeightInput] = useState(1);
@@ -47,12 +49,12 @@ export default function NewEdgeDialog({
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle> Add new line</DialogTitle>
+      <DialogTitle> Add new connection</DialogTitle>
 
       <form onSubmit={handleSubmit}>
         <DialogContent>
           <Box display="flex" flexDirection="column" gap={CONTENT_MARGIN}>
-            {/* The input field of the line name */}
+            {/* The input field of the connection name */}
             <TextField
               autoFocus
               inputRef={(input) => input && input.focus()}
@@ -62,7 +64,10 @@ export default function NewEdgeDialog({
               color="primary"
               type="number"
               sx={{ my: CONTENT_MARGIN }}
-              onChange={(text) => setWeightInput(parseFloat(text.target.value))}
+              onChange={(text) => {
+                const textValue = text.target.value;
+                setWeightInput(textValue === "" ? 0 : parseFloat(textValue));
+              }}
               required // automatically creates warning when not filled in
             />
           </Box>

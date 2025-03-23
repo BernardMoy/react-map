@@ -54,9 +54,10 @@ export default function GraphView() {
   const [posX, setPosX] = useState(0);
   const [posY, setPosY] = useState(0);
 
-  // state of the 2 nodes used for creating the new edge
-  const [edgeNode1, setEdgeNode1] = useState(null);
-  const [edgeNode2, setEdgeNode2] = useState(null);
+  // state of the previous node used for creating edge
+  const [selectedNodeIDPrev, setselectedNodeIDPrev] = useState<IdType | null>(
+    null
+  );
 
   // set up functions to activate when the canvas is clicked
   network?.on("click", (params) => {
@@ -78,11 +79,19 @@ export default function GraphView() {
   network?.on("selectNode", (params) => {
     if (params.nodes.length > 0) {
       // if add edge selected and selected node id already exists, open the create edge dialog
+      const thisNodeID = params.nodes[0];
       if (addEdgeSelected && selectedNodeID != null) {
+        // set the previous node id as the already selected one
+        setselectedNodeIDPrev(selectedNodeID);
+
+        // set the current selected node id for consistency
+        setSelectedNodeID(thisNodeID);
+
+        // open dialog
         setOpenNewEdgeDialog(true);
       } else {
         // extract the first selected node and store it
-        setSelectedNodeID(params.nodes[0]);
+        setSelectedNodeID(thisNodeID);
       }
     }
   });
@@ -117,9 +126,10 @@ export default function GraphView() {
       <NewEdgeDialog
         open={openNewEdgeDialog}
         setOpen={setOpenNewEdgeDialog}
-        nodeID1={edgeNode1}
-        nodeID2={edgeNode2}
+        nodeID1={selectedNodeIDPrev}
+        nodeID2={selectedNodeID}
         network={network}
+        setSelectedNodeID={setSelectedNodeID}
       />
     </div>
   );
