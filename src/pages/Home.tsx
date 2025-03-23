@@ -113,6 +113,10 @@ export default function Home() {
   // state to store the list of lines
   const [lines, setLines] = useState<Line[]>([]);
 
+  /* 
+  nodes and nodeList stores a DATASET and a LIST (Observable) of the nodes respectively 
+  When updating nodes or edges, both have to be updated 
+  */
   // state to store the list of nodes and edges
   const [nodes, setNodes] = useState<DataSet<Node>>(new DataSet<Node>([]));
   const [edges, setEdges] = useState<DataSet<Edge>>(new DataSet<Edge>([]));

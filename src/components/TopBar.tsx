@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useContext, useState } from "react";
 import NewLineDialog from "./NewLineDialog";
 import { TopBarContext } from "../pages/Home";
+import DeleteNodeDialog from "./DeleteNodeDialog";
 
 export default function TopBar() {
   // get the context
@@ -24,6 +25,8 @@ export default function TopBar() {
   // state of the dialogs whether they are open
   const [openNewLineDialog, setOpenNewLineDialog] = useState(false);
 
+  const [openDeleteNodeDialog, setOpenDeleteNodeDialog] = useState(false);
+
   // functions when the ADD buttons are clicked
   const onAddNodeClicked = () => {
     setAddNodeSelected(!addNodeSelected);
@@ -38,7 +41,9 @@ export default function TopBar() {
     setOpenNewLineDialog(true);
   };
 
-  const onDeleteNodeClicked = () => {};
+  const onDeleteNodeClicked = () => {
+    setOpenDeleteNodeDialog(true);
+  };
 
   return (
     <Box
@@ -104,6 +109,13 @@ export default function TopBar() {
         lines={lines}
         setLines={setLines}
       ></NewLineDialog>
+
+      <DeleteNodeDialog
+        open={openDeleteNodeDialog}
+        setOpen={setOpenDeleteNodeDialog}
+        network={network}
+        selectedNodeID={selectedNodeID}
+      />
     </Box>
   );
 }
