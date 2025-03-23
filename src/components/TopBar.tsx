@@ -16,6 +16,9 @@ export default function TopBar() {
     setAddEdgeSelected,
     lines,
     setLines,
+    network,
+    selectedNodeID,
+    setSelectedNodeID,
   } = useContext(TopBarContext);
 
   // state of the dialogs whether they are open
@@ -83,13 +86,15 @@ export default function TopBar() {
         />
 
         {/* Show delete button if a node is selected */}
-        <CustomButton
-          text={"Delete node"}
-          variant={"outlined"}
-          color={"error"}
-          startIcon={<DeleteIcon />}
-          onClick={onDeleteNodeClicked}
-        />
+        {selectedNodeID != null && (
+          <CustomButton
+            text={"Delete node"}
+            variant={"outlined"}
+            color={"error"}
+            startIcon={<DeleteIcon />}
+            onClick={onDeleteNodeClicked}
+          />
+        )}
       </Box>
 
       {/* Dialogs */}

@@ -20,6 +20,9 @@ interface TopBarContextProps {
   setAddEdgeSelected: React.Dispatch<React.SetStateAction<boolean>>;
   lines: Line[];
   setLines: React.Dispatch<React.SetStateAction<Line[]>>;
+  network: Network | null;
+  selectedNodeID: IdType | null;
+  setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
 }
 
 // interface to store all items for the sidebar
@@ -55,6 +58,9 @@ export const TopBarContext = createContext<TopBarContextProps>({
   setAddEdgeSelected: () => {},
   lines: [],
   setLines: () => {},
+  network: null,
+  selectedNodeID: null,
+  setSelectedNodeID: () => {},
 });
 
 export const SideBarContext = createContext<SideBarContextProps>({
@@ -120,6 +126,9 @@ export default function Home() {
   const graphRef = useRef<HTMLDivElement>(null);
   const [network, setNetwork] = useState<Network | null>(null);
 
+  // store the selected graph node
+  const [selectedNodeID, setSelectedNodeID] = useState<IdType | null>(null);
+
   useEffect(() => {
     if (!graphRef.current) {
       return;
@@ -152,6 +161,19 @@ export default function Home() {
       options
     );
 
+    // set up event triggers when the nodes of the graph are clicked
+    newNetwork.on("selectNode", (params) => {
+      // extract the first selected node and store it
+      if (params.nodes.length > 0) {
+        setSelectedNodeID(params.nodes[0]);
+      }
+    });
+
+    newNetwork.on("deselectNode", (params) => {
+      // the deselect event is triggered first
+      setSelectedNodeID(null);
+    });
+
     // set the network
     setNetwork(newNetwork);
 
@@ -177,6 +199,9 @@ export default function Home() {
             setAddEdgeSelected,
             lines,
             setLines,
+            network,
+            selectedNodeID,
+            setSelectedNodeID,
           }}
         >
           <TopBar />
