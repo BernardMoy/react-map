@@ -60,7 +60,7 @@ export default function GraphView() {
   );
 
   // set up functions to activate when the canvas is clicked
-  network?.on("click", (params) => {
+  const handleClickCanvas = (params: any) => {
     // only perform action if add node selected is true
     if (!addNodeSelected) {
       return;
@@ -73,13 +73,13 @@ export default function GraphView() {
       // open the dialog and add new node there
       setOpenNewNodeDialog(true);
     }
-  });
+  };
 
-  // set up event triggers when the nodes of the graph are clicked
-  network?.on("selectNode", (params) => {
+  const handleSelectNode = (params: any) => {
     if (params.nodes.length > 0) {
       // if add edge selected and selected node id already exists, open the create edge dialog
       const thisNodeID = params.nodes[0];
+      console.log(addEdgeSelected);
       if (addEdgeSelected && selectedNodeID != null) {
         // set the previous node id as the already selected one
         setselectedNodeIDPrev(selectedNodeID);
@@ -94,12 +94,16 @@ export default function GraphView() {
         setSelectedNodeID(thisNodeID);
       }
     }
-  });
+  };
 
-  network?.on("deselectNode", (params) => {
+  const handleDeselectNode = (params: any) => {
     // the deselect event is triggered first
     setSelectedNodeID(null);
-  });
+  };
+
+  network?.on("click", handleClickCanvas);
+  network?.on("selectNode", handleSelectNode);
+  network?.on("deselectNode", handleDeselectNode);
 
   return (
     <div

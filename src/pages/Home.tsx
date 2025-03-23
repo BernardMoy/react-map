@@ -176,7 +176,9 @@ export default function Home() {
     // set the network
     setNetwork(newNetwork);
 
-    return () => newNetwork.destroy();
+    return () => {
+      newNetwork.destroy();
+    };
   }, [addNodeSelected]); // re attach the add node selected listener, otherwise the conditional clicking will not work
 
   return (
