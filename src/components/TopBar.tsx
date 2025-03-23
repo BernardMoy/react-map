@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { CONTENT_MARGIN, TITLE_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useContext, useState } from "react";
 import NewLineDialog from "./NewLineDialog";
 import { TopBarContext } from "../pages/Home";
@@ -33,6 +34,8 @@ export default function TopBar() {
   const onAddLineClicked = () => {
     setOpenNewLineDialog(true);
   };
+
+  const onDeleteNodeClicked = () => {};
 
   return (
     <Box
@@ -77,6 +80,15 @@ export default function TopBar() {
           color={"primary"}
           startIcon={<AddIcon />}
           onClick={onAddLineClicked}
+        />
+
+        {/* Show delete button if a node is selected */}
+        <CustomButton
+          text={"Delete node"}
+          variant={"outlined"}
+          color={"error"}
+          startIcon={<DeleteIcon />}
+          onClick={onDeleteNodeClicked}
         />
       </Box>
 
