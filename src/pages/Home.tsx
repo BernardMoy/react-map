@@ -3,8 +3,16 @@ import { Box, Divider } from "@mui/material";
 import TopBar from "../components/TopBar";
 import Content from "../components/Content";
 import { CONTENT_MARGIN, TITLE_MARGIN } from "../components/Values";
-import React, { createContext, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { DataSet, Edge, IdType, Network, Node } from "vis-network/standalone";
+import NewNodeDialog from "../components/NewNodeDialog";
+import NewEdgeDialog from "../components/NewEdgeDIalog";
 
 // each line const of a name and color (Both strings)
 export interface Line {
@@ -38,17 +46,10 @@ interface SideBarContextProps {
 
 // interface to store all items for the main content (Graph)
 interface ContentContextProps {
-  nodes: DataSet<Node>;
-  setNodes: React.Dispatch<React.SetStateAction<DataSet<Node>>>;
-  nodeList: Node[];
-  setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
-  edges: DataSet<Edge>;
-  setEdges: React.Dispatch<React.SetStateAction<DataSet<Edge>>>;
   addNodeSelected: boolean;
   setAddNodeSelected: React.Dispatch<React.SetStateAction<boolean>>;
   addEdgeSelected: boolean;
   setAddEdgeSelected: React.Dispatch<React.SetStateAction<boolean>>;
-  network: Network | null;
   graphRef: React.RefObject<HTMLDivElement | null> | null;
   selectedNodeID: IdType | null;
   setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
@@ -78,17 +79,10 @@ export const SideBarContext = createContext<SideBarContextProps>({
 });
 
 export const ContentContext = createContext<ContentContextProps>({
-  nodes: new DataSet<Node>([]),
-  setNodes: () => {},
-  nodeList: [],
-  setNodeList: () => {},
-  edges: new DataSet<Edge>([]),
-  setEdges: () => {},
   addNodeSelected: false,
   setAddNodeSelected: () => {},
   addEdgeSelected: false,
   setAddEdgeSelected: () => {},
-  network: null,
   graphRef: null,
   selectedNodeID: null,
   setSelectedNodeID: () => {},
@@ -138,8 +132,63 @@ export default function Home() {
   const graphRef = useRef<HTMLDivElement>(null);
   const [network, setNetwork] = useState<Network | null>(null);
 
+  // state of the dialogs whether they are open
+  const [openNewNodeDialog, setOpenNewNodeDialog] = useState(false);
+  const [openNewEdgeDialog, setOpenNewEdgeDialog] = useState(false);
+
+  // state of the clicked position
+  const [posX, setPosX] = useState(0);
+  const [posY, setPosY] = useState(0);
+
   // store the selected graph node
   const [selectedNodeID, setSelectedNodeID] = useState<IdType | null>(null);
+
+  // state of the previous node used for creating edge
+  const [selectedNodeIDPrev, setSelectedNodeIDPrev] = useState<IdType | null>(
+    null
+  );
+
+  // event functions of the graph
+  // set up functions to activate when the canvas is clicked
+  const handleClickCanvas = (params: any) => {
+    // only perform action if add node selected is true
+    if (!addNodeSelected) {
+      return;
+    }
+    if (params.nodes.length == 0 && params.edges.length == 0) {
+      // update the x and y positions
+      setPosX(params.pointer.canvas.x);
+      setPosY(params.pointer.canvas.y);
+
+      // open the dialog and add new node there
+      setOpenNewNodeDialog(true);
+    }
+  };
+
+  const handleSelectNode = (params: any) => {
+    if (params.nodes.length > 0) {
+      // if add edge selected and selected node id already exists, open the create edge dialog
+      const thisNodeID = params.nodes[0];
+      if (addEdgeSelected && selectedNodeID != null) {
+        // set the previous node id as the already selected one
+        setSelectedNodeIDPrev(selectedNodeID);
+
+        // set the current selected node id for consistency
+        setSelectedNodeID(thisNodeID);
+
+        // open dialog
+        setOpenNewEdgeDialog(true);
+      } else {
+        // extract the first selected node and store it
+        setSelectedNodeID(thisNodeID);
+      }
+    }
+  };
+
+  const handleDeselectNode = (params: any) => {
+    // the deselect event is triggered first
+    setSelectedNodeID(null);
+  };
 
   useEffect(() => {
     if (!graphRef.current) {
@@ -171,15 +220,22 @@ export default function Home() {
       options
     );
 
+    newNetwork.on("click", handleClickCanvas);
+    newNetwork.on("selectNode", handleSelectNode);
+    newNetwork.on("deselectNode", handleDeselectNode);
+
     // reset the selected node on re render
-    setSelectedNodeID(null);
+
     // set the network
     setNetwork(newNetwork);
 
     return () => {
+      newNetwork.off("click", handleClickCanvas);
+      newNetwork.off("selectNode", handleSelectNode);
+      newNetwork.off("deselectNode", handleDeselectNode);
       newNetwork.destroy();
     };
-  }, [addNodeSelected]); // re attach the add node selected listener, otherwise the conditional clicking will not work
+  }, [addNodeSelected, addEdgeSelected]); // re attach the add node selected listener, otherwise the conditional clicking will not work
 
   return (
     <Box
@@ -240,17 +296,10 @@ export default function Home() {
         <Box sx={{ m: CONTENT_MARGIN }}>
           <ContentContext.Provider
             value={{
-              nodes,
-              setNodes,
-              nodeList,
-              setNodeList,
-              edges,
-              setEdges,
               addNodeSelected,
               setAddNodeSelected,
               addEdgeSelected,
               setAddEdgeSelected,
-              network,
               graphRef,
               selectedNodeID,
               setSelectedNodeID,
@@ -260,6 +309,29 @@ export default function Home() {
           </ContentContext.Provider>
         </Box>
       </Box>
+
+      {/* Dialogs */}
+      {/* Dialog of creating new node */}
+      <NewNodeDialog
+        open={openNewNodeDialog}
+        setOpen={setOpenNewNodeDialog}
+        nodes={nodes}
+        setNodes={setNodes}
+        nodeList={nodeList}
+        setNodeList={setNodeList}
+        posX={posX}
+        posY={posY}
+      />
+
+      {/* Dialog of creating new edges */}
+      <NewEdgeDialog
+        open={openNewEdgeDialog}
+        setOpen={setOpenNewEdgeDialog}
+        nodeID1={selectedNodeIDPrev}
+        nodeID2={selectedNodeID}
+        edges={edges}
+        setEdges={setEdges}
+      />
     </Box>
   );
 }
