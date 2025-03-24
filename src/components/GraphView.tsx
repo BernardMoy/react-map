@@ -26,6 +26,19 @@ export const onNodeChosen = function (
   }
 };
 
+export const onEdgeChosen = function (
+  values: any,
+  id: IdType,
+  selected: boolean,
+  hovering: boolean
+) {
+  if (selected) {
+    values.width = 5;
+  } else if (hovering) {
+    values.width = 3;
+  }
+};
+
 export default function GraphView() {
   // get the context
   const { graphRef } = useContext(ContentContext);

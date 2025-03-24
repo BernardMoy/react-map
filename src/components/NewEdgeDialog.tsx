@@ -11,6 +11,7 @@ import { CONTENT_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
 import { useState } from "react";
 import { DataSet, Edge, IdType, Network } from "vis-network/standalone";
+import { onEdgeChosen } from "./GraphView";
 
 interface Props {
   open: boolean;
@@ -47,6 +48,7 @@ export default function NewEdgeDialog({
         id: Date.now(),
         from: nodeID1,
         to: nodeID2,
+        chosen: { edge: onEdgeChosen as any, label: false },
         label: weightInput.toString(),
       };
       edges.add(newEdge);

@@ -232,6 +232,7 @@ export default function Home() {
       },
       interaction: {
         hover: true,
+        selectConnectedEdges: false,
       },
     };
 
