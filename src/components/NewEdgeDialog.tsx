@@ -49,6 +49,12 @@ export default function NewEdgeDialog({
         from: nodeID1,
         to: nodeID2,
         chosen: { edge: onEdgeChosen as any, label: false },
+        /*
+        smooth: {
+          type: "curvedCW",
+          roundness: Math.random(),
+        } as any,
+         */
         label: weightInput.toString(),
       };
       edges.add(newEdge);

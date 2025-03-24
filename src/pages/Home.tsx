@@ -226,6 +226,20 @@ export default function Home() {
     setSelectedEdgeID(null);
   };
 
+  const handleDragEnd = (params: any) => {
+    if (params.nodes.length > 0) {
+      // get the dragged node from the node id
+      const draggedNodeID = params.nodes[0];
+
+      // update the x and y position of the dragged node to the current position so it stays at the new pos
+      nodes.update({
+        id: draggedNodeID,
+        x: params.pointer.canvas.x,
+        y: params.pointer.canvas.y,
+      });
+    }
+  };
+
   useEffect(() => {
     if (!graphRef.current) {
       return;
@@ -268,6 +282,7 @@ export default function Home() {
     newNetwork.on("deselectNode", handleDeselectNode);
     newNetwork.on("selectEdge", handleSelectEdge);
     newNetwork.on("deselectEdge", handleDeselectEdge);
+    newNetwork.on("dragEnd", handleDragEnd);
 
     // reset the selected node on re render
 
@@ -280,6 +295,7 @@ export default function Home() {
       newNetwork.off("deselectNode", handleDeselectNode);
       newNetwork.off("selectEdge", handleSelectEdge);
       newNetwork.off("deselectEdge", handleDeselectEdge);
+      newNetwork.off("dragEnd", handleDragEnd);
       newNetwork.destroy();
     };
   }, [addNodeSelected, addEdgeSelected]); // re attach the add node selected listener, otherwise the conditional clicking will not work
