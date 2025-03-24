@@ -154,17 +154,26 @@ export default function Home() {
   // event functions of the graph
   // set up functions to activate when the canvas is clicked
   const handleClickCanvas = (params: any) => {
-    // only perform action if add node selected is true
-    if (!addNodeSelected) {
-      return;
-    }
-    if (params.nodes.length == 0 && params.edges.length == 0) {
+    if (
+      addNodeSelected && // ensure the BLANK canvas is clicked instead of the nodes or edges
+      params.nodes.length == 0 &&
+      params.edges.length == 0
+    ) {
       // update the x and y positions
       setPosX(params.pointer.canvas.x);
       setPosY(params.pointer.canvas.y);
 
       // open the dialog and add new node there
       setOpenNewNodeDialog(true);
+    } else if (
+      addEdgeSelected &&
+      params.nodes.length == 0 &&
+      params.edges.length == 0
+    ) {
+      // reset all selected node ids
+      selectedNodeIDRef.current = null;
+      setSelectedNodeID(null);
+      setSelectedNodeIDPrev(null);
     }
   };
 
@@ -192,14 +201,21 @@ export default function Home() {
 
   const handleDeselectNode = (params: any) => {
     // the deselect event is triggered first
-    setSelectedNodeIDPrev(null);
-    setSelectedNodeID(null);
+    if (!addEdgeSelected) {
+      selectedNodeIDRef.current = null;
+      setSelectedNodeID(null);
+    }
   };
 
   useEffect(() => {
     if (!graphRef.current) {
       return;
     }
+
+    // reset the selected fields at the beginning of graph refresh
+    setSelectedNodeID(null);
+    setSelectedNodeIDPrev(null);
+    selectedNodeIDRef.current = null;
 
     // calculate the graph height after subtracting the topbar height
     const topBarHeight = document.getElementById("topBar")?.offsetHeight || 0;
