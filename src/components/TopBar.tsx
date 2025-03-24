@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import NewLineDialog from "./NewLineDialog";
 import { TopBarContext } from "../pages/Home";
 import DeleteNodeDialog from "./DeleteNodeDialog";
+import DeleteEdgeDialog from "./DeleteEdgeDialog";
 
 export default function TopBar() {
   // get the context
@@ -30,6 +31,7 @@ export default function TopBar() {
   const [openNewLineDialog, setOpenNewLineDialog] = useState(false);
 
   const [openDeleteNodeDialog, setOpenDeleteNodeDialog] = useState(false);
+  const [openDeleteEdgeDialog, setOpenDeleteEdgeDialog] = useState(false);
 
   // functions when the ADD buttons are clicked
   const onAddNodeClicked = () => {
@@ -49,7 +51,9 @@ export default function TopBar() {
     setOpenDeleteNodeDialog(true);
   };
 
-  const onDeleteEdgeClicked = () => {};
+  const onDeleteEdgeClicked = () => {
+    setOpenDeleteEdgeDialog(true);
+  };
 
   return (
     <Box
@@ -135,6 +139,14 @@ export default function TopBar() {
         setSelectedNodeID={setSelectedNodeID}
         nodeList={nodeList}
         setNodeList={setNodeList}
+      />
+
+      <DeleteEdgeDialog
+        open={openDeleteEdgeDialog}
+        setOpen={setOpenDeleteEdgeDialog}
+        network={network}
+        selectedEdgeID={selectedEdgeID}
+        setSelectedEdgeID={setSelectedEdgeID}
       />
     </Box>
   );
