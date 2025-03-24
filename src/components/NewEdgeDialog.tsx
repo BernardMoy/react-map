@@ -80,6 +80,11 @@ export default function NewEdgeDialog({
               label="Weight"
               color="primary"
               type="number"
+              slotProps={{
+                htmlInput: {
+                  min: 0,
+                },
+              }}
               sx={{ my: CONTENT_MARGIN }}
               onChange={(text) => {
                 const textValue = text.target.value;
