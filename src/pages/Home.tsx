@@ -12,7 +12,7 @@ import React, {
 } from "react";
 import { DataSet, Edge, IdType, Network, Node } from "vis-network/standalone";
 import NewNodeDialog from "../components/NewNodeDialog";
-import NewEdgeDialog from "../components/NewEdgeDIalog";
+import NewEdgeDialog from "../components/NewEdgeDialog";
 
 // each line const of a name and color (Both strings)
 export interface Line {
@@ -140,6 +140,9 @@ export default function Home() {
   const [posX, setPosX] = useState(0);
   const [posY, setPosY] = useState(0);
 
+  // extra ref for the selected node id such that it can be observed in useEffect()
+  const selectedNodeIDRef = useRef<IdType | null>(null);
+
   // store the selected graph node
   const [selectedNodeID, setSelectedNodeID] = useState<IdType | null>(null);
 
@@ -169,17 +172,19 @@ export default function Home() {
     if (params.nodes.length > 0) {
       // if add edge selected and selected node id already exists, open the create edge dialog
       const thisNodeID = params.nodes[0];
-      if (addEdgeSelected && selectedNodeID != null) {
+      if (addEdgeSelected && selectedNodeIDRef.current != null) {
         // set the previous node id as the already selected one
-        setSelectedNodeIDPrev(selectedNodeID);
+        setSelectedNodeIDPrev(selectedNodeIDRef.current);
 
         // set the current selected node id for consistency
+        selectedNodeIDRef.current = thisNodeID;
         setSelectedNodeID(thisNodeID);
 
         // open dialog
         setOpenNewEdgeDialog(true);
       } else {
         // extract the first selected node and store it
+        selectedNodeIDRef.current = thisNodeID;
         setSelectedNodeID(thisNodeID);
       }
     }
@@ -187,6 +192,7 @@ export default function Home() {
 
   const handleDeselectNode = (params: any) => {
     // the deselect event is triggered first
+    setSelectedNodeIDPrev(null);
     setSelectedNodeID(null);
   };
 
