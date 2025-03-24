@@ -33,6 +33,8 @@ interface TopBarContextProps {
   setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
   nodeList: Node[];
   setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
+  selectedEdgeID: IdType | null;
+  setSelectedEdgeID: React.Dispatch<React.SetStateAction<IdType | null>>;
 }
 
 // interface to store all items for the sidebar
@@ -68,6 +70,8 @@ export const TopBarContext = createContext<TopBarContextProps>({
   setSelectedNodeID: () => {},
   nodeList: [],
   setNodeList: () => {},
+  selectedEdgeID: null,
+  setSelectedEdgeID: () => {},
 });
 
 export const SideBarContext = createContext<SideBarContextProps>({
@@ -151,6 +155,9 @@ export default function Home() {
     null
   );
 
+  // store the selected graph edge
+  const [selectedEdgeID, setSelectedEdgeID] = useState<IdType | null>(null);
+
   // event functions of the graph
   // set up functions to activate when the canvas is clicked
   const handleClickCanvas = (params: any) => {
@@ -167,8 +174,7 @@ export default function Home() {
       setOpenNewNodeDialog(true);
     } else if (
       addEdgeSelected &&
-      params.nodes.length == 0 &&
-      params.edges.length == 0
+      params.nodes.length == 0 // if it is NOT clicking a node (Canvas or edge), reset all selected nodes
     ) {
       // reset all selected node ids
       selectedNodeIDRef.current = null;
@@ -207,6 +213,19 @@ export default function Home() {
     }
   };
 
+  const handleSelectEdge = (params: any) => {
+    if (params.edges.length > 0) {
+      // if add edge selected and selected node id already exists, open the create edge dialog
+      const thisEdgeID = params.edges[0];
+      setSelectedEdgeID(thisEdgeID);
+    }
+  };
+
+  const handleDeselectEdge = (params: any) => {
+    // the deselect event is triggered first
+    setSelectedEdgeID(null);
+  };
+
   useEffect(() => {
     if (!graphRef.current) {
       return;
@@ -216,6 +235,7 @@ export default function Home() {
     setSelectedNodeID(null);
     setSelectedNodeIDPrev(null);
     selectedNodeIDRef.current = null;
+    setSelectedEdgeID(null);
 
     // calculate the graph height after subtracting the topbar height
     const topBarHeight = document.getElementById("topBar")?.offsetHeight || 0;
@@ -246,6 +266,8 @@ export default function Home() {
     newNetwork.on("click", handleClickCanvas);
     newNetwork.on("selectNode", handleSelectNode);
     newNetwork.on("deselectNode", handleDeselectNode);
+    newNetwork.on("selectEdge", handleSelectEdge);
+    newNetwork.on("deselectEdge", handleDeselectEdge);
 
     // reset the selected node on re render
 
@@ -256,6 +278,8 @@ export default function Home() {
       newNetwork.off("click", handleClickCanvas);
       newNetwork.off("selectNode", handleSelectNode);
       newNetwork.off("deselectNode", handleDeselectNode);
+      newNetwork.off("selectEdge", handleSelectEdge);
+      newNetwork.off("deselectEdge", handleDeselectEdge);
       newNetwork.destroy();
     };
   }, [addNodeSelected, addEdgeSelected]); // re attach the add node selected listener, otherwise the conditional clicking will not work
@@ -284,6 +308,8 @@ export default function Home() {
             setSelectedNodeID,
             nodeList,
             setNodeList,
+            selectedEdgeID,
+            setSelectedEdgeID,
           }}
         >
           <TopBar />

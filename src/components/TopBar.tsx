@@ -22,6 +22,8 @@ export default function TopBar() {
     setSelectedNodeID,
     nodeList,
     setNodeList,
+    selectedEdgeID,
+    setSelectedEdgeID,
   } = useContext(TopBarContext);
 
   // state of the dialogs whether they are open
@@ -46,6 +48,8 @@ export default function TopBar() {
   const onDeleteNodeClicked = () => {
     setOpenDeleteNodeDialog(true);
   };
+
+  const onDeleteEdgeClicked = () => {};
 
   return (
     <Box
@@ -100,6 +104,17 @@ export default function TopBar() {
             color={"error"}
             startIcon={<DeleteIcon />}
             onClick={onDeleteNodeClicked}
+          />
+        )}
+
+        {/* Show delete button if an edge is selected */}
+        {selectedEdgeID != null && (
+          <CustomButton
+            text={"Delete edge"}
+            variant={"outlined"}
+            color={"error"}
+            startIcon={<DeleteIcon />}
+            onClick={onDeleteEdgeClicked}
           />
         )}
       </Box>
