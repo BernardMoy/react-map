@@ -11,7 +11,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { CONTENT_MARGIN } from "./Values";
+import { CONTENT_MARGIN, DEFAULT_EDGE_COLOR } from "./Values";
 import CustomButton from "./CustomButton";
 import { useState } from "react";
 import { DataSet, Edge, IdType, Network } from "vis-network/standalone";
@@ -74,14 +74,17 @@ export default function NewEdgeDialog({
         } as any,
          */
         label: weightInput.toString(),
+        color: lineInput ? lineInput.lineColor : DEFAULT_EDGE_COLOR,
       };
       edges.add(newEdge);
 
       // add the edge to the graph data structure
-      graph.addEdge(nodeID1, nodeID2, weightInput, {
-        lineName: "test",
-        lineColor: "test",
-      });
+      graph.addEdge(
+        nodeID1,
+        nodeID2,
+        weightInput,
+        lineInput || { lineName: "Unknown", lineColor: DEFAULT_EDGE_COLOR }
+      );
     }
 
     // close the dialog at the end
@@ -127,7 +130,7 @@ export default function NewEdgeDialog({
                 label="Line"
                 required
                 onChange={(event) => {
-                  // find the line object with the target name
+                  // find the line object with the target name as line names are UNIQUE
                   const lineObj =
                     lines.find((l) => l.lineName == event.target.value) || null;
                   setLineInput(lineObj);
@@ -137,7 +140,7 @@ export default function NewEdgeDialog({
                   lines.map((value, index) => (
                     <MenuItem
                       value={value.lineName}
-                      id={`line ${value.lineName}`}
+                      key={`line ${value.lineName}`}
                     >
                       {/* Content for each dropdown item */}
 
