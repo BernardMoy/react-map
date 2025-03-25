@@ -17,6 +17,8 @@ interface Props {
   setOpen: (value: boolean) => void;
   lines: Line[]; // pass the lines variable from context
   setLines: (value: Line[]) => void;
+  tabNumber: number;
+  setTabNumber: (value: number) => void;
 }
 
 export default function NewLineDialog({
@@ -24,6 +26,8 @@ export default function NewLineDialog({
   setOpen,
   lines,
   setLines,
+  tabNumber,
+  setTabNumber,
 }: Props) {
   // store the input text
   const [lineInput, setLineInput] = useState("");
@@ -64,6 +68,9 @@ export default function NewLineDialog({
       lineColor: color,
     };
     setLines([...lines, newLine]);
+
+    // set the tab to show lines
+    setTabNumber(1);
 
     // close the dialog at the end
     setOpen(false);

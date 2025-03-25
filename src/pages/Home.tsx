@@ -36,6 +36,8 @@ interface TopBarContextProps {
   setGraph: React.Dispatch<React.SetStateAction<Graph>>;
   selectedEdgeID: IdType | null;
   setSelectedEdgeID: React.Dispatch<React.SetStateAction<IdType | null>>;
+  tabNumber: number;
+  setTabNumber: React.Dispatch<React.SetStateAction<number>>;
 }
 
 // interface to store all items for the sidebar
@@ -45,6 +47,8 @@ interface SideBarContextProps {
   graph: Graph;
   setGraph: React.Dispatch<React.SetStateAction<Graph>>;
   network: Network | null;
+  tabNumber: number;
+  setTabNumber: React.Dispatch<React.SetStateAction<number>>;
 }
 
 // interface to store all items for the main content (Graph)
@@ -73,6 +77,8 @@ export const TopBarContext = createContext<TopBarContextProps>({
   setGraph: () => {},
   selectedEdgeID: null,
   setSelectedEdgeID: () => {},
+  tabNumber: 0,
+  setTabNumber: () => {},
 });
 
 export const SideBarContext = createContext<SideBarContextProps>({
@@ -81,6 +87,8 @@ export const SideBarContext = createContext<SideBarContextProps>({
   graph: new Graph(),
   setGraph: () => {},
   network: null,
+  tabNumber: 0,
+  setTabNumber: () => {},
 });
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -116,6 +124,9 @@ export default function Home() {
 
   // state of whether the add edge button is selected
   const [addEdgeSelected, setAddEdgeSelected] = useState(false);
+
+  // state of whether the nodes tab or line tab is selected (0 for nodes, 1 for lines)
+  const [tabNumber, setTabNumber] = useState(0);
 
   // state to store the list of lines
   const [lines, setLines] = useState<Line[]>([]);
@@ -286,8 +297,6 @@ export default function Home() {
     newNetwork.on("deselectEdge", handleDeselectEdge);
     newNetwork.on("dragEnd", handleDragEnd);
 
-    // reset the selected node on re render
-
     // set the network
     setNetwork(newNetwork);
 
@@ -328,6 +337,8 @@ export default function Home() {
             setGraph,
             selectedEdgeID,
             setSelectedEdgeID,
+            tabNumber,
+            setTabNumber,
           }}
         >
           <TopBar />
@@ -354,6 +365,8 @@ export default function Home() {
               graph,
               setGraph,
               network,
+              tabNumber,
+              setTabNumber,
             }}
           >
             <SideBar />

@@ -25,6 +25,8 @@ export default function TopBar() {
     setGraph,
     selectedEdgeID,
     setSelectedEdgeID,
+    tabNumber,
+    setTabNumber,
   } = useContext(TopBarContext);
 
   // state of the dialogs whether they are open
@@ -123,13 +125,15 @@ export default function TopBar() {
         )}
       </Box>
 
-      {/* Dialogs */}
+      {/* Dialogs that is accessed through top bar buttons  */}
       <NewLineDialog
         open={openNewLineDialog}
         setOpen={setOpenNewLineDialog} // this is necessary to control the open state
         lines={lines}
         setLines={setLines}
-      ></NewLineDialog>
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+      />
 
       <DeleteNodeDialog
         open={openDeleteNodeDialog}
