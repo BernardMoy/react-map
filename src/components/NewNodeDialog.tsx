@@ -12,14 +12,15 @@ import CustomButton from "./CustomButton";
 import { useState } from "react";
 import { DataSet, Node } from "vis-network/standalone";
 import { onNodeChosen } from "./GraphView";
+import { Graph } from "./Graph";
 
 interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
   nodes: DataSet<Node>;
   setNodes: (value: DataSet<Node>) => void; // not necessary as "DataSet<Node>" itself is reactive
-  nodeList: Node[];
-  setNodeList: (value: Node[]) => void;
+  graph: Graph;
+  setGraph: (value: Graph) => void;
   posX: number;
   posY: number;
 }
@@ -29,8 +30,8 @@ export default function NewNodeDialog({
   setOpen,
   nodes,
   setNodes,
-  nodeList,
-  setNodeList,
+  graph,
+  setGraph,
   posX,
   posY,
 }: Props) {
@@ -56,11 +57,11 @@ export default function NewNodeDialog({
       y: posY,
     };
 
-    // add the node to the state
+    // add the node to the dataset
     nodes.add(newNode);
 
-    // add the node to the node list to trigger re render
-    setNodeList([...nodeList, newNode]);
+    // add the node to the graph and set new graph
+    setGraph(new Graph(graph.addNode(newNode.id)));
 
     // close the dialog at the end
     setOpen(false);

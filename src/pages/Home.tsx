@@ -13,6 +13,7 @@ import React, {
 import { DataSet, Edge, IdType, Network, Node } from "vis-network/standalone";
 import NewNodeDialog from "../components/NewNodeDialog";
 import NewEdgeDialog from "../components/NewEdgeDialog";
+import { Graph } from "../components/Graph";
 
 // each line const of a name and color (Both strings)
 export interface Line {
@@ -31,8 +32,8 @@ interface TopBarContextProps {
   network: Network | null;
   selectedNodeID: IdType | null;
   setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
-  nodeList: Node[];
-  setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
+  graph: Graph;
+  setGraph: React.Dispatch<React.SetStateAction<Graph>>;
   selectedEdgeID: IdType | null;
   setSelectedEdgeID: React.Dispatch<React.SetStateAction<IdType | null>>;
 }
@@ -41,8 +42,8 @@ interface TopBarContextProps {
 interface SideBarContextProps {
   lines: Line[];
   setLines: React.Dispatch<React.SetStateAction<Line[]>>;
-  nodeList: Node[];
-  setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
+  graph: Graph;
+  setGraph: React.Dispatch<React.SetStateAction<Graph>>;
   network: Network | null;
 }
 
@@ -52,7 +53,7 @@ interface ContentContextProps {
   setAddNodeSelected: React.Dispatch<React.SetStateAction<boolean>>;
   addEdgeSelected: boolean;
   setAddEdgeSelected: React.Dispatch<React.SetStateAction<boolean>>;
-  graphRef: React.RefObject<HTMLDivElement | null> | null;
+  graphDatasetRef: React.RefObject<HTMLDivElement | null> | null;
   selectedNodeID: IdType | null;
   setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
 }
@@ -68,8 +69,8 @@ export const TopBarContext = createContext<TopBarContextProps>({
   network: null,
   selectedNodeID: null,
   setSelectedNodeID: () => {},
-  nodeList: [],
-  setNodeList: () => {},
+  graph: new Graph(),
+  setGraph: () => {},
   selectedEdgeID: null,
   setSelectedEdgeID: () => {},
 });
@@ -77,8 +78,8 @@ export const TopBarContext = createContext<TopBarContextProps>({
 export const SideBarContext = createContext<SideBarContextProps>({
   lines: [],
   setLines: () => {},
-  nodeList: [],
-  setNodeList: () => {},
+  graph: new Graph(),
+  setGraph: () => {},
   network: null,
 });
 
@@ -87,7 +88,7 @@ export const ContentContext = createContext<ContentContextProps>({
   setAddNodeSelected: () => {},
   addEdgeSelected: false,
   setAddEdgeSelected: () => {},
-  graphRef: null,
+  graphDatasetRef: null,
   selectedNodeID: null,
   setSelectedNodeID: () => {},
 });
@@ -127,13 +128,11 @@ export default function Home() {
   const [nodes, setNodes] = useState<DataSet<Node>>(new DataSet<Node>([]));
   const [edges, setEdges] = useState<DataSet<Edge>>(new DataSet<Edge>([]));
 
-  // store the LIST of nodes and edges
-  // They get re-rendered automatically while the DataSet<> object does not
-  const [nodeList, setNodeList] = useState<Node[]>([]);
-  const [edgeList, setEdgeList] = useState<Edge[]>([]);
+  // store the graph state
+  const [graph, setGraph] = useState<Graph>(new Graph());
 
   // store the graph ref
-  const graphRef = useRef<HTMLDivElement>(null);
+  const graphDatasetRef = useRef<HTMLDivElement>(null);
   const [network, setNetwork] = useState<Network | null>(null);
 
   // state of the dialogs whether they are open
@@ -241,7 +240,10 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!graphRef.current) {
+    // print the graph when updated
+    console.log("Updated graph\n");
+
+    if (!graphDatasetRef.current) {
       return;
     }
 
@@ -272,7 +274,7 @@ export default function Home() {
 
     // create the graph
     const newNetwork = new Network(
-      graphRef.current,
+      graphDatasetRef.current,
       { nodes: nodes, edges: edges },
       options
     );
@@ -322,8 +324,8 @@ export default function Home() {
             network,
             selectedNodeID,
             setSelectedNodeID,
-            nodeList,
-            setNodeList,
+            graph,
+            setGraph,
             selectedEdgeID,
             setSelectedEdgeID,
           }}
@@ -349,8 +351,8 @@ export default function Home() {
             value={{
               lines,
               setLines,
-              nodeList,
-              setNodeList,
+              graph,
+              setGraph,
               network,
             }}
           >
@@ -365,7 +367,7 @@ export default function Home() {
               setAddNodeSelected,
               addEdgeSelected,
               setAddEdgeSelected,
-              graphRef,
+              graphDatasetRef,
               selectedNodeID,
               setSelectedNodeID,
             }}
@@ -382,8 +384,8 @@ export default function Home() {
         setOpen={setOpenNewNodeDialog}
         nodes={nodes}
         setNodes={setNodes}
-        nodeList={nodeList}
-        setNodeList={setNodeList}
+        graph={graph}
+        setGraph={setGraph}
         posX={posX}
         posY={posY}
       />
@@ -396,6 +398,8 @@ export default function Home() {
         nodeID2={selectedNodeID}
         edges={edges}
         setEdges={setEdges}
+        graph={graph}
+        setGraph={setGraph}
       />
     </Box>
   );

@@ -21,8 +21,8 @@ export default function TopBar() {
     network,
     selectedNodeID,
     setSelectedNodeID,
-    nodeList,
-    setNodeList,
+    graph,
+    setGraph,
     selectedEdgeID,
     setSelectedEdgeID,
   } = useContext(TopBarContext);
@@ -137,8 +137,8 @@ export default function TopBar() {
         network={network}
         selectedNodeID={selectedNodeID}
         setSelectedNodeID={setSelectedNodeID}
-        nodeList={nodeList}
-        setNodeList={setNodeList}
+        graph={graph}
+        setGraph={setGraph}
       />
 
       <DeleteEdgeDialog
@@ -147,6 +147,8 @@ export default function TopBar() {
         network={network}
         selectedEdgeID={selectedEdgeID}
         setSelectedEdgeID={setSelectedEdgeID}
+        graph={graph}
+        setGraph={setGraph}
       />
     </Box>
   );

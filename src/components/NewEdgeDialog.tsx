@@ -12,6 +12,7 @@ import CustomButton from "./CustomButton";
 import { useState } from "react";
 import { DataSet, Edge, IdType, Network } from "vis-network/standalone";
 import { onEdgeChosen } from "./GraphView";
+import { Graph } from "./Graph";
 
 interface Props {
   open: boolean;
@@ -20,6 +21,8 @@ interface Props {
   nodeID2: IdType | null;
   edges: DataSet<Edge>;
   setEdges: (value: DataSet<Edge>) => void;
+  graph: Graph;
+  setGraph: (value: Graph) => void;
 }
 
 export default function NewEdgeDialog({
@@ -29,6 +32,8 @@ export default function NewEdgeDialog({
   nodeID2,
   edges,
   setEdges,
+  graph,
+  setGraph,
 }: Props) {
   // store the input text
   const [weightInput, setWeightInput] = useState(1);
@@ -58,6 +63,12 @@ export default function NewEdgeDialog({
         label: weightInput.toString(),
       };
       edges.add(newEdge);
+
+      // add the edge to the graph data structure
+      graph.addEdge(nodeID1, nodeID2, weightInput, {
+        lineName: "test",
+        lineColor: "test",
+      });
     }
 
     // close the dialog at the end

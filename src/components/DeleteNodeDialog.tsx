@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import CustomButton from "./CustomButton";
 import { DataSet, IdType, Network, Node } from "vis-network/standalone";
+import { Graph } from "./Graph";
 
 interface Props {
   open: boolean;
@@ -16,8 +17,8 @@ interface Props {
   network: Network | null;
   selectedNodeID: IdType | null;
   setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
-  nodeList: Node[];
-  setNodeList: React.Dispatch<React.SetStateAction<Node[]>>;
+  graph: Graph;
+  setGraph: React.Dispatch<React.SetStateAction<Graph>>;
 }
 
 export default function DeleteNodeDialog({
@@ -26,8 +27,8 @@ export default function DeleteNodeDialog({
   network,
   selectedNodeID,
   setSelectedNodeID,
-  nodeList,
-  setNodeList,
+  graph,
+  setGraph,
 }: Props) {
   const handleClose = () => {
     // directly close the dialog
@@ -39,7 +40,11 @@ export default function DeleteNodeDialog({
     event.preventDefault();
 
     // remove the selected node from the sidebar
-    setNodeList((prev) => prev.filter((node) => node.id !== selectedNodeID));
+    const newGraph = new Graph(graph);
+    for (const nodeID in network?.getSelectedNodes) {
+      newGraph.deleteNode(nodeID);
+    }
+    setGraph(newGraph);
 
     // delete the selected nodes
     network?.deleteSelected();

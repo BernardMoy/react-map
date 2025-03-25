@@ -41,11 +41,11 @@ export const onEdgeChosen = function (
 
 export default function GraphView() {
   // get the context
-  const { graphRef } = useContext(ContentContext);
+  const { graphDatasetRef } = useContext(ContentContext);
 
   return (
     <div
-      ref={graphRef}
+      ref={graphDatasetRef}
       style={{
         width: "100%",
         flex: 1,

@@ -1,31 +1,33 @@
-import { Edge, IdType, Node } from "vis-network/standalone";
+import { Edge, IdType } from "vis-network/standalone";
 import { Line } from "../pages/Home";
 
 // define the type stored in the adjacency list (DestinationID, weight, Line)
 interface Destination {
-  node: Node;
+  node: IdType;
   weight: number;
   line: Line;
 }
-class Graph {
+export class Graph {
   // Map of type {s1: [(d1, w1, l1), ...], s2:...}
-  private adj: Map<Node, Destination[]>;
+  private adj: Map<IdType, Destination[]>;
 
   // constructor to create a new map for the graph
-  constructor() {
-    this.adj = new Map();
+  constructor(graph?: Graph) {
+    // if an original graph is provided,
+    this.adj = graph ? new Map(graph.adj) : new Map();
   }
 
-  // method to add node
+  // method to add node and return the modified graph
   // nodes still exist even when there are no edges
-  addNode(node: Node): void {
+  addNode(node: IdType): Graph {
     if (!this.adj.has(node)) {
       this.adj.set(node, []);
     }
+    return this;
   }
 
   // method to add edge
-  addEdge(fromNode: Node, toNode: Node, weight: number, line: Line): void {
+  addEdge(fromNode: IdType, toNode: IdType, weight: number, line: Line): Graph {
     // add node is called before add edge, so can assume the keys exist in the graph
     // add the from -> to edge
     if (this.adj.has(fromNode)) {
@@ -39,10 +41,12 @@ class Graph {
         .get(toNode)
         ?.push({ node: fromNode, weight: weight, line: line });
     }
+
+    return this;
   }
 
   // method to delete node
-  deleteNode(node: Node) {
+  deleteNode(node: IdType): Graph {
     // delete the node from the key
     this.adj.delete(node);
 
@@ -51,10 +55,12 @@ class Graph {
       const filteredValue = value.filter((dest) => dest.node != node); // .filter creates a new array
       this.adj.set(key, filteredValue);
     }
+
+    return this;
   }
 
   // method to delete edge
-  deleteEdge(fromNode: Node, toNode: Node) {
+  deleteEdge(fromNode: IdType, toNode: IdType): Graph {
     // for source = fromNode, delete ALL Instances of toNode from the list
     if (this.adj.has(fromNode)) {
       const valueFromNode = this.adj.get(fromNode);
@@ -72,5 +78,12 @@ class Graph {
       );
       this.adj.set(toNode, filteredValueToNode!);
     }
+
+    return this;
+  }
+
+  // method to return all nodes as a list
+  getNode(): IdType[] {
+    return Array.from(this.adj.keys());
   }
 }
