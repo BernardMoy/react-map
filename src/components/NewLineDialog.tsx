@@ -31,6 +31,19 @@ export default function NewLineDialog({
   // store the input color
   const [color, setColor] = useState("#FFFFFF");
 
+  // store the input error
+  const [error, setError] = useState("");
+
+  const validateLine = (value: string): boolean => {
+    if (lines.find((l) => l.lineName == value)) {
+      setError("This line name already exists");
+      return false;
+    } else {
+      setError("");
+      return true;
+    }
+  };
+
   const handleClose = () => {
     // directly close the dialog
     setOpen(false);
@@ -39,6 +52,11 @@ export default function NewLineDialog({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     // prevent full page refresh
     event.preventDefault();
+
+    // validate line
+    if (!validateLine(lineInput)) {
+      return;
+    }
 
     // add the new line stored in lineInput to the list of lines
     const newLine: Line = {
@@ -68,6 +86,8 @@ export default function NewLineDialog({
               color="primary"
               type="text"
               sx={{ my: CONTENT_MARGIN }}
+              error={error != ""}
+              helperText={error}
               onChange={(text) => setLineInput(text.target.value)}
               required // automatically creates warning when not filled in
             />
