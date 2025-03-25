@@ -96,4 +96,9 @@ export class Graph {
 
     return output;
   }
+
+  // method to check if node exist in the key of map
+  hasNode(nodeID: string): boolean {
+    return this.adj.has(nodeID);
+  }
 }

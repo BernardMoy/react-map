@@ -38,18 +38,36 @@ export default function NewNodeDialog({
   // store the input text
   const [nodeInput, setNodeInput] = useState("");
 
+  // store the error message
+  const [error, setError] = useState("");
+
   const handleClose = () => {
     // directly close the dialog
     setOpen(false);
+  };
+
+  const validateNodeName = (value: string): boolean => {
+    if (graph.hasNode(value)) {
+      setError("This node name already exists");
+      return false;
+    } else {
+      setError("");
+      return true;
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     // prevent full page refresh
     event.preventDefault();
 
+    // validate if the node is value
+    if (!validateNodeName(nodeInput)) {
+      return;
+    }
+
     // add the new Node stored in NodeInput to the list of Nodes
     const newNode = {
-      id: Date.now(), // generate a unique id for each node (Mandatory)
+      id: nodeInput, // unique id to be displayed in the sidebar
       label: nodeInput,
       color: NODE_COLOR,
       chosen: { node: onNodeChosen, label: false },
@@ -84,6 +102,8 @@ export default function NewNodeDialog({
               color="primary"
               type="text"
               sx={{ my: CONTENT_MARGIN }}
+              error={error != ""}
+              helperText={error}
               onChange={(text) => setNodeInput(text.target.value)}
               required // automatically creates warning when not filled in
             />
