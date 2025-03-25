@@ -86,4 +86,14 @@ export class Graph {
   getNode(): IdType[] {
     return Array.from(this.adj.keys());
   }
+
+  // method to print the graph
+  toString(): string {
+    let output = "";
+    for (const [key, value] of this.adj.entries()) {
+      output += key + " | " + JSON.stringify(value) + "\n";
+    }
+
+    return output;
+  }
 }

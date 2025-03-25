@@ -241,7 +241,7 @@ export default function Home() {
 
   useEffect(() => {
     // print the graph when updated
-    console.log("Updated graph\n");
+    console.log("Updated graph\n" + graph.toString());
 
     if (!graphDatasetRef.current) {
       return;
