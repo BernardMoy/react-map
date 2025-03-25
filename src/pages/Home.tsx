@@ -103,22 +103,6 @@ export const ContentContext = createContext<ContentContextProps>({
 
 // main function
 export default function Home() {
-  // prevent exiting the window if there are unsaved changes
-  /*
-  useEffect(() => {
-    function handleOnBeforeUnload(event: BeforeUnloadEvent) {
-      event.preventDefault();
-      event.returnValue = "";
-    }
-    window.addEventListener("beforeunload", handleOnBeforeUnload, {
-      capture: true,
-    });
-
-    return () =>
-      window.removeEventListener("beforeunload", handleOnBeforeUnload);
-  });
-  */
-
   // state of whether the add node button is selected
   const [addNodeSelected, setAddNodeSelected] = useState(false);
 
@@ -167,6 +151,24 @@ export default function Home() {
 
   // store the selected graph edge
   const [selectedEdgeID, setSelectedEdgeID] = useState<IdType | null>(null);
+
+  // prevent exiting the window if there are unsaved changes
+  useEffect(() => {
+    function handleOnBeforeUnload(event: BeforeUnloadEvent) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+
+    // add the listener only when the graph is not empty or line is not empty to prevent exit
+    if (!graph.isEmpty() || lines.length > 0) {
+      window.addEventListener("beforeunload", handleOnBeforeUnload, {
+        capture: true,
+      });
+    }
+
+    return () =>
+      window.removeEventListener("beforeunload", handleOnBeforeUnload);
+  }, [graph, lines]);
 
   // event functions of the graph
   // set up functions to activate when the canvas is clicked
@@ -401,6 +403,8 @@ export default function Home() {
         setGraph={setGraph}
         posX={posX}
         posY={posY}
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
       />
 
       {/* Dialog of creating new edges */}

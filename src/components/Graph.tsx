@@ -101,4 +101,9 @@ export class Graph {
   hasNode(nodeID: string): boolean {
     return this.adj.has(nodeID);
   }
+
+  // method to check if the graph is empty
+  isEmpty(): boolean {
+    return this.adj.size == 0;
+  }
 }

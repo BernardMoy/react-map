@@ -23,6 +23,8 @@ interface Props {
   setGraph: (value: Graph) => void;
   posX: number;
   posY: number;
+  tabNumber: number;
+  setTabNumber: (value: number) => void;
 }
 
 export default function NewNodeDialog({
@@ -34,6 +36,8 @@ export default function NewNodeDialog({
   setGraph,
   posX,
   posY,
+  tabNumber,
+  setTabNumber,
 }: Props) {
   // store the input text
   const [nodeInput, setNodeInput] = useState("");
@@ -74,6 +78,9 @@ export default function NewNodeDialog({
       x: posX,
       y: posY,
     };
+
+    // set tab to node
+    setTabNumber(0);
 
     // add the node to the dataset
     nodes.add(newNode);
