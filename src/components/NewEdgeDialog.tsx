@@ -119,12 +119,13 @@ export default function NewEdgeDialog({
 
             {/* The form for picking a line */}
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
+              <InputLabel id="line-select-label">Line</InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId="line-select-label"
+                id="line-select"
                 value={lineInput ? lineInput.lineName : ""}
-                label="Age"
+                label="Line"
+                required
                 onChange={(event) => {
                   // find the line object with the target name
                   const lineObj =
@@ -132,19 +133,36 @@ export default function NewEdgeDialog({
                   setLineInput(lineObj);
                 }}
               >
-                {lines.map((value, index) => (
-                  <MenuItem value={value.lineName}>
-                    {/* Content for each dropdown item */}
-                    <Box
-                      display="flex"
-                      gap={CONTENT_MARGIN}
-                      alignItems="center"
+                {lines.length > 0 ? (
+                  lines.map((value, index) => (
+                    <MenuItem
+                      value={value.lineName}
+                      id={`line ${value.lineName}`}
                     >
-                      <CircleIcon style={{ color: value.lineColor }} />
-                      <Typography variant="body1">{value.lineName}</Typography>
-                    </Box>
-                  </MenuItem>
-                ))}
+                      {/* Content for each dropdown item */}
+
+                      <Box
+                        display="flex"
+                        gap={CONTENT_MARGIN}
+                        alignItems="center"
+                      >
+                        <CircleIcon style={{ color: value.lineColor }} />
+                        <Typography variant="body1">
+                          {value.lineName}
+                        </Typography>
+                      </Box>
+                    </MenuItem>
+                  ))
+                ) : (
+                  <Typography
+                    variant="body1"
+                    color="gray"
+                    my={CONTENT_MARGIN}
+                    mx={1}
+                  >
+                    There are no lines.
+                  </Typography>
+                )}
               </Select>
             </FormControl>
           </Box>
