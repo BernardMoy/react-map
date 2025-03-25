@@ -41,7 +41,7 @@ export default function DeleteNodeDialog({
 
     // remove the selected node from the sidebar
     const newGraph = new Graph(graph);
-    for (const nodeID in network?.getSelectedNodes) {
+    for (const nodeID of network?.getSelectedNodes()!) {
       newGraph.deleteNode(nodeID);
     }
     setGraph(newGraph);

@@ -39,9 +39,18 @@ export default function DeleteEdgeDialog({
     // prevent full page refresh
     event.preventDefault();
 
+    // delete the edge from the graph data structure
     const newGraph = new Graph(graph);
-    for (const nodeID in network?.getSelectedNodes) {
-      newGraph.deleteNode(nodeID);
+    for (const edgeID of network?.getSelectedEdges()!) {
+      const connectedNodes = network?.getConnectedNodes(edgeID);
+
+      // deleting an edge (Bidirectional) should return an array containing both ends of the nodes
+      if (Array.isArray(connectedNodes)) {
+        newGraph.deleteEdge(
+          connectedNodes[0] as IdType,
+          connectedNodes[1] as IdType
+        );
+      }
     }
     setGraph(newGraph);
 
