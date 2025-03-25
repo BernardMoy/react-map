@@ -400,6 +400,8 @@ export default function Home() {
         setEdges={setEdges}
         graph={graph}
         setGraph={setGraph}
+        lines={lines}
+        setLines={setLines}
       />
     </Box>
   );

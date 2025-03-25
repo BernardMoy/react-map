@@ -6,6 +6,10 @@ import {
   TextField,
   Box,
   Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { CONTENT_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
@@ -13,6 +17,8 @@ import { useState } from "react";
 import { DataSet, Edge, IdType, Network } from "vis-network/standalone";
 import { onEdgeChosen } from "./GraphView";
 import { Graph } from "./Graph";
+import CircleIcon from "@mui/icons-material/Circle";
+import { Line } from "../pages/Home";
 
 interface Props {
   open: boolean;
@@ -23,6 +29,8 @@ interface Props {
   setEdges: (value: DataSet<Edge>) => void;
   graph: Graph;
   setGraph: (value: Graph) => void;
+  lines: Line[];
+  setLines: (value: Line[]) => void;
 }
 
 export default function NewEdgeDialog({
@@ -34,9 +42,14 @@ export default function NewEdgeDialog({
   setEdges,
   graph,
   setGraph,
+  lines,
+  setLines,
 }: Props) {
   // store the input text
   const [weightInput, setWeightInput] = useState(1);
+
+  // store the input line
+  const [lineInput, setLineInput] = useState<Line | null>(null);
 
   const handleClose = () => {
     // directly close the dialog
@@ -103,6 +116,37 @@ export default function NewEdgeDialog({
               }}
               required // automatically creates warning when not filled in
             />
+
+            {/* The form for picking a line */}
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Age</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={lineInput ? lineInput.lineName : ""}
+                label="Age"
+                onChange={(event) => {
+                  // find the line object with the target name
+                  const lineObj =
+                    lines.find((l) => l.lineName == event.target.value) || null;
+                  setLineInput(lineObj);
+                }}
+              >
+                {lines.map((value, index) => (
+                  <MenuItem value={value.lineName}>
+                    {/* Content for each dropdown item */}
+                    <Box
+                      display="flex"
+                      gap={CONTENT_MARGIN}
+                      alignItems="center"
+                    >
+                      <CircleIcon style={{ color: value.lineColor }} />
+                      <Typography variant="body1">{value.lineName}</Typography>
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
         </DialogContent>
 
