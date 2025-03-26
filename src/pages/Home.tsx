@@ -2,7 +2,7 @@ import SideBar from "../components/SideBar";
 import { Box, Divider } from "@mui/material";
 import TopBar from "../components/TopBar";
 import Content from "../components/Content";
-import { CONTENT_MARGIN, TITLE_MARGIN } from "../components/Values";
+import { CONTENT_MARGIN, EDGE_WIDTH, TITLE_MARGIN } from "../components/Values";
 import React, {
   createContext,
   useCallback,
@@ -282,6 +282,9 @@ export default function Home() {
       interaction: {
         hover: true,
         selectConnectedEdges: false,
+      },
+      edges: {
+        width: EDGE_WIDTH,
       },
     };
 

@@ -2,6 +2,11 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { DataSet, Edge, IdType, Network, Node } from "vis-network/standalone";
 import {
   BACKGROUND_COLOR,
+  EDGE_WIDTH_HOVERED,
+  EDGE_WIDTH_SELECTED,
+  NODE_BORDER_COLOR_SELECTED,
+  NODE_BORDER_WIDTH_HOVERED,
+  NODE_BORDER_WIDTH_SELECTED,
   NODE_COLOR,
   NODE_COLOR_HOVERED,
   NODE_COLOR_SELECTED,
@@ -18,11 +23,11 @@ export const onNodeChosen = function (
 ) {
   if (selected) {
     values.color = NODE_COLOR_SELECTED;
-    values.borderWidth = 2;
-    values.borderColor = "black";
+    values.borderWidth = NODE_BORDER_WIDTH_SELECTED;
+    values.borderColor = NODE_BORDER_COLOR_SELECTED;
   } else if (hovering) {
     values.color = NODE_COLOR_HOVERED;
-    values.borderWidth = 2;
+    values.borderWidth = NODE_BORDER_WIDTH_HOVERED;
   }
 };
 
@@ -33,9 +38,9 @@ export const onEdgeChosen = function (
   hovering: boolean
 ) {
   if (selected) {
-    values.width = 5;
+    values.width = EDGE_WIDTH_SELECTED;
   } else if (hovering) {
-    values.width = 3;
+    values.width = EDGE_WIDTH_HOVERED;
   }
 };
 
