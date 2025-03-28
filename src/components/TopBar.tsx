@@ -3,6 +3,7 @@ import { CONTENT_MARGIN, TITLE_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import NavigationIcon from "@mui/icons-material/Navigation";
 import { useContext, useState } from "react";
 import NewLineDialog from "./NewLineDialog";
 import { TopBarContext } from "../pages/Home";
@@ -56,6 +57,9 @@ export default function TopBar() {
   const onDeleteEdgeClicked = () => {
     setOpenDeleteEdgeDialog(true);
   };
+
+  // function when the FIND ROUTE button is clicked
+  const onFindRouteClicked = () => {};
 
   return (
     <Box
@@ -123,6 +127,17 @@ export default function TopBar() {
             onClick={onDeleteEdgeClicked}
           />
         )}
+
+        {/* The button for finding distances */}
+        <Box sx={{ ml: CONTENT_MARGIN }}>
+          <CustomButton
+            text={"Find route"}
+            variant={"outlined"}
+            color={"secondary"}
+            startIcon={<NavigationIcon />}
+            onClick={onFindRouteClicked}
+          />
+        </Box>
       </Box>
 
       {/* Dialogs that is accessed through top bar buttons  */}
