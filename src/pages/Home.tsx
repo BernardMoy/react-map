@@ -144,6 +144,9 @@ export default function Home() {
   const [posX, setPosX] = useState(0);
   const [posY, setPosY] = useState(0);
 
+  // state of the zoom level of the graph
+  const [zoom, setZoom] = useState(1);
+
   // extra ref for the selected node id such that it can be observed in useEffect()
   const selectedNodeIDRef = useRef<IdType | null>(null);
 
@@ -262,6 +265,11 @@ export default function Home() {
     }
   };
 
+  const handleZoom = (params: any) => {
+    // store the zoom level
+    setZoom(params.scale);
+  };
+
   useEffect(() => {
     // print the graph when updated
     console.log("Updated graph\n" + graph.toString());
@@ -305,12 +313,16 @@ export default function Home() {
       options
     );
 
+    // restore the previous zoom level
+    newNetwork.moveTo({ scale: zoom });
+
     newNetwork.on("click", handleClickCanvas);
     newNetwork.on("selectNode", handleSelectNode);
     newNetwork.on("deselectNode", handleDeselectNode);
     newNetwork.on("selectEdge", handleSelectEdge);
     newNetwork.on("deselectEdge", handleDeselectEdge);
     newNetwork.on("dragEnd", handleDragEnd);
+    newNetwork.on("zoom", handleZoom);
 
     // set the network
     setNetwork(newNetwork);
@@ -322,6 +334,7 @@ export default function Home() {
       newNetwork.off("selectEdge", handleSelectEdge);
       newNetwork.off("deselectEdge", handleDeselectEdge);
       newNetwork.off("dragEnd", handleDragEnd);
+      newNetwork.off("zoom", handleZoom);
       newNetwork.destroy();
     };
   }, [mode]); // re attach the add node selected listener, otherwise the conditional clicking will not work
