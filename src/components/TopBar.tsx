@@ -54,11 +54,6 @@ export default function TopBar() {
     setOpenDeleteEdgeDialog(true);
   };
 
-  // function when the FIND ROUTE button is clicked
-  const onFindRouteClicked = () => {
-    mode === 3 ? setMode(0) : setMode(3);
-  };
-
   return (
     <Box
       sx={{
@@ -125,17 +120,6 @@ export default function TopBar() {
             onClick={onDeleteEdgeClicked}
           />
         )}
-
-        {/* The button for finding distances */}
-        <Box sx={{ ml: CONTENT_MARGIN }}>
-          <CustomButton
-            text={"Find route"}
-            variant={mode === 3 ? "contained" : "outlined"}
-            color={"secondary"}
-            startIcon={<NavigationIcon />}
-            onClick={onFindRouteClicked}
-          />
-        </Box>
       </Box>
 
       {/* Dialogs that is accessed through top bar buttons  */}

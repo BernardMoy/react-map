@@ -14,6 +14,7 @@ import { DataSet, Edge, IdType, Network, Node } from "vis-network/standalone";
 import NewNodeDialog from "../components/NewNodeDialog";
 import NewEdgeDialog from "../components/NewEdgeDialog";
 import { Graph } from "../components/Graph";
+import SideBarRight from "../components/SideBarRight";
 
 // each line const of a name and color (Both strings)
 export interface Line {
@@ -47,6 +48,14 @@ interface SideBarContextProps {
   network: Network | null;
   tabNumber: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
+}
+
+interface SideBarRightContextProps {
+  routeStartNodeID: IdType | null;
+  setRouteStartNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
+  routeEndNodeID: IdType | null;
+  setRouteEndNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
+  selectedNodeID: IdType | null;
 }
 
 // interface to store all items for the main content (Graph)
@@ -83,6 +92,14 @@ export const SideBarContext = createContext<SideBarContextProps>({
   network: null,
   tabNumber: 0,
   setTabNumber: () => {},
+});
+
+export const SideBarRightContext = createContext<SideBarRightContextProps>({
+  routeStartNodeID: null,
+  setRouteStartNodeID: () => {},
+  routeEndNodeID: null,
+  setRouteEndNodeID: () => {},
+  selectedNodeID: null,
 });
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -140,6 +157,10 @@ export default function Home() {
 
   // store the selected graph edge
   const [selectedEdgeID, setSelectedEdgeID] = useState<IdType | null>(null);
+
+  // store the route start and end node id
+  const [routeStartNodeID, setRouteStartNodeID] = useState<IdType | null>(null);
+  const [routeEndNodeID, setRouteEndNodeID] = useState<IdType | null>(null);
 
   // prevent exiting the window if there are unsaved changes
   useEffect(() => {
@@ -377,6 +398,20 @@ export default function Home() {
           >
             <Content />
           </ContentContext.Provider>
+        </Box>
+
+        <Box sx={{ my: CONTENT_MARGIN }}>
+          <SideBarRightContext.Provider
+            value={{
+              routeStartNodeID,
+              setRouteStartNodeID,
+              routeEndNodeID,
+              setRouteEndNodeID,
+              selectedNodeID,
+            }}
+          >
+            <SideBarRight />
+          </SideBarRightContext.Provider>
         </Box>
       </Box>
 
