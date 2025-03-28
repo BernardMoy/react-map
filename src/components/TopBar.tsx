@@ -13,10 +13,8 @@ import DeleteEdgeDialog from "./DeleteEdgeDialog";
 export default function TopBar() {
   // get the context
   const {
-    addNodeSelected,
-    setAddNodeSelected,
-    addEdgeSelected,
-    setAddEdgeSelected,
+    mode,
+    setMode,
     lines,
     setLines,
     network,
@@ -38,12 +36,10 @@ export default function TopBar() {
 
   // functions when the ADD buttons are clicked
   const onAddNodeClicked = () => {
-    setAddNodeSelected(!addNodeSelected);
-    setAddEdgeSelected(false);
+    mode === 1 ? setMode(0) : setMode(1);
   };
   const onAddConnectionClicked = () => {
-    setAddEdgeSelected(!addEdgeSelected);
-    setAddNodeSelected(false);
+    mode === 2 ? setMode(0) : setMode(2);
   };
 
   const onAddLineClicked = () => {
@@ -59,7 +55,9 @@ export default function TopBar() {
   };
 
   // function when the FIND ROUTE button is clicked
-  const onFindRouteClicked = () => {};
+  const onFindRouteClicked = () => {
+    mode === 3 ? setMode(0) : setMode(3);
+  };
 
   return (
     <Box
@@ -84,7 +82,7 @@ export default function TopBar() {
       >
         <CustomButton
           text={"Add Node"}
-          variant={addNodeSelected ? "contained" : "outlined"}
+          variant={mode === 1 ? "contained" : "outlined"}
           color={"primary"}
           startIcon={<AddIcon />}
           onClick={onAddNodeClicked}
@@ -92,7 +90,7 @@ export default function TopBar() {
 
         <CustomButton
           text={"Add Connection"}
-          variant={addEdgeSelected ? "contained" : "outlined"}
+          variant={mode === 2 ? "contained" : "outlined"}
           color={"primary"}
           startIcon={<AddIcon />}
           onClick={onAddConnectionClicked}
@@ -132,7 +130,7 @@ export default function TopBar() {
         <Box sx={{ ml: CONTENT_MARGIN }}>
           <CustomButton
             text={"Find route"}
-            variant={"outlined"}
+            variant={mode === 3 ? "contained" : "outlined"}
             color={"secondary"}
             startIcon={<NavigationIcon />}
             onClick={onFindRouteClicked}

@@ -23,10 +23,8 @@ export interface Line {
 
 // interface to store all items passed to the top bar context
 interface TopBarContextProps {
-  addNodeSelected: boolean;
-  setAddNodeSelected: React.Dispatch<React.SetStateAction<boolean>>;
-  addEdgeSelected: boolean;
-  setAddEdgeSelected: React.Dispatch<React.SetStateAction<boolean>>;
+  mode: number;
+  setMode: React.Dispatch<React.SetStateAction<number>>;
   lines: Line[];
   setLines: React.Dispatch<React.SetStateAction<Line[]>>;
   network: Network | null;
@@ -53,10 +51,8 @@ interface SideBarContextProps {
 
 // interface to store all items for the main content (Graph)
 interface ContentContextProps {
-  addNodeSelected: boolean;
-  setAddNodeSelected: React.Dispatch<React.SetStateAction<boolean>>;
-  addEdgeSelected: boolean;
-  setAddEdgeSelected: React.Dispatch<React.SetStateAction<boolean>>;
+  mode: number;
+  setMode: React.Dispatch<React.SetStateAction<number>>;
   graphDatasetRef: React.RefObject<HTMLDivElement | null> | null;
   selectedNodeID: IdType | null;
   setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
@@ -64,10 +60,8 @@ interface ContentContextProps {
 
 // create the contexts here and initialise them with values
 export const TopBarContext = createContext<TopBarContextProps>({
-  addNodeSelected: false, // the default values are passed here
-  setAddNodeSelected: () => {},
-  addEdgeSelected: false,
-  setAddEdgeSelected: () => {},
+  mode: 0,
+  setMode: () => {},
   lines: [],
   setLines: () => {},
   network: null,
@@ -92,10 +86,8 @@ export const SideBarContext = createContext<SideBarContextProps>({
 });
 
 export const ContentContext = createContext<ContentContextProps>({
-  addNodeSelected: false,
-  setAddNodeSelected: () => {},
-  addEdgeSelected: false,
-  setAddEdgeSelected: () => {},
+  mode: 0,
+  setMode: () => {},
   graphDatasetRef: null,
   selectedNodeID: null,
   setSelectedNodeID: () => {},
@@ -103,11 +95,8 @@ export const ContentContext = createContext<ContentContextProps>({
 
 // main function
 export default function Home() {
-  // state of whether the add node button is selected
-  const [addNodeSelected, setAddNodeSelected] = useState(false);
-
-  // state of whether the add edge button is selected
-  const [addEdgeSelected, setAddEdgeSelected] = useState(false);
+  // state of the mode of the application: 0 is none, 1 is ADD NODE, 2 is ADD EDGE, 3 is FIND ROUTE
+  const [mode, setMode] = useState(0);
 
   // state of whether the nodes tab or line tab is selected (0 for nodes, 1 for lines)
   const [tabNumber, setTabNumber] = useState(0);
@@ -174,9 +163,9 @@ export default function Home() {
   // set up functions to activate when the canvas is clicked
   const handleClickCanvas = (params: any) => {
     if (
-      addNodeSelected && // ensure the BLANK canvas is clicked instead of the nodes or edges
-      params.nodes.length == 0 &&
-      params.edges.length == 0
+      mode === 1 && // ensure the BLANK canvas is clicked instead of the nodes or edges
+      params.nodes.length === 0 &&
+      params.edges.length === 0
     ) {
       // update the x and y positions
       setPosX(params.pointer.canvas.x);
@@ -185,8 +174,8 @@ export default function Home() {
       // open the dialog and add new node there
       setOpenNewNodeDialog(true);
     } else if (
-      addEdgeSelected &&
-      params.nodes.length == 0 // if it is NOT clicking a node (Canvas or edge), reset all selected nodes
+      mode === 2 &&
+      params.nodes.length === 0 // if it is NOT clicking a node (Canvas or edge), reset all selected nodes
     ) {
       // reset all selected node ids
       selectedNodeIDRef.current = null;
@@ -199,7 +188,7 @@ export default function Home() {
     if (params.nodes.length > 0) {
       // if add edge selected and selected node id already exists, open the create edge dialog
       const thisNodeID = params.nodes[0];
-      if (addEdgeSelected && selectedNodeIDRef.current != null) {
+      if (mode === 2 && selectedNodeIDRef.current != null) {
         // set the previous node id as the already selected one
         setSelectedNodeIDPrev(selectedNodeIDRef.current);
 
@@ -219,7 +208,7 @@ export default function Home() {
 
   const handleDeselectNode = (params: any) => {
     // the deselect event is triggered first
-    if (!addEdgeSelected) {
+    if (mode !== 2) {
       selectedNodeIDRef.current = null;
       setSelectedNodeID(null);
     }
@@ -314,7 +303,7 @@ export default function Home() {
       newNetwork.off("dragEnd", handleDragEnd);
       newNetwork.destroy();
     };
-  }, [addNodeSelected, addEdgeSelected]); // re attach the add node selected listener, otherwise the conditional clicking will not work
+  }, [mode]); // re attach the add node selected listener, otherwise the conditional clicking will not work
 
   return (
     <Box
@@ -329,10 +318,8 @@ export default function Home() {
         {/* Pass the 4 state variables here to the top bar context */}
         <TopBarContext.Provider
           value={{
-            addNodeSelected,
-            setAddNodeSelected,
-            addEdgeSelected,
-            setAddEdgeSelected,
+            mode,
+            setMode,
             lines,
             setLines,
             network,
@@ -381,10 +368,8 @@ export default function Home() {
         <Box sx={{ m: CONTENT_MARGIN }}>
           <ContentContext.Provider
             value={{
-              addNodeSelected,
-              setAddNodeSelected,
-              addEdgeSelected,
-              setAddEdgeSelected,
+              mode,
+              setMode,
               graphDatasetRef,
               selectedNodeID,
               setSelectedNodeID,
