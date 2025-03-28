@@ -61,114 +61,118 @@ export default function SideBarRight() {
         },
       }}
     >
+      {/* Buttons */}
       <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-        }}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        gap={CONTENT_MARGIN}
+        mx={CONTENT_MARGIN}
+        alignItems="center"
       >
-        {/* Buttons */}
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          gap={CONTENT_MARGIN}
-          mx={CONTENT_MARGIN}
-          alignItems="center"
-        >
-          {/* Input for route start */}
-          {routeStartNodeID != null ? (
-            <Box
-              display={"flex"}
-              flexDirection="row"
-              justifyContent="center"
-              gap={CONTENT_MARGIN}
-              alignItems={"center"}
+        {/* Hint for disabled buttons */}
+        {selectedNodeID == null && (
+          <Typography variant="body1"> Please select a node first.</Typography>
+        )}
+
+        {/* Input for route start */}
+        {routeStartNodeID != null ? (
+          <Box
+            display={"flex"}
+            flexDirection="row"
+            justifyContent="center"
+            gap={CONTENT_MARGIN}
+            alignItems={"center"}
+          >
+            <Typography
+              variant="body1"
+              sx={{ wordWrap: "break-word", wordBreak: "break-word" }}
             >
-              <Typography
-                variant="body1"
-                sx={{ wordWrap: "break-word", wordBreak: "break-word" }}
-              >
-                {routeStartNodeID}
-              </Typography>
-              <IconButton
-                aria-label="delete"
-                color="error"
-                onClick={() => {
-                  setRouteStartNodeID(null);
-                }}
-              >
-                <CancelIcon />
-              </IconButton>
-            </Box>
-          ) : (
-            <CustomButton
-              text="Set as start node"
-              variant="outlined"
-              color="secondary"
-              onClick={handleSetStartNode}
-              enabled={selectedNodeID != null}
-            />
-          )}
-
-          {/* The arrow */}
-          <ArrowDownwardIcon
-            sx={{ scale: 1.5 }}
-            color={
-              routeStartNodeID != null && routeEndNodeID != null
-                ? "secondary"
-                : "disabled"
-            }
-          />
-
-          {/* Input for the end node */}
-          {routeEndNodeID != null ? (
-            <Box
-              display={"flex"}
-              flexDirection="row"
-              justifyContent="center"
-              gap={CONTENT_MARGIN}
-              alignItems={"center"}
+              {routeStartNodeID}
+            </Typography>
+            <IconButton
+              aria-label="delete"
+              color="error"
+              onClick={() => {
+                setRouteStartNodeID(null);
+              }}
             >
-              <Typography
-                variant="body1"
-                sx={{ wordWrap: "break-word", wordBreak: "break-word" }}
-              >
-                {routeEndNodeID}
-              </Typography>
-              <IconButton
-                aria-label="delete"
-                color="error"
-                onClick={() => {
-                  setRouteEndNodeID(null);
-                }}
-              >
-                <CancelIcon />
-              </IconButton>
-            </Box>
-          ) : (
-            <CustomButton
-              text="Set as end node"
-              variant="outlined"
-              color="secondary"
-              onClick={handleSetEndNode}
-              enabled={selectedNodeID != null}
-            />
-          )}
-
-          {/* The find route button */}
-          <Box sx={{ my: TITLE_MARGIN }}>
-            <CustomButton
-              text="Find route"
-              variant="contained"
-              color="secondary"
-              startIcon={<NavigationIcon />}
-              onClick={handleFindRoute}
-              enabled={routeStartNodeID != null && routeEndNodeID != null} // only allow clicking when both are not null
-            />
+              <CancelIcon />
+            </IconButton>
           </Box>
+        ) : (
+          <CustomButton
+            text="Set as start node"
+            variant="outlined"
+            color="secondary"
+            onClick={handleSetStartNode}
+            enabled={selectedNodeID != null}
+          />
+        )}
+
+        {/* The arrow */}
+        <ArrowDownwardIcon
+          sx={{ scale: 1.5 }}
+          color={
+            routeStartNodeID != null && routeEndNodeID != null
+              ? "secondary"
+              : "disabled"
+          }
+        />
+
+        {/* Input for the end node */}
+        {routeEndNodeID != null ? (
+          <Box
+            display={"flex"}
+            flexDirection="row"
+            justifyContent="center"
+            gap={CONTENT_MARGIN}
+            alignItems={"center"}
+          >
+            <Typography
+              variant="body1"
+              sx={{ wordWrap: "break-word", wordBreak: "break-word" }}
+            >
+              {routeEndNodeID}
+            </Typography>
+            <IconButton
+              aria-label="delete"
+              color="error"
+              onClick={() => {
+                setRouteEndNodeID(null);
+              }}
+            >
+              <CancelIcon />
+            </IconButton>
+          </Box>
+        ) : (
+          <CustomButton
+            text="Set as end node"
+            variant="outlined"
+            color="secondary"
+            onClick={handleSetEndNode}
+            enabled={selectedNodeID != null}
+          />
+        )}
+
+        {/* The find route button */}
+        <Box sx={{ mt: TITLE_MARGIN }}>
+          <CustomButton
+            text="Find route"
+            variant="contained"
+            color="secondary"
+            startIcon={<NavigationIcon />}
+            onClick={handleFindRoute}
+            enabled={routeStartNodeID != null && routeEndNodeID != null} // only allow clicking when both are not null
+          />
         </Box>
+
+        {/* Error message */}
+        {
+          <Typography variant="body1" color="error">
+            Error
+          </Typography>
+        }
       </Box>
     </Drawer>
   );
