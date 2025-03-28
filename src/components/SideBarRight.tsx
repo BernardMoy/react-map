@@ -32,6 +32,9 @@ export default function SideBarRight() {
     selectedNodeID,
   } = useContext(SideBarRightContext);
 
+  // error to show below button
+  const [error, setError] = useState("");
+
   // handler for clicking of the buttons
   const handleSetStartNode = () => {
     setRouteStartNodeID(selectedNodeID);
@@ -42,6 +45,21 @@ export default function SideBarRight() {
   };
 
   const handleFindRoute = () => {
+    // initially set error to be null
+    setError("");
+
+    // check if any of the node ids are null
+    if (routeStartNodeID == null || routeEndNodeID == null) {
+      setError("Either the start or end node is null");
+      return;
+    }
+    // check if start = end
+    if (routeStartNodeID == routeEndNodeID) {
+      setError("Start and end node cannot be the same");
+      return;
+    }
+
+    // find route
     console.log(routeStartNodeID);
     console.log(routeEndNodeID);
   };
@@ -169,8 +187,8 @@ export default function SideBarRight() {
 
         {/* Error message */}
         {
-          <Typography variant="body1" color="error">
-            Error
+          <Typography variant="body1" color="error" alignItems={"center"}>
+            {error}
           </Typography>
         }
       </Box>
