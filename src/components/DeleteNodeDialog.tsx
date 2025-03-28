@@ -19,6 +19,10 @@ interface Props {
   setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
   graph: Graph;
   setGraph: React.Dispatch<React.SetStateAction<Graph>>;
+  routeStartNodeID: IdType | null;
+  setRouteStartNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
+  routeEndNodeID: IdType | null;
+  setRouteEndNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
 }
 
 export default function DeleteNodeDialog({
@@ -29,6 +33,10 @@ export default function DeleteNodeDialog({
   setSelectedNodeID,
   graph,
   setGraph,
+  routeStartNodeID,
+  setRouteStartNodeID,
+  routeEndNodeID,
+  setRouteEndNodeID,
 }: Props) {
   const handleClose = () => {
     // directly close the dialog
@@ -48,6 +56,14 @@ export default function DeleteNodeDialog({
 
     // delete the selected nodes
     network?.deleteSelected();
+
+    // remove from the route start or route end node id if that is deleted
+    if (selectedNodeID == routeStartNodeID) {
+      setRouteStartNodeID(null);
+    }
+    if (selectedNodeID == routeEndNodeID) {
+      setRouteEndNodeID(null);
+    }
 
     // deselect all nodes
     setSelectedNodeID(null);

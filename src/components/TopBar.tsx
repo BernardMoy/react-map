@@ -26,6 +26,10 @@ export default function TopBar() {
     setSelectedEdgeID,
     tabNumber,
     setTabNumber,
+    routeStartNodeID,
+    setRouteStartNodeID,
+    routeEndNodeID,
+    setRouteEndNodeID,
   } = useContext(TopBarContext);
 
   // state of the dialogs whether they are open
@@ -140,6 +144,10 @@ export default function TopBar() {
         setSelectedNodeID={setSelectedNodeID}
         graph={graph}
         setGraph={setGraph}
+        routeStartNodeID={routeStartNodeID}
+        routeEndNodeID={routeEndNodeID}
+        setRouteStartNodeID={setRouteStartNodeID}
+        setRouteEndNodeID={setRouteEndNodeID}
       />
 
       <DeleteEdgeDialog

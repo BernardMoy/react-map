@@ -37,6 +37,10 @@ interface TopBarContextProps {
   setSelectedEdgeID: React.Dispatch<React.SetStateAction<IdType | null>>;
   tabNumber: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
+  routeStartNodeID: IdType | null;
+  setRouteStartNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
+  routeEndNodeID: IdType | null;
+  setRouteEndNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
 }
 
 // interface to store all items for the sidebar
@@ -82,6 +86,10 @@ export const TopBarContext = createContext<TopBarContextProps>({
   setSelectedEdgeID: () => {},
   tabNumber: 0,
   setTabNumber: () => {},
+  routeStartNodeID: null,
+  setRouteStartNodeID: () => {},
+  routeEndNodeID: null,
+  setRouteEndNodeID: () => {},
 });
 
 export const SideBarContext = createContext<SideBarContextProps>({
@@ -365,6 +373,10 @@ export default function Home() {
             setSelectedEdgeID,
             tabNumber,
             setTabNumber,
+            routeStartNodeID,
+            setRouteStartNodeID,
+            routeEndNodeID,
+            setRouteEndNodeID,
           }}
         >
           <TopBar />
