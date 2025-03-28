@@ -16,8 +16,9 @@
     "@mui/icons-material": "^6.4.8",
     "@mui/material": "^6.4.8",
     "d3": "^7.9.0",
+    "fastpriorityqueue": "^0.7.5",
     "react": "^19.0.0",
-    "uuid": "^11.1.0",
+    "uuid": "^9.0.1",
     "vis-network": "^9.1.9",
     "vite": "^6.2.2"
   },
