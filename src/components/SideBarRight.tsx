@@ -33,8 +33,14 @@ export default function SideBarRight() {
   } = useContext(SideBarRightContext);
 
   // handler for clicking of the buttons
-  const handleSetStartNode = () => {};
-  const handleSetEndNode = () => {};
+  const handleSetStartNode = () => {
+    setRouteStartNodeID(selectedNodeID);
+  };
+
+  const handleSetEndNode = () => {
+    setRouteEndNodeID(selectedNodeID);
+  };
+
   const handleFindRoute = () => {
     console.log(routeStartNodeID);
     console.log(routeEndNodeID);
@@ -102,11 +108,19 @@ export default function SideBarRight() {
               variant="outlined"
               color="secondary"
               onClick={handleSetStartNode}
+              enabled={selectedNodeID != null}
             />
           )}
 
           {/* The arrow */}
-          <ArrowDownwardIcon sx={{ scale: 1.5 }} color="disabled" />
+          <ArrowDownwardIcon
+            sx={{ scale: 1.5 }}
+            color={
+              routeStartNodeID != null && routeEndNodeID != null
+                ? "secondary"
+                : "disabled"
+            }
+          />
 
           {/* Input for the end node */}
           {routeEndNodeID != null ? (
@@ -139,6 +153,7 @@ export default function SideBarRight() {
               variant="outlined"
               color="secondary"
               onClick={handleSetEndNode}
+              enabled={selectedNodeID != null}
             />
           )}
 
