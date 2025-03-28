@@ -1,6 +1,7 @@
 import {
   Drawer,
   Icon,
+  IconButton,
   List,
   ListItem,
   ListItemText,
@@ -11,6 +12,7 @@ import { Box } from "@mui/material";
 import CustomButton from "./CustomButton";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import CancelIcon from "@mui/icons-material/Cancel";
 import {
   BACKGROUND_COLOR,
   CONTENT_MARGIN,
@@ -69,22 +71,78 @@ export default function SideBarRight() {
           mx={CONTENT_MARGIN}
           alignItems="center"
         >
-          <CustomButton
-            text="Set as start node"
-            variant="outlined"
-            color="secondary"
-            onClick={handleSetStartNode}
-          />
+          {/* Input for route start */}
+          {routeStartNodeID != null ? (
+            <Box
+              display={"flex"}
+              flexDirection="row"
+              justifyContent="center"
+              gap={CONTENT_MARGIN}
+              alignItems={"center"}
+            >
+              <Typography
+                variant="body1"
+                sx={{ wordWrap: "break-word", wordBreak: "break-word" }}
+              >
+                {routeStartNodeID}
+              </Typography>
+              <IconButton
+                aria-label="delete"
+                color="error"
+                onClick={() => {
+                  setRouteStartNodeID(null);
+                }}
+              >
+                <CancelIcon />
+              </IconButton>
+            </Box>
+          ) : (
+            <CustomButton
+              text="Set as start node"
+              variant="outlined"
+              color="secondary"
+              onClick={handleSetStartNode}
+            />
+          )}
 
+          {/* The arrow */}
           <ArrowDownwardIcon sx={{ scale: 1.5 }} color="disabled" />
 
-          <CustomButton
-            text="Set as end node"
-            variant="outlined"
-            color="secondary"
-            onClick={handleSetEndNode}
-          />
+          {/* Input for the end node */}
+          {routeEndNodeID != null ? (
+            <Box
+              display={"flex"}
+              flexDirection="row"
+              justifyContent="center"
+              gap={CONTENT_MARGIN}
+              alignItems={"center"}
+            >
+              <Typography
+                variant="body1"
+                sx={{ wordWrap: "break-word", wordBreak: "break-word" }}
+              >
+                {routeEndNodeID}
+              </Typography>
+              <IconButton
+                aria-label="delete"
+                color="error"
+                onClick={() => {
+                  setRouteEndNodeID(null);
+                }}
+              >
+                <CancelIcon />
+              </IconButton>
+            </Box>
+          ) : (
+            <CustomButton
+              text="Set as end node"
+              variant="outlined"
+              color="secondary"
+              onClick={handleSetEndNode}
+            />
+          )}
 
+          {/* The find route button */}
           <Box sx={{ my: TITLE_MARGIN }}>
             <CustomButton
               text="Find route"
@@ -92,6 +150,7 @@ export default function SideBarRight() {
               color="secondary"
               startIcon={<NavigationIcon />}
               onClick={handleFindRoute}
+              enabled={routeStartNodeID != null && routeEndNodeID != null} // only allow clicking when both are not null
             />
           </Box>
         </Box>

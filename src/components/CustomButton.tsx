@@ -6,7 +6,8 @@ interface Props {
   color: "primary" | "secondary" | "success" | "error";
   startIcon?: React.ReactNode; // JSX element --> <AddIcon />
   type?: "submit";
-  onClick: () => void;
+  onClick?: () => void;
+  enabled?: boolean;
 }
 
 export default function CustomButton({
@@ -16,6 +17,7 @@ export default function CustomButton({
   startIcon,
   type,
   onClick,
+  enabled = true,
 }: Props) {
   return (
     <Button
@@ -25,6 +27,7 @@ export default function CustomButton({
       sx={{ textTransform: "none" }}
       type={type}
       onClick={onClick}
+      disabled={!enabled}
     >
       {text}
     </Button>

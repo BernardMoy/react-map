@@ -106,4 +106,9 @@ export class Graph {
   isEmpty(): boolean {
     return this.adj.size == 0;
   }
+
+  // method to generate the shortest route between two ids
+  findShortestRoute(startNodeID: string, endNodeID: string): IdType[] {
+    return [];
+  }
 }
