@@ -12,6 +12,7 @@ import DeselectIcon from "@mui/icons-material/Deselect";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { DownloadData } from "./DownloadData";
+import loadFromJson from "./JsonLoader";
 
 export default function TopBar() {
   // get the context
@@ -119,7 +120,10 @@ export default function TopBar() {
 
     fileReader.onload = (e) => {
       // process the JSON data here
-      console.log(e.target?.result);
+      const jsonText = e.target?.result as string;
+
+      // use the json loader
+      loadFromJson(jsonText, setNodes, setEdges, setGraph, setLines);
     };
   };
 
