@@ -15,7 +15,6 @@ import { CONTENT_MARGIN, DEFAULT_EDGE_COLOR } from "./Values";
 import CustomButton from "./CustomButton";
 import { useState } from "react";
 import { DataSet, Edge, IdType, Network } from "vis-network/standalone";
-import { onEdgeChosen } from "./GraphView";
 import { Graph } from "./Graph";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Line } from "../pages/Home";
@@ -66,13 +65,6 @@ export default function NewEdgeDialog({
         id: Date.now(),
         from: nodeID1,
         to: nodeID2,
-        chosen: { edge: onEdgeChosen as any, label: false },
-        /*
-        smooth: {
-          type: "curvedCW",
-          roundness: Math.random(),
-        } as any,
-         */
         label: weightInput.toString(),
         color: lineInput ? lineInput.lineColor : DEFAULT_EDGE_COLOR,
       };

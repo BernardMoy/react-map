@@ -2,7 +2,18 @@ import SideBar from "../components/SideBar";
 import { Box, Divider } from "@mui/material";
 import TopBar from "../components/TopBar";
 import Content from "../components/Content";
-import { CONTENT_MARGIN, EDGE_WIDTH, TITLE_MARGIN } from "../components/Values";
+import {
+  CONTENT_MARGIN,
+  EDGE_WIDTH,
+  EDGE_WIDTH_HOVERED,
+  EDGE_WIDTH_SELECTED,
+  NODE_BORDER_COLOR_SELECTED,
+  NODE_BORDER_WIDTH_HOVERED,
+  NODE_BORDER_WIDTH_SELECTED,
+  NODE_COLOR_HOVERED,
+  NODE_COLOR_SELECTED,
+  TITLE_MARGIN,
+} from "../components/Values";
 import React, { createContext, useEffect, useRef, useState } from "react";
 import { DataSet, Edge, IdType, Network, Node } from "vis-network/standalone";
 import NewNodeDialog from "../components/NewNodeDialog";
@@ -328,6 +339,39 @@ export default function Home() {
       },
       edges: {
         width: EDGE_WIDTH,
+        chosen: {
+          edge: function (
+            values: any,
+            id: IdType,
+            selected: boolean,
+            hovering: boolean
+          ) {
+            if (selected) {
+              values.width = EDGE_WIDTH_SELECTED;
+            } else if (hovering) {
+              values.width = EDGE_WIDTH_HOVERED;
+            }
+          },
+        } as any,
+      },
+      nodes: {
+        chosen: {
+          node: function (
+            values: any,
+            id: IdType,
+            selected: boolean,
+            hovering: boolean
+          ) {
+            if (selected) {
+              values.color = NODE_COLOR_SELECTED;
+              values.borderWidth = NODE_BORDER_WIDTH_SELECTED;
+              values.borderColor = NODE_BORDER_COLOR_SELECTED;
+            } else if (hovering) {
+              values.color = NODE_COLOR_HOVERED;
+              values.borderWidth = NODE_BORDER_WIDTH_HOVERED;
+            }
+          },
+        } as any,
       },
     };
 

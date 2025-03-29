@@ -11,7 +11,6 @@ import { CONTENT_MARGIN, NODE_COLOR } from "./Values";
 import CustomButton from "./CustomButton";
 import { useState } from "react";
 import { DataSet, Node } from "vis-network/standalone";
-import { onNodeChosen } from "./GraphView";
 import { Graph } from "./Graph";
 
 interface Props {
@@ -74,7 +73,6 @@ export default function NewNodeDialog({
       id: nodeInput, // unique id to be displayed in the sidebar
       label: nodeInput,
       color: NODE_COLOR,
-      chosen: { node: onNodeChosen, label: false },
       x: posX,
       y: posY,
     };
