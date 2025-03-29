@@ -18,6 +18,11 @@ export class Graph {
     this.adj = graph ? new Map(graph.adj) : new Map();
   }
 
+  // method to get the data as a json downloadable format
+  get(): any {
+    return Array.from(this.adj.entries());
+  }
+
   // method to add node and return the modified graph
   // nodes still exist even when there are no edges
   addNode(node: IdType): Graph {

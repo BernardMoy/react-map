@@ -37,6 +37,10 @@ interface TopBarContextProps {
   setRouteEndNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
   reset: number;
   setReset: React.Dispatch<React.SetStateAction<number>>;
+  nodes: DataSet<Node>;
+  setNodes: React.Dispatch<React.SetStateAction<DataSet<Node>>>;
+  edges: DataSet<Edge>;
+  setEdges: React.Dispatch<React.SetStateAction<DataSet<Edge>>>;
 }
 
 // interface to store all items for the sidebar
@@ -92,6 +96,10 @@ export const TopBarContext = createContext<TopBarContextProps>({
   setRouteEndNodeID: () => {},
   reset: 0,
   setReset: () => {},
+  nodes: new DataSet<Node>(),
+  setNodes: () => {},
+  edges: new DataSet<Edge>(),
+  setEdges: () => {},
 });
 
 export const SideBarContext = createContext<SideBarContextProps>({
@@ -388,6 +396,10 @@ export default function Home() {
             setRouteEndNodeID,
             reset,
             setReset,
+            nodes,
+            setNodes,
+            edges,
+            setEdges,
           }}
         >
           <TopBar />

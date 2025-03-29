@@ -4,9 +4,8 @@ import { Line } from "../pages/Home";
 
 // contains all data that are saved when downloading
 export interface DownloadData {
-  network: Network;
-  nodes: DataSet<Node>;
-  edges: DataSet<Edge>;
-  graph: Graph;
+  nodes: any;
+  edges: any;
+  graph: any;
   lines: Line[];
 }

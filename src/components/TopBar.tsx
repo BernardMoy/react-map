@@ -3,7 +3,7 @@ import { CONTENT_MARGIN, TITLE_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import NewLineDialog from "./NewLineDialog";
 import { TopBarContext } from "../pages/Home";
 import DeleteNodeDialog from "./DeleteNodeDialog";
@@ -11,6 +11,7 @@ import DeleteEdgeDialog from "./DeleteEdgeDialog";
 import DeselectIcon from "@mui/icons-material/Deselect";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import { DownloadData } from "./DownloadData";
 
 export default function TopBar() {
   // get the context
@@ -34,6 +35,10 @@ export default function TopBar() {
     setRouteEndNodeID,
     reset,
     setReset,
+    nodes,
+    setNodes,
+    edges,
+    setEdges,
   } = useContext(TopBarContext);
 
   // state of the dialogs whether they are open
@@ -41,6 +46,9 @@ export default function TopBar() {
 
   const [openDeleteNodeDialog, setOpenDeleteNodeDialog] = useState(false);
   const [openDeleteEdgeDialog, setOpenDeleteEdgeDialog] = useState(false);
+
+  // for the upload of json file
+  const fileRef = useRef<HTMLInputElement | null>(null);
 
   // functions when the ADD buttons are clicked
   const onAddNodeClicked = () => {
@@ -73,9 +81,47 @@ export default function TopBar() {
   };
 
   // when the download or upload button is clicked
-  const onDownloadClicked = () => {};
+  const onDownloadClicked = () => {
+    // construct the downloadData object
+    const downloadData: DownloadData = {
+      nodes: nodes.get(),
+      edges: edges.get(),
+      graph: graph.get(),
+      lines: lines,
+    };
 
-  const onUploadClicked = () => {};
+    // download the data as json
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify(downloadData)
+    )}`;
+    const link = document.createElement("a");
+    link.href = jsonString;
+    link.download = "data.json"; // file name
+    link.click();
+  };
+
+  const onUploadClicked = () => {
+    fileRef.current?.click(); // click the upload html button
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // get the file
+    const file = event.target.files?.[0];
+
+    // check if the uploaded file has correct type
+    if (!file || file.type != "application/json") {
+      return;
+    }
+
+    // create file reader
+    const fileReader = new FileReader();
+    fileReader.readAsText(file, "UTF-8");
+
+    fileReader.onload = (e) => {
+      // process the JSON data here
+      console.log(e.target?.result);
+    };
+  };
 
   return (
     <Box
@@ -149,12 +195,22 @@ export default function TopBar() {
             onClick={onDownloadClicked}
           />
 
+          {/* When the upload button is clicked, the upload button from the input html element below is clicked */}
           <CustomButton
             text={"Upload graph"}
             variant={"outlined"}
             color={"warning"}
             startIcon={<FileUploadIcon />}
             onClick={onUploadClicked}
+          />
+
+          {/* The HIDDEN input field for the JSON file */}
+          <input
+            type="file"
+            accept="application/json"
+            ref={fileRef}
+            style={{ display: "none" }}
+            onChange={handleFileUpload}
           />
         </Box>
 
