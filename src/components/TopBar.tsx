@@ -13,6 +13,7 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { DownloadData } from "./DownloadData";
 import loadFromJson from "./JsonLoader";
+import UploadFileDialog from "./UploadFileDialog";
 
 export default function TopBar() {
   // get the context
@@ -44,12 +45,13 @@ export default function TopBar() {
 
   // state of the dialogs whether they are open
   const [openNewLineDialog, setOpenNewLineDialog] = useState(false);
-
   const [openDeleteNodeDialog, setOpenDeleteNodeDialog] = useState(false);
   const [openDeleteEdgeDialog, setOpenDeleteEdgeDialog] = useState(false);
+  const [openUploadFileDialog, setOpenUploadFileDialog] = useState(false);
 
   // for the upload of json file
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const [jsonText, setJsonText] = useState("");
 
   // functions when the ADD buttons are clicked
   const onAddNodeClicked = () => {
@@ -102,7 +104,11 @@ export default function TopBar() {
   };
 
   const onUploadClicked = () => {
-    fileRef.current?.click(); // click the upload html button
+    // reset the stored json text
+    setJsonText("");
+
+    // click the upload html button
+    fileRef.current?.click();
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,18 +126,13 @@ export default function TopBar() {
 
     fileReader.onload = (e) => {
       // process the JSON data here
-      const jsonText = e.target?.result as string;
+      const thisJsonText = e.target?.result as string;
+      if (thisJsonText !== undefined) {
+        setJsonText(thisJsonText);
 
-      // use the json loader
-      loadFromJson(
-        jsonText,
-        setNodes,
-        setEdges,
-        setGraph,
-        setLines,
-        reset,
-        setReset
-      );
+        // open the dialog
+        setOpenUploadFileDialog(true);
+      }
     };
   };
 
@@ -209,7 +210,7 @@ export default function TopBar() {
 
           {/* When the upload button is clicked, the upload button from the input html element below is clicked */}
           <CustomButton
-            text={"Upload graph"}
+            text={"Upload graph (.json)"}
             variant={"outlined"}
             color={"warning"}
             startIcon={<FileUploadIcon />}
@@ -281,6 +282,18 @@ export default function TopBar() {
         setSelectedEdgeID={setSelectedEdgeID}
         graph={graph}
         setGraph={setGraph}
+      />
+
+      <UploadFileDialog
+        open={openUploadFileDialog}
+        setOpen={setOpenUploadFileDialog}
+        jsonText={jsonText}
+        setNodes={setNodes}
+        setEdges={setEdges}
+        setGraph={setGraph}
+        setLines={setLines}
+        reset={reset}
+        setReset={setReset}
       />
     </Box>
   );
