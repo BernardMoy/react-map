@@ -124,6 +124,9 @@ export class Graph {
         return a.distance < b.distance; // distance as the comparator
       }
     );
+    q.add({ distance: 0, currentNode: startNodeID });
+
+    // visited set
     let visited = new Set<IdType>();
 
     // while q is non empty
@@ -141,24 +144,26 @@ export class Graph {
         // newly visited neighbour
         if (!d.has(node)) {
           d.set(node, d.get(currentNode)! + weight);
+          parents.set(node, currentNode); // only set parent when the node is not start id because the start has to be null
         } else {
-          d.set(node, Math.min(d.get(node)!, d.get(currentNode)! + weight));
+          const newDistance = d.get(currentNode)! + weight;
+          if (newDistance < d.get(node)!) {
+            d.set(node, newDistance);
+            parents.set(node, currentNode); // only set parent when the new distance is shorter
+          }
         }
 
         // push the neighbour to the heap
         q.add({ distance: d.get(node)!, currentNode: node });
-
-        // mark the parent of node as currentNode
-        parents.set(node, currentNode);
       }
 
       // mark current node as visited
       visited.add(currentNode);
     }
 
-    // if the end node is not in the parents map, it is unreachable
-    if (!parents.has(endNodeID)) {
-      return []; // return empty list if not reachable
+    // if the end node is not in d, it is unreachable
+    if (!d.has(endNodeID)) {
+      return []; // return empty if unreachable
     }
 
     // extract the route by iterating the parents in reverse

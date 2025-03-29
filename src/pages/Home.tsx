@@ -60,6 +60,9 @@ interface SideBarRightContextProps {
   routeEndNodeID: IdType | null;
   setRouteEndNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
   selectedNodeID: IdType | null;
+  graph: Graph;
+  setGraph: React.Dispatch<React.SetStateAction<Graph>>;
+  network: Network | null;
 }
 
 // interface to store all items for the main content (Graph)
@@ -108,6 +111,9 @@ export const SideBarRightContext = createContext<SideBarRightContextProps>({
   routeEndNodeID: null,
   setRouteEndNodeID: () => {},
   selectedNodeID: null,
+  graph: new Graph(),
+  setGraph: () => {},
+  network: null,
 });
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -433,6 +439,9 @@ export default function Home() {
               routeEndNodeID,
               setRouteEndNodeID,
               selectedNodeID,
+              graph,
+              setGraph,
+              network,
             }}
           >
             <SideBarRight />

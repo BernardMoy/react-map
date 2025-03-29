@@ -30,6 +30,9 @@ export default function SideBarRight() {
     routeEndNodeID,
     setRouteEndNodeID,
     selectedNodeID,
+    graph,
+    setGraph,
+    network,
   } = useContext(SideBarRightContext);
 
   // error to show below button
@@ -60,8 +63,7 @@ export default function SideBarRight() {
     }
 
     // find route
-    console.log(routeStartNodeID);
-    console.log(routeEndNodeID);
+    console.log(graph.findShortestRoute(routeStartNodeID, routeEndNodeID));
   };
 
   return (
