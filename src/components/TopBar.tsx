@@ -3,13 +3,14 @@ import { CONTENT_MARGIN, TITLE_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import NavigationIcon from "@mui/icons-material/Navigation";
 import { useContext, useState } from "react";
 import NewLineDialog from "./NewLineDialog";
 import { TopBarContext } from "../pages/Home";
 import DeleteNodeDialog from "./DeleteNodeDialog";
 import DeleteEdgeDialog from "./DeleteEdgeDialog";
 import DeselectIcon from "@mui/icons-material/Deselect";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 export default function TopBar() {
   // get the context
@@ -70,6 +71,11 @@ export default function TopBar() {
       setReset(reset + 1);
     }
   };
+
+  // when the download or upload button is clicked
+  const onDownloadClicked = () => {};
+
+  const onUploadClicked = () => {};
 
   return (
     <Box
@@ -132,6 +138,23 @@ export default function TopBar() {
             color={"success"}
             startIcon={<DeselectIcon />}
             onClick={onDeselectClicked}
+          />
+
+          {/* The download and upload buttons */}
+          <CustomButton
+            text={"Download graph"}
+            variant={"outlined"}
+            color={"warning"}
+            startIcon={<FileDownloadIcon />}
+            onClick={onDownloadClicked}
+          />
+
+          <CustomButton
+            text={"Upload graph"}
+            variant={"outlined"}
+            color={"warning"}
+            startIcon={<FileUploadIcon />}
+            onClick={onUploadClicked}
           />
         </Box>
 
