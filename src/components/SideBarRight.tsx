@@ -7,7 +7,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import CustomButton from "./CustomButton";
 import NavigationIcon from "@mui/icons-material/Navigation";
@@ -33,6 +33,8 @@ export default function SideBarRight() {
     graph,
     setGraph,
     network,
+    reset,
+    setReset,
   } = useContext(SideBarRightContext);
 
   // error to show below button
@@ -63,7 +65,15 @@ export default function SideBarRight() {
     }
 
     // find route
-    console.log(graph.findShortestRoute(routeStartNodeID, routeEndNodeID));
+    const route = graph.findShortestRoute(routeStartNodeID, routeEndNodeID);
+    if (route.length === 0) {
+      setError("The end node is unreachable from the start");
+      return;
+    }
+
+    // select all nodes in the route
+    console.log("Route: " + route);
+    network?.selectNodes(route, true);
   };
 
   return (

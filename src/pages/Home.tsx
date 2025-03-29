@@ -74,6 +74,8 @@ interface SideBarRightContextProps {
   graph: Graph;
   setGraph: React.Dispatch<React.SetStateAction<Graph>>;
   network: Network | null;
+  reset: number;
+  setReset: React.Dispatch<React.SetStateAction<number>>;
 }
 
 // interface to store all items for the main content (Graph)
@@ -132,6 +134,8 @@ export const SideBarRightContext = createContext<SideBarRightContextProps>({
   graph: new Graph(),
   setGraph: () => {},
   network: null,
+  reset: 0,
+  setReset: () => {},
 });
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -504,6 +508,8 @@ export default function Home() {
               graph,
               setGraph,
               network,
+              reset,
+              setReset,
             }}
           >
             <SideBarRight />
