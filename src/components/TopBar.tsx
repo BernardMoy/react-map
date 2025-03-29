@@ -87,7 +87,7 @@ export default function TopBar() {
     const downloadData: DownloadData = {
       nodes: nodes.get(),
       edges: edges.get(),
-      graph: graph.get(),
+      graph: graph.getAdj(),
       lines: lines,
     };
 

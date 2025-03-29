@@ -3,7 +3,7 @@ import { Line } from "../pages/Home";
 import FastPriorityQueue from "fastpriorityqueue";
 
 // define the type stored in the adjacency list (DestinationID, weight, Line)
-interface Destination {
+export interface Destination {
   node: IdType;
   weight: number;
   line: Line;
@@ -19,8 +19,13 @@ export class Graph {
   }
 
   // method to get the data as a json downloadable format
-  get(): any {
+  getAdj(): any {
     return Array.from(this.adj.entries());
+  }
+
+  // method to set the adj of the graph, used when loading the graph from json
+  setAdj(adj: Map<IdType, Destination[]>): void {
+    this.adj = adj;
   }
 
   // method to add node and return the modified graph
