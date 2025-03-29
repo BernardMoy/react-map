@@ -123,7 +123,15 @@ export default function TopBar() {
       const jsonText = e.target?.result as string;
 
       // use the json loader
-      loadFromJson(jsonText, setNodes, setEdges, setGraph, setLines);
+      loadFromJson(
+        jsonText,
+        setNodes,
+        setEdges,
+        setGraph,
+        setLines,
+        reset,
+        setReset
+      );
     };
   };
 

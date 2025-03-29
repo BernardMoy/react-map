@@ -9,7 +9,9 @@ export default function loadFromJson(
   setNodes: React.Dispatch<React.SetStateAction<DataSet<Node>>>,
   setEdges: React.Dispatch<React.SetStateAction<DataSet<Edge>>>,
   setGraph: React.Dispatch<React.SetStateAction<Graph>>,
-  setLines: React.Dispatch<React.SetStateAction<Line[]>>
+  setLines: React.Dispatch<React.SetStateAction<Line[]>>,
+  reset: number,
+  setReset: React.Dispatch<React.SetStateAction<number>>
 ) {
   // parse the json file from the text
   const file = JSON.parse(jsonText);
@@ -63,6 +65,7 @@ export default function loadFromJson(
     setLines(loadedLines);
 
     // force refresh the graph
+    setReset(reset + 1);
   } catch (e) {
     // create an error alert
     alert("This JSON file is in an invalid format.");
