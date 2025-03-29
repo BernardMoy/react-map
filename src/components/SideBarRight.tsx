@@ -90,10 +90,14 @@ export default function SideBarRight() {
         mx={CONTENT_MARGIN}
         alignItems="center"
       >
-        {/* Hint for disabled buttons */}
-        {selectedNodeID == null && (
-          <Typography variant="body1"> Please select a node first.</Typography>
-        )}
+        {/* Hint for disabled buttons when selected is null and either of the route start end are null */}
+        {selectedNodeID == null &&
+          (routeStartNodeID == null || routeEndNodeID == null) && (
+            <Typography variant="body1">
+              {" "}
+              Please select a node first.
+            </Typography>
+          )}
 
         {/* Input for route start */}
         {routeStartNodeID != null ? (
