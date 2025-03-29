@@ -9,6 +9,7 @@ import NewLineDialog from "./NewLineDialog";
 import { TopBarContext } from "../pages/Home";
 import DeleteNodeDialog from "./DeleteNodeDialog";
 import DeleteEdgeDialog from "./DeleteEdgeDialog";
+import DeselectIcon from "@mui/icons-material/Deselect";
 
 export default function TopBar() {
   // get the context
@@ -30,6 +31,8 @@ export default function TopBar() {
     setRouteStartNodeID,
     routeEndNodeID,
     setRouteEndNodeID,
+    reset,
+    setReset,
   } = useContext(TopBarContext);
 
   // state of the dialogs whether they are open
@@ -58,6 +61,16 @@ export default function TopBar() {
     setOpenDeleteEdgeDialog(true);
   };
 
+  const onDeselectClicked = () => {
+    if (mode != 0) {
+      // if mode is not 0, set mode to 0. this will reset the graph
+      setMode(0);
+    } else {
+      // only reset the graph
+      setReset(reset + 1);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -79,29 +92,48 @@ export default function TopBar() {
           gap: CONTENT_MARGIN,
         }}
       >
-        <CustomButton
-          text={"Add Node"}
-          variant={mode === 1 ? "contained" : "outlined"}
-          color={"primary"}
-          startIcon={<AddIcon />}
-          onClick={onAddNodeClicked}
-        />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "start",
+            gap: CONTENT_MARGIN,
+            flexGrow: 1,
+          }}
+        >
+          <CustomButton
+            text={"Add Node"}
+            variant={mode === 1 ? "contained" : "outlined"}
+            color={"primary"}
+            startIcon={<AddIcon />}
+            onClick={onAddNodeClicked}
+          />
 
-        <CustomButton
-          text={"Add Connection"}
-          variant={mode === 2 ? "contained" : "outlined"}
-          color={"primary"}
-          startIcon={<AddIcon />}
-          onClick={onAddConnectionClicked}
-        />
+          <CustomButton
+            text={"Add Connection"}
+            variant={mode === 2 ? "contained" : "outlined"}
+            color={"primary"}
+            startIcon={<AddIcon />}
+            onClick={onAddConnectionClicked}
+          />
 
-        <CustomButton
-          text={"Add Line"}
-          variant={"outlined"}
-          color={"primary"}
-          startIcon={<AddIcon />}
-          onClick={onAddLineClicked}
-        />
+          <CustomButton
+            text={"Add Line"}
+            variant={"outlined"}
+            color={"primary"}
+            startIcon={<AddIcon />}
+            onClick={onAddLineClicked}
+          />
+
+          {/* The deselect button */}
+          <CustomButton
+            text={"Deselect"}
+            variant={"outlined"}
+            color={"success"}
+            startIcon={<DeselectIcon />}
+            onClick={onDeselectClicked}
+          />
+        </Box>
 
         {/* Show delete button if a node is selected */}
         {selectedNodeID != null && (

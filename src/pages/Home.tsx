@@ -3,13 +3,7 @@ import { Box, Divider } from "@mui/material";
 import TopBar from "../components/TopBar";
 import Content from "../components/Content";
 import { CONTENT_MARGIN, EDGE_WIDTH, TITLE_MARGIN } from "../components/Values";
-import React, {
-  createContext,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import { DataSet, Edge, IdType, Network, Node } from "vis-network/standalone";
 import NewNodeDialog from "../components/NewNodeDialog";
 import NewEdgeDialog from "../components/NewEdgeDialog";
@@ -41,6 +35,8 @@ interface TopBarContextProps {
   setRouteStartNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
   routeEndNodeID: IdType | null;
   setRouteEndNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
+  reset: number;
+  setReset: React.Dispatch<React.SetStateAction<number>>;
 }
 
 // interface to store all items for the sidebar
@@ -72,6 +68,7 @@ interface ContentContextProps {
   graphDatasetRef: React.RefObject<HTMLDivElement | null> | null;
   selectedNodeID: IdType | null;
   setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
+  lines: Line[];
 }
 
 // create the contexts here and initialise them with values
@@ -93,6 +90,8 @@ export const TopBarContext = createContext<TopBarContextProps>({
   setRouteStartNodeID: () => {},
   routeEndNodeID: null,
   setRouteEndNodeID: () => {},
+  reset: 0,
+  setReset: () => {},
 });
 
 export const SideBarContext = createContext<SideBarContextProps>({
@@ -122,6 +121,7 @@ export const ContentContext = createContext<ContentContextProps>({
   graphDatasetRef: null,
   selectedNodeID: null,
   setSelectedNodeID: () => {},
+  lines: [],
 });
 
 // main function
@@ -179,6 +179,9 @@ export default function Home() {
   const [routeStartNodeID, setRouteStartNodeID] = useState<IdType | null>(null);
   const [routeEndNodeID, setRouteEndNodeID] = useState<IdType | null>(null);
 
+  // a state to trigger resetting the graph
+  const [reset, setReset] = useState<number>(0);
+
   // prevent exiting the window if there are unsaved changes
   useEffect(() => {
     function handleOnBeforeUnload(event: BeforeUnloadEvent) {
@@ -215,7 +218,7 @@ export default function Home() {
       mode === 2 &&
       params.nodes.length === 0 // if it is NOT clicking a node (Canvas or edge), reset all selected nodes
     ) {
-      // reset all selected node ids
+      // reset all selected node ids and also the previously selected node id
       selectedNodeIDRef.current = null;
       setSelectedNodeID(null);
       setSelectedNodeIDPrev(null);
@@ -351,7 +354,7 @@ export default function Home() {
       newNetwork.off("zoom", handleZoom);
       newNetwork.destroy();
     };
-  }, [mode]); // re attach the add node selected listener, otherwise the conditional clicking will not work
+  }, [mode, reset]); // re attach the add node selected listener, otherwise the conditional clicking will not work
 
   return (
     <Box
@@ -383,6 +386,8 @@ export default function Home() {
             setRouteStartNodeID,
             routeEndNodeID,
             setRouteEndNodeID,
+            reset,
+            setReset,
           }}
         >
           <TopBar />
@@ -425,6 +430,7 @@ export default function Home() {
               graphDatasetRef,
               selectedNodeID,
               setSelectedNodeID,
+              lines,
             }}
           >
             <Content />

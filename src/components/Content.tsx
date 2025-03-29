@@ -6,13 +6,19 @@ import { CONTENT_MARGIN } from "./Values";
 
 export default function Content() {
   // get the context
-  const { mode, selectedNodeID } = useContext(ContentContext);
+  const { mode, selectedNodeID, lines } = useContext(ContentContext);
 
   return (
     <Box display="flex" flexDirection="column" gap={CONTENT_MARGIN}>
       {/* When add node or add edge selected is active, display an alert */}
       {mode === 1 && (
         <Alert severity="info">Click on the canvas to add a new node.</Alert>
+      )}
+
+      {mode === 2 && lines.length === 0 && (
+        <Alert severity="warning">
+          You have no lines. Create a line before adding a connection.
+        </Alert>
       )}
 
       {mode === 2 && selectedNodeID == null && (
