@@ -15,6 +15,17 @@ export default function loadFromJson(
   const file = JSON.parse(jsonText);
   console.log(file);
 
+  // check if all the required field exists
+  if (
+    file.nodes === undefined ||
+    file.edges === undefined ||
+    file.graph === undefined ||
+    file.lines === undefined
+  ) {
+    alert("This JSON file is in an invalid format.");
+    return;
+  }
+
   // placeholders for the new values
   let loadedNodes: DataSet<Node> = new DataSet<Node>();
   let loadedEdges: DataSet<Edge> = new DataSet<Edge>();
@@ -54,5 +65,6 @@ export default function loadFromJson(
     // force refresh the graph
   } catch (e) {
     // create an error alert
+    alert("This JSON file is in an invalid format.");
   }
 }
