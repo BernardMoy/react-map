@@ -73,6 +73,7 @@ export default function NewEdgeDialog({
         to: nodeID2,
         label: weightInput.toString(),
         color: lineInput ? lineInput.lineColor : DEFAULT_EDGE_COLOR,
+        hidden: false,
       };
       edges.add(newEdge);
 
@@ -84,6 +85,7 @@ export default function NewEdgeDialog({
           to: nodeID1,
           label: weightInput.toString(),
           color: lineInput ? lineInput.lineColor : DEFAULT_EDGE_COLOR,
+          hidden: false,
         };
         edges.add(newEdgeBackward);
       }
