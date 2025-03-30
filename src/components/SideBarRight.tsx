@@ -38,6 +38,8 @@ export default function SideBarRight() {
     setReset,
     edges,
     setEdges,
+    edgeTempMap,
+    setEdgeTempMap,
   } = useContext(SideBarRightContext);
 
   // error to show below button
@@ -99,14 +101,25 @@ export default function SideBarRight() {
       if (routeEdgeSet.has(edgeString)) {
         // mark true if the edge is in the route edge set
         selectEdgeList.push(edge.id);
-      } else if (routeEdgeSet.has(edgeStringBackward)) {
-        // hide backward edges so that they dont overlap
-        edges.update({ id: edge.id, hidden: true });
       } else {
-        // else set the edge color to gray
-        edges.update({ id: edge.id, color: GRAY_COLOR });
+        // add to edge temp map
+        setEdgeTempMap((prev) => {
+          const newMap = new Map(prev);
+          newMap.set(edge.id, edge.color as string);
+          return newMap;
+        });
+
+        if (routeEdgeSet.has(edgeStringBackward)) {
+          // hide backward edges so that they dont overlap
+          edges.update({ id: edge.id, hidden: true });
+        } else {
+          // else set the edge color to gray
+          edges.update({ id: edge.id, color: GRAY_COLOR });
+        }
       }
     }
+
+    console.log("HERE: " + edgeTempMap.size);
 
     network?.setSelection({ nodes: route, edges: selectEdgeList });
   };

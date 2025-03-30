@@ -78,6 +78,8 @@ interface SideBarRightContextProps {
   setReset: React.Dispatch<React.SetStateAction<number>>;
   edges: DataSet<Edge>;
   setEdges: React.Dispatch<React.SetStateAction<DataSet<Edge>>>;
+  edgeTempMap: Map<IdType, string>;
+  setEdgeTempMap: React.Dispatch<React.SetStateAction<Map<IdType, string>>>;
 }
 
 // interface to store all items for the main content (Graph)
@@ -140,6 +142,8 @@ export const SideBarRightContext = createContext<SideBarRightContextProps>({
   setReset: () => {},
   edges: new DataSet<Edge>(),
   setEdges: () => {},
+  edgeTempMap: new Map(),
+  setEdgeTempMap: () => {},
 });
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -208,6 +212,10 @@ export default function Home() {
 
   // a state to trigger resetting the graph
   const [reset, setReset] = useState<number>(0);
+
+  // store the temporary edge colors that are overridden by gray during route selection
+  // it is emptied restored during every refresh of the graph
+  const [edgeTempMap, setEdgeTempMap] = useState(new Map());
 
   // prevent exiting the window if there are unsaved changes
   useEffect(() => {
@@ -333,6 +341,14 @@ export default function Home() {
     const calculatedGraphHeight =
       window.innerHeight - topBarHeight - 16 * (CONTENT_MARGIN + TITLE_MARGIN); // values are multiplied by 8 -> 2*8 = 16
 
+    // restore the edges in the edge temp map by setting visible and restore its color
+    console.log(edgeTempMap);
+    edgeTempMap.forEach((value: string, key: IdType) => {
+      edges.update({ id: key, color: value, hidden: false });
+    });
+    // clear the edge temp map
+    setEdgeTempMap(new Map());
+
     // graph options
     const options = {
       autoResize: true,
@@ -389,7 +405,7 @@ export default function Home() {
       },
     };
 
-    // create the graph
+    // create the graph here using nodes, edges and options
     const newNetwork = new Network(
       graphDatasetRef.current,
       { nodes: nodes, edges: edges },
@@ -522,6 +538,8 @@ export default function Home() {
               setReset,
               edges,
               setEdges,
+              edgeTempMap,
+              setEdgeTempMap,
             }}
           >
             <SideBarRight />
