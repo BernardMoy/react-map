@@ -21,7 +21,7 @@ import {
   TITLE_MARGIN,
 } from "./Values";
 import { SideBarRightContext } from "../pages/Home";
-import CircleIcon from "@mui/icons-material/Circle";
+import SwapVertIcon from "@mui/icons-material/SwapVert";
 
 export default function SideBarRight() {
   // get the context
@@ -50,6 +50,12 @@ export default function SideBarRight() {
 
   const handleSetEndNode = () => {
     setRouteEndNodeID(selectedNodeID);
+  };
+
+  const handleSwitchDirection = () => {
+    const temp = routeStartNodeID;
+    setRouteStartNodeID(routeEndNodeID);
+    setRouteEndNodeID(temp);
   };
 
   const handleFindRoute = () => {
@@ -97,6 +103,7 @@ export default function SideBarRight() {
         // hide backward edges so that they dont overlap
         edges.update({ id: edge.id, hidden: true });
       } else {
+        // else set the edge color to gray
         edges.update({ id: edge.id, color: GRAY_COLOR });
       }
     }
@@ -217,8 +224,20 @@ export default function SideBarRight() {
           />
         )}
 
-        {/* The find route button */}
+        {/* The switch direction button */}
         <Box sx={{ mt: TITLE_MARGIN }}>
+          <CustomButton
+            text="Switch direction"
+            variant="outlined"
+            color="secondary"
+            startIcon={<SwapVertIcon />}
+            onClick={handleSwitchDirection}
+            enabled={routeStartNodeID != null && routeEndNodeID != null} // only allow clicking when both are not null
+          />
+        </Box>
+
+        {/* The find route button */}
+        <Box>
           <CustomButton
             text="Find route"
             variant="contained"
