@@ -86,12 +86,17 @@ export default function SideBarRight() {
     const edgeList = edges.get();
     const selectEdgeList = [];
     for (const edge of edgeList) {
-      const edgeString = `${String(edge.from)}>${String(edge.to)}`; // convert to hashable string format
-      // mark true if the edge is in the route edge set
+      // convert to hashable string format
+      const edgeString = `${String(edge.from)}>${String(edge.to)}`;
+      const edgeStringBackward = `${String(edge.to)}>${String(edge.from)}`;
+
       if (routeEdgeSet.has(edgeString)) {
+        // mark true if the edge is in the route edge set
         selectEdgeList.push(edge.id);
+      } else if (routeEdgeSet.has(edgeStringBackward)) {
+        // hide backward edges so that they dont overlap
+        edges.update({ id: edge.id, hidden: true });
       } else {
-        console.log(edge);
         edges.update({ id: edge.id, color: GRAY_COLOR });
       }
     }
