@@ -70,7 +70,7 @@ export default function SideBarRight() {
       return;
     }
     // check if start = end
-    if (routeStartNodeID == routeEndNodeID) {
+    if (routeStartNodeID === routeEndNodeID) {
       setError("Start and end node cannot be the same");
       return;
     }
@@ -118,8 +118,6 @@ export default function SideBarRight() {
         }
       }
     }
-
-    console.log("HERE: " + edgeTempMap.size);
 
     network?.setSelection({ nodes: route, edges: selectEdgeList });
   };
