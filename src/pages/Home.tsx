@@ -361,6 +361,12 @@ export default function Home() {
             }
           },
         } as any,
+        arrows: {
+          to: {
+            enabled: true,
+            scaleFactor: 0.3,
+          },
+        },
       },
       nodes: {
         chosen: {

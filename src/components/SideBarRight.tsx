@@ -17,6 +17,7 @@ import {
   BACKGROUND_COLOR,
   CONTENT_MARGIN,
   DRAWER_WIDTH,
+  GRAY_COLOR,
   TITLE_MARGIN,
 } from "./Values";
 import { SideBarRightContext } from "../pages/Home";
@@ -89,6 +90,9 @@ export default function SideBarRight() {
       // mark true if the edge is in the route edge set
       if (routeEdgeSet.has(edgeString)) {
         selectEdgeList.push(edge.id);
+      } else {
+        console.log(edge);
+        edges.update({ id: edge.id, color: GRAY_COLOR });
       }
     }
 
