@@ -13,4 +13,6 @@ export const EDGE_WIDTH_SELECTED = 6;
 export const BACKGROUND_COLOR = "#f5f6f7";
 export const DEFAULT_EDGE_COLOR = "#000000";
 export const GRAY_COLOR = "#c9c9c9";
-export const NODE_COLOR_ROUTE_HIGHLIGHTED = "#a4ebc7";
+export const NODE_COLOR_ROUTE_HIGHLIGHTED = "#fcd7e8";
+export const NODE_COLOR_ROUTE_START = "#96e5ff";
+export const NODE_COLOR_ROUTE_END = "#b2ebb7";

@@ -13,12 +13,15 @@ import CustomButton from "./CustomButton";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import CancelIcon from "@mui/icons-material/Cancel";
+import FlagIcon from "@mui/icons-material/Flag";
 import {
   BACKGROUND_COLOR,
   CONTENT_MARGIN,
   DRAWER_WIDTH,
   GRAY_COLOR,
+  NODE_COLOR_ROUTE_END,
   NODE_COLOR_ROUTE_HIGHLIGHTED,
+  NODE_COLOR_ROUTE_START,
   TITLE_MARGIN,
 } from "./Values";
 import { SideBarRightContext } from "../pages/Home";
@@ -89,13 +92,19 @@ export default function SideBarRight() {
     console.log("Route: " + route);
 
     /* NODES */
-    for (const nodeID of route) {
+    for (const nodeID of route.slice(1, route.length - 1)) {
       // change the node color
       nodes.update({ id: nodeID, color: NODE_COLOR_ROUTE_HIGHLIGHTED });
 
       // add the node to the temp set
       nodeTempSet.add(nodeID);
     }
+
+    // change the start and end node to their respective colors
+    nodes.update({ id: routeStartNodeID, color: NODE_COLOR_ROUTE_START });
+    nodes.update({ id: routeEndNodeID, color: NODE_COLOR_ROUTE_END });
+    nodeTempSet.add(routeStartNodeID);
+    nodeTempSet.add(routeEndNodeID);
 
     /* EDGES */
     // for each adjacent element in the route, add to the set
@@ -175,12 +184,16 @@ export default function SideBarRight() {
             gap={CONTENT_MARGIN}
             alignItems={"center"}
           >
-            <Typography
-              variant="body1"
-              sx={{ wordWrap: "break-word", wordBreak: "break-word" }}
-            >
-              {routeStartNodeID}
-            </Typography>
+            <Box display="flex" gap={CONTENT_MARGIN} alignItems="center">
+              <NavigationIcon style={{ color: NODE_COLOR_ROUTE_START }} />
+              <Typography
+                variant="body1"
+                sx={{ wordWrap: "break-word", wordBreak: "break-word" }}
+              >
+                {routeStartNodeID}
+              </Typography>
+            </Box>
+
             <IconButton
               aria-label="delete"
               color="error"
@@ -220,12 +233,15 @@ export default function SideBarRight() {
             gap={CONTENT_MARGIN}
             alignItems={"center"}
           >
-            <Typography
-              variant="body1"
-              sx={{ wordWrap: "break-word", wordBreak: "break-word" }}
-            >
-              {routeEndNodeID}
-            </Typography>
+            <Box display="flex" gap={CONTENT_MARGIN} alignItems="center">
+              <FlagIcon style={{ color: NODE_COLOR_ROUTE_END }} />
+              <Typography
+                variant="body1"
+                sx={{ wordWrap: "break-word", wordBreak: "break-word" }}
+              >
+                {routeEndNodeID}
+              </Typography>
+            </Box>
             <IconButton
               aria-label="delete"
               color="error"
