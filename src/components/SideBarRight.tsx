@@ -19,6 +19,7 @@ import {
   CONTENT_MARGIN,
   DRAWER_WIDTH,
   GRAY_COLOR,
+  NODE_COLOR,
   NODE_COLOR_ROUTE_END,
   NODE_COLOR_ROUTE_HIGHLIGHTED,
   NODE_COLOR_ROUTE_START,
@@ -26,6 +27,7 @@ import {
 } from "./Values";
 import { SideBarRightContext } from "../pages/Home";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
+import { IdType } from "vis-network";
 
 export default function SideBarRight() {
   // get the context
@@ -91,20 +93,43 @@ export default function SideBarRight() {
     }
     console.log("Route: " + route);
 
+    /* reset the node temp set and edge temp map  */
+    // restore the nodes in the node temp set by restoring the original node colors
+    nodeTempSet.forEach((value: IdType) => {
+      nodes.update({ id: value, color: NODE_COLOR });
+    });
+    // clear the node temp set
+    setNodeTempSet(new Set());
+
+    // restore the edges in the edge temp map by setting visible and restore its color
+    edgeTempMap.forEach((value: string, key: IdType) => {
+      edges.update({ id: key, color: value, hidden: false });
+    });
+    // clear the edge temp map
+    setEdgeTempMap(new Map());
+
     /* NODES */
     for (const nodeID of route.slice(1, route.length - 1)) {
       // change the node color
       nodes.update({ id: nodeID, color: NODE_COLOR_ROUTE_HIGHLIGHTED });
 
       // add the node to the temp set
-      nodeTempSet.add(nodeID);
+      setNodeTempSet((prev) => {
+        const newSet = new Set(prev);
+        newSet.add(nodeID);
+        return newSet;
+      });
     }
 
     // change the start and end node to their respective colors
     nodes.update({ id: routeStartNodeID, color: NODE_COLOR_ROUTE_START });
     nodes.update({ id: routeEndNodeID, color: NODE_COLOR_ROUTE_END });
-    nodeTempSet.add(routeStartNodeID);
-    nodeTempSet.add(routeEndNodeID);
+    setNodeTempSet((prev) => {
+      const newSet = new Set(prev);
+      newSet.add(routeStartNodeID);
+      newSet.add(routeEndNodeID);
+      return newSet;
+    });
 
     /* EDGES */
     // for each adjacent element in the route, add to the set

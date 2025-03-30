@@ -357,6 +357,8 @@ export default function Home() {
     nodeTempSet.forEach((value: IdType) => {
       nodes.update({ id: value, color: NODE_COLOR });
     });
+    // clear the node temp set
+    setNodeTempSet(new Set());
 
     // restore the edges in the edge temp map by setting visible and restore its color
     edgeTempMap.forEach((value: string, key: IdType) => {
