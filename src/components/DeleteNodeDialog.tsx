@@ -47,14 +47,26 @@ export default function DeleteNodeDialog({
     // prevent full page refresh
     event.preventDefault();
 
-    // remove the selected node from the sidebar
+    // nodes to be deleted is the current selected node
+    const nodesToBeDeleted = network?.getSelectedNodes()!;
+
+    // remove the selected node from the sidebar and delete the node from the graph
     const newGraph = new Graph(graph);
-    for (const nodeID of network?.getSelectedNodes()!) {
+    for (const nodeID of nodesToBeDeleted) {
       newGraph.deleteNode(nodeID);
     }
     setGraph(newGraph);
 
-    // delete the selected nodes
+    // delete the connected edges of the nodes
+    let edgesToBeDeleted: IdType[] = [];
+    for (const nodeID of nodesToBeDeleted) {
+      const connectedEdges = network?.getConnectedEdges(nodeID)!;
+      edgesToBeDeleted = [...edgesToBeDeleted, ...connectedEdges];
+    }
+
+    // delete the selected nodes and all connecting edges of that node
+    // first make a selection, then delete that selection
+    network?.setSelection({ nodes: nodesToBeDeleted, edges: edgesToBeDeleted });
     network?.deleteSelected();
 
     // remove from the route start or route end node id if that is deleted

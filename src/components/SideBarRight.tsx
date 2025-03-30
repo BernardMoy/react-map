@@ -18,6 +18,7 @@ import {
   CONTENT_MARGIN,
   DRAWER_WIDTH,
   GRAY_COLOR,
+  NODE_COLOR_ROUTE_HIGHLIGHTED,
   TITLE_MARGIN,
 } from "./Values";
 import { SideBarRightContext } from "../pages/Home";
@@ -36,10 +37,14 @@ export default function SideBarRight() {
     network,
     reset,
     setReset,
+    nodes,
+    setNodes,
     edges,
     setEdges,
     edgeTempMap,
     setEdgeTempMap,
+    nodeTempSet,
+    setNodeTempSet,
   } = useContext(SideBarRightContext);
 
   // error to show below button
@@ -81,10 +86,18 @@ export default function SideBarRight() {
       setError("The end node is unreachable from the start");
       return;
     }
-
-    // select all nodes in the route
     console.log("Route: " + route);
 
+    /* NODES */
+    for (const nodeID of route) {
+      // change the node color
+      nodes.update({ id: nodeID, color: NODE_COLOR_ROUTE_HIGHLIGHTED });
+
+      // add the node to the temp set
+      nodeTempSet.add(nodeID);
+    }
+
+    /* EDGES */
     // for each adjacent element in the route, add to the set
     const routeEdgeSet = new Set<string>();
     for (let i = 0; i < route.length - 1; i++) {
@@ -118,8 +131,6 @@ export default function SideBarRight() {
         }
       }
     }
-
-    network?.setSelection({ nodes: route, edges: selectEdgeList });
   };
 
   return (

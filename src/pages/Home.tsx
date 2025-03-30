@@ -10,6 +10,7 @@ import {
   NODE_BORDER_COLOR_SELECTED,
   NODE_BORDER_WIDTH_HOVERED,
   NODE_BORDER_WIDTH_SELECTED,
+  NODE_COLOR,
   NODE_COLOR_HOVERED,
   NODE_COLOR_SELECTED,
   TITLE_MARGIN,
@@ -76,10 +77,14 @@ interface SideBarRightContextProps {
   network: Network | null;
   reset: number;
   setReset: React.Dispatch<React.SetStateAction<number>>;
+  nodes: DataSet<Node>;
+  setNodes: React.Dispatch<React.SetStateAction<DataSet<Node>>>;
   edges: DataSet<Edge>;
   setEdges: React.Dispatch<React.SetStateAction<DataSet<Edge>>>;
   edgeTempMap: Map<IdType, string>;
   setEdgeTempMap: React.Dispatch<React.SetStateAction<Map<IdType, string>>>;
+  nodeTempSet: Set<IdType>;
+  setNodeTempSet: React.Dispatch<React.SetStateAction<Set<IdType>>>;
 }
 
 // interface to store all items for the main content (Graph)
@@ -140,10 +145,14 @@ export const SideBarRightContext = createContext<SideBarRightContextProps>({
   network: null,
   reset: 0,
   setReset: () => {},
+  nodes: new DataSet<Node>(),
+  setNodes: () => {},
   edges: new DataSet<Edge>(),
   setEdges: () => {},
   edgeTempMap: new Map(),
   setEdgeTempMap: () => {},
+  nodeTempSet: new Set(),
+  setNodeTempSet: () => {},
 });
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -215,7 +224,10 @@ export default function Home() {
 
   // store the temporary edge colors that are overridden by gray during route selection
   // it is emptied restored during every refresh of the graph
-  const [edgeTempMap, setEdgeTempMap] = useState(new Map());
+  const [edgeTempMap, setEdgeTempMap] = useState<Map<IdType, string>>(
+    new Map()
+  );
+  const [nodeTempSet, setNodeTempSet] = useState<Set<IdType>>(new Set());
 
   // prevent exiting the window if there are unsaved changes
   useEffect(() => {
@@ -341,8 +353,12 @@ export default function Home() {
     const calculatedGraphHeight =
       window.innerHeight - topBarHeight - 16 * (CONTENT_MARGIN + TITLE_MARGIN); // values are multiplied by 8 -> 2*8 = 16
 
+    // restore the nodes in the node temp set by restoring the original node colors
+    nodeTempSet.forEach((value: IdType) => {
+      nodes.update({ id: value, color: NODE_COLOR });
+    });
+
     // restore the edges in the edge temp map by setting visible and restore its color
-    console.log(edgeTempMap);
     edgeTempMap.forEach((value: string, key: IdType) => {
       edges.update({ id: key, color: value, hidden: false });
     });
@@ -536,10 +552,14 @@ export default function Home() {
               network,
               reset,
               setReset,
+              nodes,
+              setNodes,
               edges,
               setEdges,
               edgeTempMap,
               setEdgeTempMap,
+              nodeTempSet,
+              setNodeTempSet,
             }}
           >
             <SideBarRight />
