@@ -12,3 +12,4 @@ export const EDGE_WIDTH_HOVERED = 3;
 export const EDGE_WIDTH_SELECTED = 5;
 export const BACKGROUND_COLOR = "#f5f6f7";
 export const DEFAULT_EDGE_COLOR = "#000000";
+export const GRAY_COLOR = "#9e9e9e";

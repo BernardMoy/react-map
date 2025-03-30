@@ -10,6 +10,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Checkbox,
 } from "@mui/material";
 import { CONTENT_MARGIN, DEFAULT_EDGE_COLOR } from "./Values";
 import CustomButton from "./CustomButton";
@@ -18,6 +19,7 @@ import { DataSet, Edge, IdType, Network } from "vis-network/standalone";
 import { Graph } from "./Graph";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Line } from "../pages/Home";
+import { CheckBox } from "@mui/icons-material";
 
 interface Props {
   open: boolean;
@@ -50,6 +52,9 @@ export default function NewEdgeDialog({
   // store the input line
   const [lineInput, setLineInput] = useState<Line | null>(null);
 
+  // store whether the edge is bidirectional
+  const [bidirectional, setBidirectional] = useState(true);
+
   const handleClose = () => {
     // directly close the dialog
     setOpen(false);
@@ -58,11 +63,12 @@ export default function NewEdgeDialog({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     // prevent full page refresh
     event.preventDefault();
+    const edgeID = Date.now();
 
     // create the edge if arguments are correct
     if (nodeID1 != null && nodeID2 != null) {
       const newEdge = {
-        id: Date.now(),
+        id: `${edgeID}-forward`,
         from: nodeID1,
         to: nodeID2,
         label: weightInput.toString(),
@@ -70,12 +76,25 @@ export default function NewEdgeDialog({
       };
       edges.add(newEdge);
 
+      // if bidirectional, also add the from <- to edge
+      if (bidirectional) {
+        const newEdgeBackward = {
+          id: `${edgeID}-backward`,
+          from: nodeID2,
+          to: nodeID1,
+          label: weightInput.toString(),
+          color: lineInput ? lineInput.lineColor : DEFAULT_EDGE_COLOR,
+        };
+        edges.add(newEdgeBackward);
+      }
+
       // add the edge to the graph data structure
       graph.addEdge(
         nodeID1,
         nodeID2,
         weightInput,
-        lineInput || { lineName: "Unknown", lineColor: DEFAULT_EDGE_COLOR }
+        lineInput || { lineName: "Unknown", lineColor: DEFAULT_EDGE_COLOR },
+        bidirectional
       );
     }
 
@@ -89,7 +108,12 @@ export default function NewEdgeDialog({
 
       <form onSubmit={handleSubmit}>
         <DialogContent>
-          <Box display="flex" flexDirection="column" gap={CONTENT_MARGIN}>
+          <Box
+            display="flex"
+            flexDirection="column"
+            gap={CONTENT_MARGIN}
+            alignItems={"center"}
+          >
             {/* The input field of the connection name */}
             <TextField
               autoFocus
@@ -160,6 +184,22 @@ export default function NewEdgeDialog({
                 )}
               </Select>
             </FormControl>
+
+            {/* The checkbox of whether the edge is bidirectional */}
+            <Box
+              display={"flex"}
+              flexDirection={"row"}
+              justifyContent={"start"}
+              gap={CONTENT_MARGIN}
+              alignItems={"center"}
+            >
+              <Typography variant="body1">Bidirectional</Typography>
+              <Checkbox
+                checked={bidirectional}
+                onChange={() => setBidirectional(!bidirectional)}
+                color="primary"
+              />
+            </Box>
           </Box>
         </DialogContent>
 

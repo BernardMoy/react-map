@@ -7,7 +7,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import CustomButton from "./CustomButton";
 import NavigationIcon from "@mui/icons-material/Navigation";
@@ -17,10 +17,11 @@ import {
   BACKGROUND_COLOR,
   CONTENT_MARGIN,
   DRAWER_WIDTH,
+  GRAY_COLOR,
   TITLE_MARGIN,
 } from "./Values";
 import { SideBarRightContext } from "../pages/Home";
-import CircleIcon from "@mui/icons-material/Circle";
+import SwapVertIcon from "@mui/icons-material/SwapVert";
 
 export default function SideBarRight() {
   // get the context
@@ -33,6 +34,12 @@ export default function SideBarRight() {
     graph,
     setGraph,
     network,
+    reset,
+    setReset,
+    edges,
+    setEdges,
+    edgeTempMap,
+    setEdgeTempMap,
   } = useContext(SideBarRightContext);
 
   // error to show below button
@@ -45,6 +52,12 @@ export default function SideBarRight() {
 
   const handleSetEndNode = () => {
     setRouteEndNodeID(selectedNodeID);
+  };
+
+  const handleSwitchDirection = () => {
+    const temp = routeStartNodeID;
+    setRouteStartNodeID(routeEndNodeID);
+    setRouteEndNodeID(temp);
   };
 
   const handleFindRoute = () => {
@@ -63,7 +76,52 @@ export default function SideBarRight() {
     }
 
     // find route
-    console.log(graph.findShortestRoute(routeStartNodeID, routeEndNodeID));
+    const route = graph.findShortestRoute(routeStartNodeID, routeEndNodeID);
+    if (route.length === 0) {
+      setError("The end node is unreachable from the start");
+      return;
+    }
+
+    // select all nodes in the route
+    console.log("Route: " + route);
+
+    // for each adjacent element in the route, add to the set
+    const routeEdgeSet = new Set<string>();
+    for (let i = 0; i < route.length - 1; i++) {
+      routeEdgeSet.add(`${String(route[i])}>${String(route[i + 1])}`); // convert the idtype to hashable string
+    }
+
+    const edgeList = edges.get();
+    const selectEdgeList = [];
+    for (const edge of edgeList) {
+      // convert to hashable string format
+      const edgeString = `${String(edge.from)}>${String(edge.to)}`;
+      const edgeStringBackward = `${String(edge.to)}>${String(edge.from)}`;
+
+      if (routeEdgeSet.has(edgeString)) {
+        // mark true if the edge is in the route edge set
+        selectEdgeList.push(edge.id);
+      } else {
+        // add to edge temp map
+        setEdgeTempMap((prev) => {
+          const newMap = new Map(prev);
+          newMap.set(edge.id, edge.color as string);
+          return newMap;
+        });
+
+        if (routeEdgeSet.has(edgeStringBackward)) {
+          // hide backward edges so that they dont overlap
+          edges.update({ id: edge.id, hidden: true });
+        } else {
+          // else set the edge color to gray
+          edges.update({ id: edge.id, color: GRAY_COLOR });
+        }
+      }
+    }
+
+    console.log("HERE: " + edgeTempMap.size);
+
+    network?.setSelection({ nodes: route, edges: selectEdgeList });
   };
 
   return (
@@ -179,8 +237,20 @@ export default function SideBarRight() {
           />
         )}
 
-        {/* The find route button */}
+        {/* The switch direction button */}
         <Box sx={{ mt: TITLE_MARGIN }}>
+          <CustomButton
+            text="Switch direction"
+            variant="outlined"
+            color="secondary"
+            startIcon={<SwapVertIcon />}
+            onClick={handleSwitchDirection}
+            enabled={routeStartNodeID != null && routeEndNodeID != null} // only allow clicking when both are not null
+          />
+        </Box>
+
+        {/* The find route button */}
+        <Box>
           <CustomButton
             text="Find route"
             variant="contained"
