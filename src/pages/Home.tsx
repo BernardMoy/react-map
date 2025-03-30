@@ -76,6 +76,8 @@ interface SideBarRightContextProps {
   network: Network | null;
   reset: number;
   setReset: React.Dispatch<React.SetStateAction<number>>;
+  edges: DataSet<Edge>;
+  setEdges: React.Dispatch<React.SetStateAction<DataSet<Edge>>>;
 }
 
 // interface to store all items for the main content (Graph)
@@ -136,6 +138,8 @@ export const SideBarRightContext = createContext<SideBarRightContextProps>({
   network: null,
   reset: 0,
   setReset: () => {},
+  edges: new DataSet<Edge>(),
+  setEdges: () => {},
 });
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -510,6 +514,8 @@ export default function Home() {
               network,
               reset,
               setReset,
+              edges,
+              setEdges,
             }}
           >
             <SideBarRight />

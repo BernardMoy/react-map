@@ -35,6 +35,8 @@ export default function SideBarRight() {
     network,
     reset,
     setReset,
+    edges,
+    setEdges,
   } = useContext(SideBarRightContext);
 
   // error to show below button
@@ -74,6 +76,19 @@ export default function SideBarRight() {
     // select all nodes in the route
     console.log("Route: " + route);
     network?.selectNodes(route, true);
+
+    // for each adjacent element in the route, add to the set
+    const routeEdgeSet = new Set<string>();
+    for (let i = 0; i < route.length - 1; i++) {
+      routeEdgeSet.add(`${String(route[i])}>${String(route[i + 1])}`); // convert the idtype to hashable string
+    }
+
+    const edgeList = edges.get();
+    for (const edge of edgeList) {
+      console.log(edge);
+    }
+
+    console.log(routeEdgeSet);
   };
 
   return (
