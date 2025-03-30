@@ -50,7 +50,10 @@ export default function NewNodeDialog({
   };
 
   const validateNodeName = (value: string): boolean => {
-    if (graph.hasNode(value)) {
+    if (value.includes("<") || value.includes(">")) {
+      setError("'<' and '>' are not allowed in node names"); // so they can be used for reserved characters idtype -> string
+      return false;
+    } else if (graph.hasNode(value)) {
       setError("This node name already exists");
       return false;
     } else {
