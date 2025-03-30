@@ -169,10 +169,7 @@ export default function SideBarRight() {
         {/* Hint for disabled buttons when selected is null and either of the route start end are null */}
         {selectedNodeID == null &&
           (routeStartNodeID == null || routeEndNodeID == null) && (
-            <Typography variant="body1">
-              {" "}
-              Please select a node first.
-            </Typography>
+            <Typography variant="body1">Please select a node first.</Typography>
           )}
 
         {/* Input for route start */}

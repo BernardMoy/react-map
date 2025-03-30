@@ -294,6 +294,8 @@ export default function TopBar() {
         setLines={setLines}
         reset={reset}
         setReset={setReset}
+        setRouteStartNodeID={setRouteStartNodeID}
+        setRouteEndNodeID={setRouteEndNodeID}
       />
     </Box>
   );

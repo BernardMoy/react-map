@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import CustomButton from "./CustomButton";
-import { DataSet, Node, Edge } from "vis-network/standalone";
+import { DataSet, Node, Edge, IdType } from "vis-network/standalone";
 import { Graph } from "./Graph";
 import { Line } from "../pages/Home";
 import loadFromJson from "./JsonLoader";
@@ -21,6 +21,8 @@ interface Props {
   setLines: React.Dispatch<React.SetStateAction<Line[]>>;
   reset: number;
   setReset: React.Dispatch<React.SetStateAction<number>>;
+  setRouteStartNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
+  setRouteEndNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
 }
 
 export default function UploadFileDialog({
@@ -33,6 +35,8 @@ export default function UploadFileDialog({
   setLines,
   reset,
   setReset,
+  setRouteStartNodeID,
+  setRouteEndNodeID,
 }: Props) {
   const handleClose = () => {
     // directly close the dialog
@@ -53,6 +57,10 @@ export default function UploadFileDialog({
       reset,
       setReset
     );
+
+    // reset the route start and route end node id
+    setRouteStartNodeID(null);
+    setRouteEndNodeID(null);
 
     // close the dialog at the end
     setOpen(false);
