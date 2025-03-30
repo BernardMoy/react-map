@@ -37,8 +37,14 @@ export class Graph {
     return this;
   }
 
-  // method to add edge
-  addEdge(fromNode: IdType, toNode: IdType, weight: number, line: Line): Graph {
+  // method to add edge (UNIDIRECTIONAL)
+  addEdge(
+    fromNode: IdType,
+    toNode: IdType,
+    weight: number,
+    line: Line,
+    bidirectional: boolean
+  ): Graph {
     // add node is called before add edge, so can assume the keys exist in the graph
     // add the from -> to edge
     if (this.adj.has(fromNode)) {
@@ -46,11 +52,13 @@ export class Graph {
         .get(fromNode)
         ?.push({ node: toNode, weight: weight, line: line });
     }
-    // add the to -> from edge
-    if (this.adj.has(toNode)) {
-      this.adj
-        .get(toNode)
-        ?.push({ node: fromNode, weight: weight, line: line });
+    // add the to -> from edge if bidirectional
+    if (bidirectional) {
+      if (this.adj.has(toNode)) {
+        this.adj
+          .get(toNode)
+          ?.push({ node: fromNode, weight: weight, line: line });
+      }
     }
 
     return this;
