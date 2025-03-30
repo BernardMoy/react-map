@@ -75,7 +75,6 @@ export default function SideBarRight() {
 
     // select all nodes in the route
     console.log("Route: " + route);
-    network?.selectNodes(route, true);
 
     // for each adjacent element in the route, add to the set
     const routeEdgeSet = new Set<string>();
@@ -84,11 +83,16 @@ export default function SideBarRight() {
     }
 
     const edgeList = edges.get();
+    const selectEdgeList = [];
     for (const edge of edgeList) {
-      console.log(edge);
+      const edgeString = `${String(edge.from)}>${String(edge.to)}`; // convert to hashable string format
+      // mark true if the edge is in the route edge set
+      if (routeEdgeSet.has(edgeString)) {
+        selectEdgeList.push(edge.id);
+      }
     }
 
-    console.log(routeEdgeSet);
+    network?.setSelection({ nodes: route, edges: selectEdgeList });
   };
 
   return (
