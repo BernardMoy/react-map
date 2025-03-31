@@ -1,14 +1,18 @@
 import {
   Drawer,
   Icon,
+  IconButton,
+  InputAdornment,
   List,
   ListItem,
   ListItemText,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useContext, useState } from "react";
 import { Box } from "@mui/material";
 import CustomButton from "./CustomButton";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   BACKGROUND_COLOR,
   CONTENT_MARGIN,
@@ -31,6 +35,8 @@ export default function SideBar() {
   const onLinesClicked = () => {
     setTabNumber(1);
   };
+
+  const [stationsSearchText, setStationsSearchText] = useState("");
 
   return (
     <Drawer
@@ -71,8 +77,28 @@ export default function SideBar() {
         </Box>
 
         <List>
-          {tabNumber === 0
-            ? graph.getNode().map((value, index) => (
+          {tabNumber === 0 ? (
+            <Box
+              display="flex"
+              flexDirection="column"
+              gap={CONTENT_MARGIN}
+              alignItems="center"
+            >
+              {/* The search field */}
+              <Box display="flex" gap={CONTENT_MARGIN} alignItems="end">
+                <SearchIcon color="secondary" />
+                <TextField
+                  id="stationsSearchField"
+                  variant="standard"
+                  label="Search stations"
+                  color="secondary"
+                  type="text"
+                  onChange={(text) => setStationsSearchText(text.target.value)}
+                />
+              </Box>
+
+              {/* Display a list of stations */}
+              {graph.getNode().map((value, index) => (
                 // unique keys are necessary here
                 <ListItem
                   key={`station ${index}`}
@@ -89,16 +115,19 @@ export default function SideBar() {
                 >
                   <ListItemText primary={value} />
                 </ListItem>
-              ))
-            : lines.map((value, index) => (
-                // display a list of lines with name and color
-                <ListItem key={`line ${index}`}>
-                  <Box display="flex" gap={CONTENT_MARGIN} alignItems="center">
-                    <CircleIcon style={{ color: value.lineColor }} />
-                    <ListItemText primary={value.lineName} />
-                  </Box>
-                </ListItem>
               ))}
+            </Box>
+          ) : (
+            lines.map((value, index) => (
+              // display a list of lines with name and color
+              <ListItem key={`line ${index}`}>
+                <Box display="flex" gap={CONTENT_MARGIN} alignItems="center">
+                  <CircleIcon style={{ color: value.lineColor }} />
+                  <ListItemText primary={value.lineName} />
+                </Box>
+              </ListItem>
+            ))
+          )}
         </List>
 
         {/* The text saying there are no stations or no lines */}
