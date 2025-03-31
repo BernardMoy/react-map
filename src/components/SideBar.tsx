@@ -98,24 +98,27 @@ export default function SideBar() {
               </Box>
 
               {/* Display a list of stations */}
-              {graph.getNode().map((value, index) => (
-                // unique keys are necessary here
-                <ListItem
-                  key={`station ${index}`}
-                  onClick={() => {
-                    // set focus for the node
-                    network?.focus(value);
-                  }}
-                  sx={{
-                    cursor: "pointer",
-                    ":hover": {
-                      backgroundColor: BACKGROUND_COLOR,
-                    },
-                  }}
-                >
-                  <ListItemText primary={value} />
-                </ListItem>
-              ))}
+              {graph
+                .getNode()
+                .filter((word) => word.toString().includes(stationsSearchText))
+                .map((value, index) => (
+                  // unique keys are necessary here
+                  <ListItem
+                    key={`station ${index}`}
+                    onClick={() => {
+                      // set focus for the node
+                      network?.focus(value);
+                    }}
+                    sx={{
+                      cursor: "pointer",
+                      ":hover": {
+                        backgroundColor: BACKGROUND_COLOR,
+                      },
+                    }}
+                  >
+                    <ListItemText primary={value} />
+                  </ListItem>
+                ))}
             </Box>
           ) : (
             lines.map((value, index) => (
