@@ -19,7 +19,7 @@ import React, { createContext, useEffect, useRef, useState } from "react";
 import { DataSet, Edge, IdType, Network, Node } from "vis-network/standalone";
 import NewNodeDialog from "../components/NewNodeDialog";
 import NewEdgeDialog from "../components/NewEdgeDialog";
-import { Graph } from "../components/Graph";
+import { FullRoute, Graph } from "../components/Graph";
 import SideBarRight from "../components/SideBarRight";
 
 // each line const of a name and color (Both strings)
@@ -85,6 +85,8 @@ interface SideBarRightContextProps {
   setEdgeTempMap: React.Dispatch<React.SetStateAction<Map<IdType, string>>>;
   nodeTempSet: Set<IdType>;
   setNodeTempSet: React.Dispatch<React.SetStateAction<Set<IdType>>>;
+  route: FullRoute | null;
+  setRoute: React.Dispatch<React.SetStateAction<FullRoute | null>>;
 }
 
 // interface to store all items for the main content (Graph)
@@ -153,6 +155,8 @@ export const SideBarRightContext = createContext<SideBarRightContextProps>({
   setEdgeTempMap: () => {},
   nodeTempSet: new Set(),
   setNodeTempSet: () => {},
+  route: null,
+  setRoute: () => {},
 });
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -228,6 +232,9 @@ export default function Home() {
     new Map()
   );
   const [nodeTempSet, setNodeTempSet] = useState<Set<IdType>>(new Set());
+
+  // store the FullRoute object that is loaded on "Find route"
+  const [route, setRoute] = useState<FullRoute | null>(null);
 
   // prevent exiting the window if there are unsaved changes
   useEffect(() => {
@@ -347,6 +354,9 @@ export default function Home() {
     setSelectedNodeIDPrev(null);
     selectedNodeIDRef.current = null;
     setSelectedEdgeID(null);
+
+    // reset the route
+    setRoute(null);
 
     // calculate the graph height after subtracting the topbar height
     const topBarHeight = document.getElementById("topBar")?.offsetHeight || 0;
@@ -562,6 +572,8 @@ export default function Home() {
               setEdgeTempMap,
               nodeTempSet,
               setNodeTempSet,
+              route,
+              setRoute,
             }}
           >
             <SideBarRight />

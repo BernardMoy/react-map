@@ -7,10 +7,13 @@ import {
   Typography,
 } from "@mui/material";
 import CustomButton from "./CustomButton";
+import { IdType } from "vis-network";
+import { Destination, FullRoute } from "./Graph";
 
 interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
+  route: FullRoute | null;
 }
 
 export default function ViewRouteDialog({ open, setOpen }: Props) {

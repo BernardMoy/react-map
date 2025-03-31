@@ -8,6 +8,12 @@ export interface Destination {
   weight: number;
   line: Line;
 }
+
+export interface FullRoute {
+  start: IdType;
+  route: Destination[];
+}
+
 export class Graph {
   // Map of type {s1: [(d1, w1, l1), ...], s2:...}
   private adj: Map<IdType, Destination[]>;
@@ -128,10 +134,7 @@ export class Graph {
 
   // method to generate the shortest route between two ids
   // return a list of (node, weight, line) object with the FIRST NODE NOT THERE (It is in start)
-  findShortestRoute(
-    startNodeID: IdType,
-    endNodeID: IdType
-  ): { start: IdType; route: Destination[] } {
+  findShortestRoute(startNodeID: IdType, endNodeID: IdType): FullRoute {
     // distance of all nodes to the source
     let d = new Map<IdType, number>();
     d.set(startNodeID, 0); // mark source as distance 0

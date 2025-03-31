@@ -53,6 +53,8 @@ export default function SideBarRight() {
     setEdgeTempMap,
     nodeTempSet,
     setNodeTempSet,
+    route,
+    setRoute,
   } = useContext(SideBarRightContext);
 
   // error to show below button
@@ -92,10 +94,9 @@ export default function SideBarRight() {
     }
 
     // find route
-    const { start, route } = graph.findShortestRoute(
-      routeStartNodeID,
-      routeEndNodeID
-    );
+    const fullRoute = graph.findShortestRoute(routeStartNodeID, routeEndNodeID);
+    setRoute(fullRoute);
+    const { start, route } = fullRoute;
     if (route.length === 0) {
       setError("The end node is unreachable from the start");
       return;
@@ -329,7 +330,7 @@ export default function SideBarRight() {
             color="primary"
             startIcon={<ViewHeadlineIcon />}
             onClick={() => setOpenViewRouteDialog(true)}
-            enabled={routeStartNodeID != null && routeEndNodeID != null} // only allow clicking when both are not null
+            enabled={route != null} // only allow clicking when both are not null
           />
         </Box>
 
@@ -344,6 +345,7 @@ export default function SideBarRight() {
         <ViewRouteDialog
           open={openViewRouteDialog}
           setOpen={setOpenViewRouteDialog}
+          route={route}
         />
       </Box>
     </Drawer>
