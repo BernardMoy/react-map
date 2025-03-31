@@ -14,6 +14,7 @@ import NavigationIcon from "@mui/icons-material/Navigation";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import CancelIcon from "@mui/icons-material/Cancel";
 import FlagIcon from "@mui/icons-material/Flag";
+import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 import {
   BACKGROUND_COLOR,
   CONTENT_MARGIN,
@@ -28,6 +29,7 @@ import {
 import { SideBarRightContext } from "../pages/Home";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { IdType } from "vis-network";
+import ViewRouteDialog from "./ViewRouteDialog";
 
 export default function SideBarRight() {
   // get the context
@@ -54,6 +56,9 @@ export default function SideBarRight() {
 
   // error to show below button
   const [error, setError] = useState("");
+
+  // dialog state
+  const [openViewRouteDialog, setOpenViewRouteDialog] = useState(false);
 
   // handler for clicking of the buttons
   const handleSetStartNode = () => {
@@ -308,12 +313,30 @@ export default function SideBarRight() {
           />
         </Box>
 
+        {/* The view route button */}
+        <Box>
+          <CustomButton
+            text="View route"
+            variant="contained"
+            color="primary"
+            startIcon={<ViewHeadlineIcon />}
+            onClick={() => setOpenViewRouteDialog(true)}
+            enabled={routeStartNodeID != null && routeEndNodeID != null} // only allow clicking when both are not null
+          />
+        </Box>
+
         {/* Error message */}
         {
           <Typography variant="body1" color="error" alignItems={"center"}>
             {error}
           </Typography>
         }
+
+        {/* View route dialog */}
+        <ViewRouteDialog
+          open={openViewRouteDialog}
+          setOpen={setOpenViewRouteDialog}
+        />
       </Box>
     </Drawer>
   );
