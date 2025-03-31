@@ -13,10 +13,12 @@ import { useContext, useState } from "react";
 import { Box } from "@mui/material";
 import CustomButton from "./CustomButton";
 import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   BACKGROUND_COLOR,
   CONTENT_MARGIN,
   DRAWER_WIDTH,
+  GRAY_COLOR,
   TITLE_MARGIN,
 } from "./Values";
 import { SideBarContext } from "../pages/Home";
@@ -85,7 +87,7 @@ export default function SideBar() {
               alignItems="center"
             >
               {/* The search field */}
-              <Box display="flex" gap={CONTENT_MARGIN} alignItems="end">
+              <Box display="flex" alignItems="end">
                 <SearchIcon color="secondary" />
                 <TextField
                   id="stationsSearchField"
@@ -93,8 +95,13 @@ export default function SideBar() {
                   label="Search stations"
                   color="secondary"
                   type="text"
+                  sx={{ ml: CONTENT_MARGIN }}
+                  value={stationsSearchText}
                   onChange={(text) => setStationsSearchText(text.target.value)}
                 />
+                <IconButton onClick={() => setStationsSearchText("")}>
+                  <CloseIcon color="disabled" />
+                </IconButton>
               </Box>
 
               {/* Display a list of stations */}
