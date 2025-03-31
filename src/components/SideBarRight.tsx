@@ -30,6 +30,7 @@ import { SideBarRightContext } from "../pages/Home";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { IdType } from "vis-network";
 import ViewRouteDialog from "./ViewRouteDialog";
+import { Destination } from "./Graph";
 
 export default function SideBarRight() {
   // get the context
@@ -91,12 +92,15 @@ export default function SideBarRight() {
     }
 
     // find route
-    const route = graph.findShortestRoute(routeStartNodeID, routeEndNodeID);
+    const { start, route } = graph.findShortestRoute(
+      routeStartNodeID,
+      routeEndNodeID
+    );
     if (route.length === 0) {
       setError("The end node is unreachable from the start");
       return;
     }
-    console.log("Route: " + route);
+    console.log("Route: " + JSON.stringify(route));
 
     /* reset the node temp set and edge temp map  */
     // restore the nodes in the node temp set by restoring the original node colors
@@ -114,14 +118,17 @@ export default function SideBarRight() {
     setEdgeTempMap(new Map());
 
     /* NODES */
-    for (const nodeID of route.slice(1, route.length - 1)) {
+    for (const destination of route.slice(1, route.length - 1)) {
       // change the node color
-      nodes.update({ id: nodeID, color: NODE_COLOR_ROUTE_HIGHLIGHTED });
+      nodes.update({
+        id: destination.node,
+        color: NODE_COLOR_ROUTE_HIGHLIGHTED,
+      });
 
       // add the node to the temp set
       setNodeTempSet((prev) => {
         const newSet = new Set(prev);
-        newSet.add(nodeID);
+        newSet.add(destination.node);
         return newSet;
       });
     }
@@ -140,8 +147,9 @@ export default function SideBarRight() {
     // for each adjacent element in the route, add to the set
     const routeEdgeSet = new Set<string>();
     for (let i = 0; i < route.length - 1; i++) {
-      routeEdgeSet.add(`${String(route[i])}>${String(route[i + 1])}`); // convert the idtype to hashable string
+      routeEdgeSet.add(`${String(route[i].node)}>${String(route[i + 1].node)}`); // convert the idtype to hashable string
     }
+    routeEdgeSet.add(`${String(start)}>${String(route[0].node)}`); // add the start node
 
     const edgeList = edges.get();
     const selectEdgeList = [];

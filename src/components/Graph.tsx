@@ -127,13 +127,17 @@ export class Graph {
   }
 
   // method to generate the shortest route between two ids
-  findShortestRoute(startNodeID: IdType, endNodeID: IdType): IdType[] {
+  // return a list of (node, weight, line) object with the FIRST NODE NOT THERE (It is in start)
+  findShortestRoute(
+    startNodeID: IdType,
+    endNodeID: IdType
+  ): { start: IdType; route: Destination[] } {
     // distance of all nodes to the source
     let d = new Map<IdType, number>();
     d.set(startNodeID, 0); // mark source as distance 0
 
     // map to store node to their parent
-    let parents = new Map<IdType, IdType | null>();
+    let parents = new Map<IdType, Destination | null>(); // the start node has value = null
     parents.set(startNodeID, null); // mark source as parent = null
 
     // priority queue
@@ -162,12 +166,16 @@ export class Graph {
         // newly visited neighbour
         if (!d.has(node)) {
           d.set(node, d.get(currentNode)! + weight);
-          parents.set(node, currentNode); // only set parent when the node is not start id because the start has to be null
+          parents.set(node, { node: currentNode, weight: weight, line: line }); // only set parent when the node is not start id because the start has to be null
         } else {
           const newDistance = d.get(currentNode)! + weight;
           if (newDistance < d.get(node)!) {
             d.set(node, newDistance);
-            parents.set(node, currentNode); // only set parent when the new distance is shorter
+            parents.set(node, {
+              node: currentNode,
+              weight: weight,
+              line: line,
+            }); // only set parent when the new distance is shorter
           }
         }
 
@@ -181,18 +189,20 @@ export class Graph {
 
     // if the end node is not in d, it is unreachable
     if (!d.has(endNodeID)) {
-      return []; // return empty if unreachable
+      return { start: startNodeID, route: [] }; // return empty if unreachable
     }
 
     // extract the route by iterating the parents in reverse
-    let route: IdType[] = [];
-    let currentParent: IdType = endNodeID;
-    while (currentParent != null) {
-      route.unshift(currentParent); // add parent to front
-      currentParent = parents.get(currentParent)!;
+    let route: Destination[] = [];
+    let currentNode: IdType = endNodeID;
+
+    while (parents.get(currentNode)) {
+      const { node, weight, line } = parents.get(currentNode)!;
+      route.unshift({ node: currentNode, weight: weight, line: line }); // use new node, keep current weight and line
+      currentNode = node;
     }
 
     // return the final route in reverse
-    return route;
+    return { start: startNodeID, route: route };
   }
 }
