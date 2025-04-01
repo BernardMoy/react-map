@@ -96,7 +96,8 @@ export default function SideBarRight() {
     // find route
     const fullRoute = graph.findShortestRoute(routeStartNodeID, routeEndNodeID);
     setRoute(fullRoute);
-    const { start, route } = fullRoute;
+    const start = fullRoute.getStart();
+    const route = fullRoute.getRoute();
     if (route.length === 0) {
       setError("The end node is unreachable from the start");
       return;

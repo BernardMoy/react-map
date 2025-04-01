@@ -1,17 +1,13 @@
 import { Edge, IdType } from "vis-network/standalone";
 import { Line } from "../pages/Home";
 import FastPriorityQueue from "fastpriorityqueue";
+import { FullRoute } from "./FullRoute";
 
 // define the type stored in the adjacency list (DestinationID, weight, Line)
 export interface Destination {
   node: IdType;
   weight: number;
   line: Line;
-}
-
-export interface FullRoute {
-  start: IdType;
-  route: Destination[];
 }
 
 export class Graph {
@@ -192,7 +188,7 @@ export class Graph {
 
     // if the end node is not in d, it is unreachable
     if (!d.has(endNodeID)) {
-      return { start: startNodeID, route: [] }; // return empty if unreachable
+      return new FullRoute(startNodeID, []); // return empty if unreachable
     }
 
     // extract the route by iterating the parents in reverse
@@ -206,6 +202,6 @@ export class Graph {
     }
 
     // return the final route in reverse
-    return { start: startNodeID, route: route };
+    return new FullRoute(startNodeID, route);
   }
 }

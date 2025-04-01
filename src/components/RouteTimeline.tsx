@@ -2,7 +2,7 @@ import { IdType } from "vis-network";
 import { Line } from "../pages/Home";
 import { Box, Typography, useTheme } from "@mui/material";
 import { CONTENT_MARGIN } from "./Values";
-import { theme } from "@chakra-ui/react";
+import CommitIcon from "@mui/icons-material/Commit";
 import {
   Timeline,
   TimelineItem,
@@ -44,6 +44,7 @@ export default function RouteTimeline({ line, stations }: Leg) {
         }}
         color={lineNameTextColor}
       >
+        <CommitIcon sx={{ color: lineNameTextColor }} />
         <Typography variant="body1" flexGrow={1}>
           {line.lineName}
         </Typography>

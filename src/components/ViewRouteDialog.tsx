@@ -8,7 +8,8 @@ import {
 } from "@mui/material";
 import CustomButton from "./CustomButton";
 import { IdType } from "vis-network";
-import { Destination, FullRoute } from "./Graph";
+import { Destination } from "./Graph";
+import { FullRoute } from "./FullRoute";
 import RouteTimeline from "./RouteTimeline";
 import { VIEW_ROUTE_DIALOG_MIN_WIDTH } from "./Values";
 
