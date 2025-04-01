@@ -16,3 +16,4 @@ export const GRAY_COLOR = "#c9c9c9";
 export const NODE_COLOR_ROUTE_HIGHLIGHTED = "#fcd7e8";
 export const NODE_COLOR_ROUTE_START = "#96e5ff";
 export const NODE_COLOR_ROUTE_END = "#b2ebb7";
+export const VIEW_ROUTE_DIALOG_MIN_WIDTH = "500px";

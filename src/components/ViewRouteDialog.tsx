@@ -9,6 +9,8 @@ import {
 import CustomButton from "./CustomButton";
 import { IdType } from "vis-network";
 import { Destination, FullRoute } from "./Graph";
+import RouteTimeline from "./RouteTimeline";
+import { VIEW_ROUTE_DIALOG_MIN_WIDTH } from "./Values";
 
 interface Props {
   open: boolean;
@@ -26,13 +28,25 @@ export default function ViewRouteDialog({ open, setOpen }: Props) {
   };
 
   return (
-    <Dialog open={open}>
+    <Dialog
+      open={open}
+      slotProps={{ paper: { sx: { minWidth: VIEW_ROUTE_DIALOG_MIN_WIDTH } } }} // override default
+    >
       <DialogTitle> View Route </DialogTitle>
 
       <form onSubmit={handleSubmit}>
         {/* Route information content goes here */}
         <DialogContent>
-          <Typography variant="body1">Text goes here</Typography>
+          {
+            <RouteTimeline
+              line={{ lineName: "Blue", lineColor: "#bde3ff" }}
+              stations={[
+                { node: "abc", timeElapsed: 0 },
+                { node: "abc2", timeElapsed: 5 },
+                { node: "abc3", timeElapsed: 8 },
+              ]}
+            />
+          }
         </DialogContent>
 
         {/* The confirm buttons */}
