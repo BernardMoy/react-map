@@ -7,11 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 import CustomButton from "./CustomButton";
-import { IdType } from "vis-network";
-import { Destination } from "./Graph";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { FullRoute } from "./FullRoute";
 import RouteTimeline from "./RouteTimeline";
-import { VIEW_ROUTE_DIALOG_MIN_WIDTH } from "./Values";
+import { CONTENT_MARGIN, VIEW_ROUTE_DIALOG_MIN_WIDTH } from "./Values";
 
 interface Props {
   open: boolean;
@@ -36,8 +35,28 @@ export default function ViewRouteDialog({ open, setOpen, route }: Props) {
       <DialogTitle> View Route </DialogTitle>
 
       <form onSubmit={handleSubmit}>
-        {/* Route information content goes here */}
         <DialogContent>
+          {/* General route details */}
+          <Box
+            display="flex"
+            flexDirection="row"
+            gap={CONTENT_MARGIN}
+            mb={CONTENT_MARGIN}
+            alignItems="center"
+          >
+            <Typography variant="h5" color="primary">
+              {route?.getStart()}
+            </Typography>
+            <ArrowRightAltIcon color="primary" />
+            <Typography variant="h5" color="primary">
+              {route?.getEnd()}
+            </Typography>
+            <Typography variant="h5" color="primary">
+              ({route?.getTotalTime()} mins)
+            </Typography>
+          </Box>
+
+          {/* Route information content goes here */}
           {route?.fullRouteToLegs().map((value, index) => (
             <RouteTimeline line={value.line} stations={value.stations} />
           ))}

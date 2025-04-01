@@ -48,7 +48,7 @@ export default function RouteTimeline({ line, stations }: Leg) {
         <Typography variant="body1" flexGrow={1}>
           {line.lineName}
         </Typography>
-        <Typography variant="body1">{totalTime}</Typography>
+        <Typography variant="body1">{totalTime} mins</Typography>
         <Typography variant="body1">({numberOfStops} stops)</Typography>
       </Box>
 
@@ -63,7 +63,7 @@ export default function RouteTimeline({ line, stations }: Leg) {
         {/* First item */}
         <TimelineItem>
           <TimelineOppositeContent color="textSecondary">
-            0
+            Start
           </TimelineOppositeContent>
           <TimelineSeparator>
             <TimelineDot sx={{ bgcolor: "black" }} />
@@ -85,7 +85,7 @@ export default function RouteTimeline({ line, stations }: Leg) {
         {stations.slice(1, stations.length - 1).map((value, index) => (
           <TimelineItem>
             <TimelineOppositeContent color="textSecondary">
-              {index + 1}
+              Stop {index + 1}
             </TimelineOppositeContent>
             <TimelineSeparator>
               <TimelineDot sx={{ bgcolor: "black" }} />
@@ -107,7 +107,7 @@ export default function RouteTimeline({ line, stations }: Leg) {
         {/* Last item without the connector */}
         <TimelineItem>
           <TimelineOppositeContent color="textSecondary">
-            {stations.length - 1}
+            Stop {stations.length - 1}
           </TimelineOppositeContent>
           <TimelineSeparator>
             <TimelineDot sx={{ bgcolor: "black" }} />

@@ -20,6 +20,16 @@ export class FullRoute {
   getRoute(): Destination[] {
     return this.route;
   }
+  getEnd(): IdType {
+    return this.route[this.route.length - 1].node;
+  }
+  getTotalTime(): number {
+    let total = 0;
+    for (const destination of this.route) {
+      total += destination.weight;
+    }
+    return total;
+  }
 
   // convert a fullroute object to a list of lege
   fullRouteToLegs(): Leg[] {
@@ -32,6 +42,7 @@ export class FullRoute {
     currentStations.push({ node: this.start, timeElapsed: currentTime });
 
     for (const [index, fullRoute] of this.route.entries()) {
+      // if the current line is different, cut the current line
       if (
         fullRoute.line.lineName.toString() != currentLine.lineName.toString()
       ) {
