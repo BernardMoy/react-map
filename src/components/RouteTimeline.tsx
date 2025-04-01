@@ -10,6 +10,8 @@ import {
   TimelineDot,
   TimelineConnector,
   TimelineContent,
+  timelineOppositeContentClasses,
+  TimelineOppositeContent,
 } from "@mui/lab";
 
 // the purpose of this interface is simply to display those data
@@ -31,7 +33,7 @@ export default function RouteTimeline({ line, stations }: Leg) {
     stations[stations.length - 1].timeElapsed - stations[0].timeElapsed;
 
   return (
-    <Box display="flex" flexDirection={"column"} gap={CONTENT_MARGIN}>
+    <Box display="flex" flexDirection={"column"}>
       {/* Line details */}
       <Box
         display="flex"
@@ -50,26 +52,75 @@ export default function RouteTimeline({ line, stations }: Leg) {
       </Box>
 
       {/* Route details */}
-      <Timeline>
+      <Timeline
+        sx={{
+          [`& .${timelineOppositeContentClasses.root}`]: {
+            flex: 0.2,
+          },
+        }}
+      >
+        {/* First item */}
         <TimelineItem>
+          <TimelineOppositeContent color="textSecondary">
+            0
+          </TimelineOppositeContent>
           <TimelineSeparator>
-            <TimelineDot />
-            <TimelineConnector />
+            <TimelineDot sx={{ bgcolor: "black" }} />
+            <TimelineConnector sx={{ bgcolor: line.lineColor }} />
           </TimelineSeparator>
-          <TimelineContent>Eat</TimelineContent>
+          <TimelineContent>
+            <Box display="flex" flexDirection="row" gap={CONTENT_MARGIN}>
+              <Typography variant="body1" flexGrow={1}>
+                {stations[0].node}
+              </Typography>
+              <Typography variant="body1" color="textSecondary">
+                {stations[0].timeElapsed} min elapsed
+              </Typography>
+            </Box>
+          </TimelineContent>
         </TimelineItem>
+
+        {/* Subsequent items */}
+        {stations.slice(1, stations.length - 1).map((value, index) => (
+          <TimelineItem>
+            <TimelineOppositeContent color="textSecondary">
+              {index + 1}
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineDot sx={{ bgcolor: "black" }} />
+              <TimelineConnector sx={{ bgcolor: line.lineColor }} />
+            </TimelineSeparator>
+            <TimelineContent>
+              <Box display="flex" flexDirection="row" gap={CONTENT_MARGIN}>
+                <Typography variant="body1" flexGrow={1}>
+                  {value.node}
+                </Typography>
+                <Typography variant="body1" color="textSecondary">
+                  {value.timeElapsed} min elapsed
+                </Typography>
+              </Box>
+            </TimelineContent>
+          </TimelineItem>
+        ))}
+
+        {/* Last item without the connector */}
         <TimelineItem>
+          <TimelineOppositeContent color="textSecondary">
+            {stations.length - 1}
+          </TimelineOppositeContent>
           <TimelineSeparator>
-            <TimelineDot />
-            <TimelineConnector />
+            <TimelineDot sx={{ bgcolor: "black" }} />
           </TimelineSeparator>
-          <TimelineContent>Code</TimelineContent>
-        </TimelineItem>
-        <TimelineItem>
-          <TimelineSeparator>
-            <TimelineDot />
-          </TimelineSeparator>
-          <TimelineContent>Sleep</TimelineContent>
+          <TimelineContent>
+            <Box display="flex" flexDirection="row" gap={CONTENT_MARGIN}>
+              <Typography variant="body1" flexGrow={1}>
+                {stations[stations.length - 1].node}
+              </Typography>
+              <Typography variant="body1" color="textSecondary">
+                {stations[stations.length - 1].timeElapsed} min elapsed
+              </Typography>
+            </Box>
+          </TimelineContent>
         </TimelineItem>
       </Timeline>
     </Box>
