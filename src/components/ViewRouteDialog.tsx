@@ -19,7 +19,7 @@ interface Props {
   route: FullRoute | null;
 }
 
-export default function ViewRouteDialog({ open, setOpen }: Props) {
+export default function ViewRouteDialog({ open, setOpen, route }: Props) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     // prevent full page refresh
     event.preventDefault();
@@ -38,16 +38,9 @@ export default function ViewRouteDialog({ open, setOpen }: Props) {
       <form onSubmit={handleSubmit}>
         {/* Route information content goes here */}
         <DialogContent>
-          {
-            <RouteTimeline
-              line={{ lineName: "Blue", lineColor: "#bde3ff" }}
-              stations={[
-                { node: "abc", timeElapsed: 0 },
-                { node: "abc2", timeElapsed: 5 },
-                { node: "abc3", timeElapsed: 8 },
-              ]}
-            />
-          }
+          {route?.fullRouteToLegs().map((value, index) => (
+            <RouteTimeline line={value.line} stations={value.stations} />
+          ))}
         </DialogContent>
 
         {/* The confirm buttons */}

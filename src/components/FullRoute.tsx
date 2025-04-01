@@ -3,6 +3,8 @@ import { Destination } from "./Graph";
 import { Leg } from "./RouteTimeline";
 import { Line } from "../pages/Home";
 
+// The fullRoute class is used to display the route on the screen
+// The Leg[] class is used to display the route in detail with lines classified
 export class FullRoute {
   private start: IdType;
   private route: Destination[];
@@ -29,17 +31,24 @@ export class FullRoute {
     // add the start station
     currentStations.push({ node: this.start, timeElapsed: currentTime });
 
-    for (const fullRoute of this.route) {
-      currentTime += fullRoute.weight;
-      if (fullRoute.line != currentLine) {
+    for (const [index, fullRoute] of this.route.entries()) {
+      if (
+        fullRoute.line.lineName.toString() != currentLine.lineName.toString()
+      ) {
         // if different line, push the current stations and reset it with the new one
-        result.push({ line: fullRoute.line, stations: currentStations });
+        result.push({ line: currentLine, stations: currentStations });
         currentLine = fullRoute.line;
-        currentStations = [{ node: fullRoute.node, timeElapsed: currentTime }];
-      } else {
-        // push to current stations
-        currentStations = [{ node: fullRoute.node, timeElapsed: currentTime }];
+        currentStations = [
+          { node: this.route[index - 1].node, timeElapsed: currentTime },
+        ]; // set the current stations to contain the previous value
       }
+
+      // push to current stations
+      currentTime += fullRoute.weight;
+      currentStations.push({
+        node: fullRoute.node,
+        timeElapsed: currentTime,
+      });
     }
 
     // add the last result
