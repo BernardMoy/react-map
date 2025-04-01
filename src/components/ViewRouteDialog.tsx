@@ -48,10 +48,18 @@ export default function ViewRouteDialog({ open, setOpen, route }: Props) {
               {route?.getStart()}
             </Typography>
             <ArrowRightAltIcon color="primary" />
-            <Typography variant="h5" color="primary">
+            <Typography
+              variant="h5"
+              color="primary"
+              sx={{ wordBreak: "break-word" }}
+            >
               {route?.getEnd()}
             </Typography>
-            <Typography variant="h5" color="primary">
+            <Typography
+              variant="h5"
+              color="primary"
+              sx={{ wordBreak: "break-word" }}
+            >
               ({route?.getTotalTime()} mins)
             </Typography>
           </Box>

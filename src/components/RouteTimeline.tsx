@@ -71,7 +71,11 @@ export default function RouteTimeline({ line, stations }: Leg) {
           </TimelineSeparator>
           <TimelineContent>
             <Box display="flex" flexDirection="row" gap={CONTENT_MARGIN}>
-              <Typography variant="body1" flexGrow={1}>
+              <Typography
+                variant="body1"
+                flexGrow={1}
+                sx={{ wordBreak: "break-word" }}
+              >
                 {stations[0].node}
               </Typography>
               <Typography variant="body1" color="textSecondary">
@@ -93,7 +97,11 @@ export default function RouteTimeline({ line, stations }: Leg) {
             </TimelineSeparator>
             <TimelineContent>
               <Box display="flex" flexDirection="row" gap={CONTENT_MARGIN}>
-                <Typography variant="body1" flexGrow={1}>
+                <Typography
+                  variant="body1"
+                  flexGrow={1}
+                  sx={{ wordBreak: "break-word" }}
+                >
                   {value.node}
                 </Typography>
                 <Typography variant="body1" color="textSecondary">
@@ -114,7 +122,11 @@ export default function RouteTimeline({ line, stations }: Leg) {
           </TimelineSeparator>
           <TimelineContent>
             <Box display="flex" flexDirection="row" gap={CONTENT_MARGIN}>
-              <Typography variant="body1" flexGrow={1}>
+              <Typography
+                variant="body1"
+                flexGrow={1}
+                sx={{ wordBreak: "break-word" }}
+              >
                 {stations[stations.length - 1].node}
               </Typography>
               <Typography variant="body1" color="textSecondary">
