@@ -30,6 +30,7 @@ export default function ViewRouteDialog({ open, setOpen, route }: Props) {
   return (
     <Dialog
       open={open}
+      onClose={handleSubmit}
       slotProps={{ paper: { sx: { minWidth: VIEW_ROUTE_DIALOG_MIN_WIDTH } } }} // override default
     >
       <DialogTitle> View Route </DialogTitle>

@@ -124,7 +124,7 @@ export default function NewEdgeDialog({
               variant="outlined"
               label="Weight"
               color="primary"
-              type="number"
+              type="text"
               slotProps={{
                 htmlInput: {
                   min: 0,
@@ -133,7 +133,9 @@ export default function NewEdgeDialog({
               sx={{ my: CONTENT_MARGIN }}
               onChange={(text) => {
                 const textValue = text.target.value;
-                setWeightInput(textValue === "" ? 0 : parseFloat(textValue));
+                setWeightInput(
+                  textValue === "" ? 0 : parseFloat(textValue) || 0
+                );
               }}
               required // automatically creates warning when not filled in
             />

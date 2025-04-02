@@ -120,7 +120,8 @@ export default function SideBarRight() {
     setEdgeTempMap(new Map());
 
     /* NODES */
-    for (const destination of route.slice(1, route.length - 1)) {
+    for (const destination of route.slice(0, route.length - 1)) {
+      // the first one is already sliced
       // change the node color
       nodes.update({
         id: destination.node,

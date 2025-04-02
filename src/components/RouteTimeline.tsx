@@ -45,11 +45,19 @@ export default function RouteTimeline({ line, stations }: Leg) {
         color={lineNameTextColor}
       >
         <CommitIcon sx={{ color: lineNameTextColor }} />
-        <Typography variant="body1" flexGrow={1}>
+        <Typography
+          variant="body1"
+          flexGrow={1}
+          sx={{ wordBreak: "break-word" }} // only break the line name if it is long
+        >
           {line.lineName}
         </Typography>
         <Typography variant="body1">{totalTime} mins</Typography>
-        <Typography variant="body1">({numberOfStops} stops)</Typography>
+        <Typography variant="body1">
+          {numberOfStops > 1
+            ? `(${numberOfStops} stops)`
+            : `(${numberOfStops} stop)`}
+        </Typography>
       </Box>
 
       {/* Route details */}
