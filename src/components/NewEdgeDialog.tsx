@@ -47,7 +47,8 @@ export default function NewEdgeDialog({
   setLines,
 }: Props) {
   // store the input text
-  const [weightInput, setWeightInput] = useState(1);
+  const [weightInput, setWeightInput] = useState("");
+  const [error, setError] = useState("");
 
   // store the input line
   const [lineInput, setLineInput] = useState<Line | null>(null);
@@ -65,13 +66,21 @@ export default function NewEdgeDialog({
     event.preventDefault();
     const edgeID = Date.now();
 
+    // reset error
+    setError("");
+    // check if the weight can be converted to float
+    if (!parseFloat(weightInput)) {
+      setError("Invalid number");
+      return;
+    }
+
     // create the edge if arguments are correct
     if (nodeID1 != null && nodeID2 != null) {
       const newEdge = {
         id: `${edgeID}-forward`,
         from: nodeID1,
         to: nodeID2,
-        label: weightInput.toString(),
+        label: parseFloat(weightInput).toString(),
         color: lineInput ? lineInput.lineColor : DEFAULT_EDGE_COLOR,
         hidden: false,
       };
@@ -83,7 +92,7 @@ export default function NewEdgeDialog({
           id: `${edgeID}-backward`,
           from: nodeID2,
           to: nodeID1,
-          label: weightInput.toString(),
+          label: parseFloat(weightInput).toString(),
           color: lineInput ? lineInput.lineColor : DEFAULT_EDGE_COLOR,
           hidden: false,
         };
@@ -94,7 +103,7 @@ export default function NewEdgeDialog({
       graph.addEdge(
         nodeID1,
         nodeID2,
-        weightInput,
+        parseFloat(weightInput),
         lineInput || { lineName: "Unknown", lineColor: DEFAULT_EDGE_COLOR },
         bidirectional
       );
@@ -131,11 +140,11 @@ export default function NewEdgeDialog({
                 },
               }}
               sx={{ my: CONTENT_MARGIN }}
+              helperText={error}
+              error={error != null}
               onChange={(text) => {
                 const textValue = text.target.value;
-                setWeightInput(
-                  textValue === "" ? 0 : parseFloat(textValue) || 0
-                );
+                setWeightInput(textValue);
               }}
               required // automatically creates warning when not filled in
             />
