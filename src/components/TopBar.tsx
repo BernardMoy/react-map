@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { CONTENT_MARGIN, TITLE_MARGIN } from "./Values";
+import { CONTENT_MARGIN, NODE_COLOR, TITLE_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -14,6 +14,7 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { DownloadData } from "./DownloadData";
 import loadFromJson from "./JsonLoader";
 import UploadFileDialog from "./UploadFileDialog";
+import { IdType } from "vis-network";
 
 export default function TopBar() {
   // get the context
@@ -41,6 +42,10 @@ export default function TopBar() {
     setNodes,
     edges,
     setEdges,
+    edgeTempMap,
+    setEdgeTempMap,
+    nodeTempSet,
+    setNodeTempSet,
   } = useContext(TopBarContext);
 
   // state of the dialogs whether they are open
@@ -85,6 +90,21 @@ export default function TopBar() {
 
   // when the download or upload button is clicked
   const onDownloadClicked = () => {
+    /* reset the node temp set and edge temp map  */
+    // restore the nodes in the node temp set by restoring the original node colors
+    nodeTempSet.forEach((value: IdType) => {
+      nodes.update({ id: value, color: NODE_COLOR });
+    });
+    // clear the node temp set
+    setNodeTempSet(new Set());
+
+    // restore the edges in the edge temp map by setting visible and restore its color
+    edgeTempMap.forEach((value: string, key: IdType) => {
+      edges.update({ id: key, color: value, hidden: false });
+    });
+    // clear the edge temp map
+    setEdgeTempMap(new Map());
+
     // construct the downloadData object
     const downloadData: DownloadData = {
       nodes: nodes.get(),

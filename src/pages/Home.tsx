@@ -19,8 +19,9 @@ import React, { createContext, useEffect, useRef, useState } from "react";
 import { DataSet, Edge, IdType, Network, Node } from "vis-network/standalone";
 import NewNodeDialog from "../components/NewNodeDialog";
 import NewEdgeDialog from "../components/NewEdgeDialog";
-import { FullRoute, Graph } from "../components/Graph";
+import { Graph } from "../components/Graph";
 import SideBarRight from "../components/SideBarRight";
+import { FullRoute } from "../components/FullRoute";
 
 // each line const of a name and color (Both strings)
 export interface Line {
@@ -53,6 +54,10 @@ interface TopBarContextProps {
   setNodes: React.Dispatch<React.SetStateAction<DataSet<Node>>>;
   edges: DataSet<Edge>;
   setEdges: React.Dispatch<React.SetStateAction<DataSet<Edge>>>;
+  edgeTempMap: Map<IdType, string>;
+  setEdgeTempMap: React.Dispatch<React.SetStateAction<Map<IdType, string>>>;
+  nodeTempSet: Set<IdType>;
+  setNodeTempSet: React.Dispatch<React.SetStateAction<Set<IdType>>>;
 }
 
 // interface to store all items for the sidebar
@@ -124,6 +129,10 @@ export const TopBarContext = createContext<TopBarContextProps>({
   setNodes: () => {},
   edges: new DataSet<Edge>(),
   setEdges: () => {},
+  edgeTempMap: new Map(),
+  setEdgeTempMap: () => {},
+  nodeTempSet: new Set(),
+  setNodeTempSet: () => {},
 });
 
 export const SideBarContext = createContext<SideBarContextProps>({
@@ -502,6 +511,10 @@ export default function Home() {
             setNodes,
             edges,
             setEdges,
+            edgeTempMap,
+            setEdgeTempMap,
+            nodeTempSet,
+            setNodeTempSet,
           }}
         >
           <TopBar />
