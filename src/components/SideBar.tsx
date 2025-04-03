@@ -14,6 +14,7 @@ import { Box } from "@mui/material";
 import CustomButton from "./CustomButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   BACKGROUND_COLOR,
   CONTENT_MARGIN,
@@ -131,9 +132,20 @@ export default function SideBar() {
             lines.map((value, index) => (
               // display a list of lines with name and color
               <ListItem key={`line ${index}`}>
-                <Box display="flex" gap={CONTENT_MARGIN} alignItems="center">
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  width="100%" // the box must have full width
+                  gap={CONTENT_MARGIN}
+                  alignItems="center"
+                >
                   <CircleIcon style={{ color: value.lineColor }} />
-                  <ListItemText primary={value.lineName} />
+                  <ListItemText
+                    primary={value.lineName}
+                    sx={{ wordBreak: "break-word", flexGrow: 1 }}
+                  />
+
+                  <DeleteIcon color="disabled" />
                 </Box>
               </ListItem>
             ))
