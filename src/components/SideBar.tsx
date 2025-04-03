@@ -145,7 +145,17 @@ export default function SideBar() {
                     sx={{ wordBreak: "break-word", flexGrow: 1 }}
                   />
 
-                  <DeleteIcon color="disabled" />
+                  <IconButton onClick={() => {}}>
+                    <DeleteIcon color="error" />
+                  </IconButton>
+
+                  <IconButton
+                    onClick={() => {
+                      alert("Delete all edges of this line first.");
+                    }}
+                  >
+                    <DeleteIcon color="disabled" />
+                  </IconButton>
                 </Box>
               </ListItem>
             ))
