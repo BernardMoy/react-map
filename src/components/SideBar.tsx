@@ -145,17 +145,23 @@ export default function SideBar() {
                     sx={{ wordBreak: "break-word", flexGrow: 1 }}
                   />
 
-                  <IconButton onClick={() => {}}>
-                    <DeleteIcon color="error" />
-                  </IconButton>
+                  {/* If the graph does not contain this line, show a delete button */}
+                  {!graph.hasLine(value) && (
+                    <IconButton onClick={() => {}}>
+                      <DeleteIcon color="error" />
+                    </IconButton>
+                  )}
 
-                  <IconButton
-                    onClick={() => {
-                      alert("Delete all edges of this line first.");
-                    }}
-                  >
-                    <DeleteIcon color="disabled" />
-                  </IconButton>
+                  {/* Else, show a disabled delete button */}
+                  {graph.hasLine(value) && (
+                    <IconButton
+                      onClick={() => {
+                        alert("Delete all edges of this line first.");
+                      }}
+                    >
+                      <DeleteIcon color="disabled" />
+                    </IconButton>
+                  )}
                 </Box>
               </ListItem>
             ))

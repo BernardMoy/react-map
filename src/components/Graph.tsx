@@ -128,7 +128,7 @@ export class Graph {
     // iterate the graph to find the line
     for (const [key, value] of this.adj.entries()) {
       for (const dest of value) {
-        if (dest.line == line) {
+        if (dest.line.lineName.toString() == line.lineName.toString()) {
           return true;
         }
       }
