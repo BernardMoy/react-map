@@ -123,6 +123,20 @@ export class Graph {
     return this.adj.has(nodeID);
   }
 
+  // method to check if an edge of a specific line exist in the map
+  hasLine(line: Line): boolean {
+    // iterate the graph to find the line
+    for (const [key, value] of this.adj.entries()) {
+      for (const dest of value) {
+        if (dest.line == line) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   // method to check if the graph is empty
   isEmpty(): boolean {
     return this.adj.size == 0;
