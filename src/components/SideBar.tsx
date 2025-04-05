@@ -22,8 +22,9 @@ import {
   GRAY_COLOR,
   TITLE_MARGIN,
 } from "./Values";
-import { SideBarContext } from "../pages/Home";
+import { Line, SideBarContext } from "../pages/Home";
 import CircleIcon from "@mui/icons-material/Circle";
+import DeleteLineDialog from "./DeleteLineDialog";
 
 export default function SideBar() {
   // get the context
@@ -40,6 +41,10 @@ export default function SideBar() {
   };
 
   const [stationsSearchText, setStationsSearchText] = useState("");
+
+  const [openDeleteLineDialog, setOpenDeleteLineDialog] = useState(false);
+  // the line to be deleted to be passed to the delete line dialog
+  const [targetLine, setTargetLine] = useState<Line | null>(null);
 
   return (
     <Drawer
@@ -147,7 +152,14 @@ export default function SideBar() {
 
                   {/* If the graph does not contain this line, show a delete button */}
                   {!graph.hasLine(value) && (
-                    <IconButton onClick={() => {}}>
+                    <IconButton
+                      onClick={() => {
+                        // set the target line to the clicked value
+                        setTargetLine(value);
+                        // open the delete line dialog
+                        setOpenDeleteLineDialog(true);
+                      }}
+                    >
                       <DeleteIcon color="error" />
                     </IconButton>
                   )}
@@ -183,6 +195,14 @@ export default function SideBar() {
               )}
         </Box>
       </Box>
+
+      {/* The delete line dialog */}
+      <DeleteLineDialog
+        open={openDeleteLineDialog}
+        setOpen={setOpenDeleteLineDialog}
+        targetLine={targetLine}
+        setLines={setLines}
+      />
     </Drawer>
   );
 }
