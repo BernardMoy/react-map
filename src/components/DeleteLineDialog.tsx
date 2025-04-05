@@ -30,6 +30,15 @@ export default function DeleteLineDialog({
     // prevent full page refresh
     event.preventDefault();
 
+    // remove the target line from setLines
+    if (targetLine != null) {
+      setLines((lines) =>
+        lines.filter(
+          (item) => item.lineName.toString() != targetLine?.lineName.toString()
+        )
+      );
+    }
+
     // close the dialog at the end
     setOpen(false);
   };
