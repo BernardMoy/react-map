@@ -58,6 +58,8 @@ interface TopBarContextProps {
   setEdgeTempMap: React.Dispatch<React.SetStateAction<Map<IdType, string>>>;
   nodeTempSet: Set<IdType>;
   setNodeTempSet: React.Dispatch<React.SetStateAction<Set<IdType>>>;
+  unit: string;
+  setUnit: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // interface to store all items for the sidebar
@@ -133,6 +135,8 @@ export const TopBarContext = createContext<TopBarContextProps>({
   setEdgeTempMap: () => {},
   nodeTempSet: new Set(),
   setNodeTempSet: () => {},
+  unit: "",
+  setUnit: () => {},
 });
 
 export const SideBarContext = createContext<SideBarContextProps>({
@@ -224,6 +228,9 @@ export default function Home() {
   const [selectedNodeIDPrev, setSelectedNodeIDPrev] = useState<IdType | null>(
     null
   );
+
+  // store the unit as string
+  const [unit, setUnit] = useState<string>("");
 
   // store the selected graph edge
   const [selectedEdgeID, setSelectedEdgeID] = useState<IdType | null>(null);
@@ -515,6 +522,8 @@ export default function Home() {
             setEdgeTempMap,
             nodeTempSet,
             setNodeTempSet,
+            unit,
+            setUnit,
           }}
         >
           <TopBar />

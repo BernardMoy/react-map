@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { CONTENT_MARGIN, NODE_COLOR, TITLE_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
 import AddIcon from "@mui/icons-material/Add";
@@ -12,7 +12,6 @@ import DeselectIcon from "@mui/icons-material/Deselect";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { DownloadData } from "./DownloadData";
-import loadFromJson from "./JsonLoader";
 import UploadFileDialog from "./UploadFileDialog";
 import { IdType } from "vis-network";
 
@@ -46,6 +45,8 @@ export default function TopBar() {
     setEdgeTempMap,
     nodeTempSet,
     setNodeTempSet,
+    unit,
+    setUnit,
   } = useContext(TopBarContext);
 
   // state of the dialogs whether they are open
@@ -165,8 +166,29 @@ export default function TopBar() {
         gap: TITLE_MARGIN,
       }}
     >
-      {/* Title text */}
-      <Typography variant="h3">Graph Modeling</Typography>
+      {/* Title text and unit */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "start",
+          gap: CONTENT_MARGIN,
+        }}
+      >
+        <Typography variant="h3" sx={{ flexGrow: 1 }}>
+          Graph Modeling
+        </Typography>
+
+        <TextField
+          id="unitTextField"
+          variant="outlined"
+          label="Time unit"
+          color="primary"
+          type="text"
+          error={false}
+          onChange={(text) => setUnit(text.target.value)}
+        />
+      </Box>
 
       {/* row of buttons */}
       <Box
