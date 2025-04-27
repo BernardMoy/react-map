@@ -16,9 +16,10 @@ interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
   route: FullRoute | null;
+  unit: string;
 }
 
-export default function ViewRouteDialog({ open, setOpen, route }: Props) {
+export default function ViewRouteDialog({ open, setOpen, route, unit }: Props) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     // prevent full page refresh
     event.preventDefault();
@@ -61,13 +62,17 @@ export default function ViewRouteDialog({ open, setOpen, route }: Props) {
               color="primary"
               sx={{ wordBreak: "break-word" }}
             >
-              ({route?.getTotalTime()} mins)
+              ({route?.getTotalTime()} {unit})
             </Typography>
           </Box>
 
           {/* Route information content goes here */}
           {route?.fullRouteToLegs().map((value, index) => (
-            <RouteTimeline line={value.line} stations={value.stations} />
+            <RouteTimeline
+              line={value.line}
+              stations={value.stations}
+              unit={unit}
+            />
           ))}
         </DialogContent>
 

@@ -18,9 +18,10 @@ import {
 export interface Leg {
   line: Line;
   stations: { node: IdType; timeElapsed: number }[];
+  unit?: string; // optional, only provided when displaying the leg object
 }
 
-export default function RouteTimeline({ line, stations }: Leg) {
+export default function RouteTimeline({ line, stations, unit = "" }: Leg) {
   // get the text color that ensures it shows up on top of the line color
   // black or white
   const lineNameTextColor = useTheme().palette.getContrastText(line.lineColor);
@@ -52,7 +53,9 @@ export default function RouteTimeline({ line, stations }: Leg) {
         >
           {line.lineName}
         </Typography>
-        <Typography variant="body1">{totalTime} mins</Typography>
+        <Typography variant="body1">
+          {totalTime} {unit}
+        </Typography>
         <Typography variant="body1">
           {numberOfStops > 1
             ? `(${numberOfStops} stops)`
@@ -87,7 +90,7 @@ export default function RouteTimeline({ line, stations }: Leg) {
                 {stations[0].node}
               </Typography>
               <Typography variant="body1" color="textSecondary">
-                {stations[0].timeElapsed} min elapsed
+                {stations[0].timeElapsed} {unit} elapsed
               </Typography>
             </Box>
           </TimelineContent>
@@ -113,7 +116,7 @@ export default function RouteTimeline({ line, stations }: Leg) {
                   {value.node}
                 </Typography>
                 <Typography variant="body1" color="textSecondary">
-                  {value.timeElapsed} min elapsed
+                  {value.timeElapsed} {unit} elapsed
                 </Typography>
               </Box>
             </TimelineContent>
@@ -138,7 +141,7 @@ export default function RouteTimeline({ line, stations }: Leg) {
                 {stations[stations.length - 1].node}
               </Typography>
               <Typography variant="body1" color="textSecondary">
-                {stations[stations.length - 1].timeElapsed} min elapsed
+                {stations[stations.length - 1].timeElapsed} {unit} elapsed
               </Typography>
             </Box>
           </TimelineContent>
