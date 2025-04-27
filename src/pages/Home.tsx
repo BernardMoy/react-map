@@ -94,6 +94,7 @@ interface SideBarRightContextProps {
   setNodeTempSet: React.Dispatch<React.SetStateAction<Set<IdType>>>;
   route: FullRoute | null;
   setRoute: React.Dispatch<React.SetStateAction<FullRoute | null>>;
+  unit: string;
 }
 
 // interface to store all items for the main content (Graph)
@@ -170,6 +171,7 @@ export const SideBarRightContext = createContext<SideBarRightContextProps>({
   setNodeTempSet: () => {},
   route: null,
   setRoute: () => {},
+  unit: "",
 });
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -596,6 +598,7 @@ export default function Home() {
               setNodeTempSet,
               route,
               setRoute,
+              unit,
             }}
           >
             <SideBarRight />

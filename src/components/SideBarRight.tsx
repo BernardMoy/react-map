@@ -55,6 +55,7 @@ export default function SideBarRight() {
     setNodeTempSet,
     route,
     setRoute,
+    unit,
   } = useContext(SideBarRightContext);
 
   // error to show below button
@@ -348,6 +349,7 @@ export default function SideBarRight() {
           open={openViewRouteDialog}
           setOpen={setOpenViewRouteDialog}
           route={route}
+          unit={unit}
         />
       </Box>
     </Drawer>
