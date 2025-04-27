@@ -232,7 +232,7 @@ export default function Home() {
   );
 
   // store the unit as string
-  const [unit, setUnit] = useState<string>("");
+  const [unit, setUnit] = useState<string>("mins");
 
   // store the selected graph edge
   const [selectedEdgeID, setSelectedEdgeID] = useState<IdType | null>(null);
