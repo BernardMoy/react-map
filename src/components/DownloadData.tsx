@@ -8,4 +8,5 @@ export interface DownloadData {
   edges: any;
   graph: any;
   lines: Line[];
+  unit: string;
 }

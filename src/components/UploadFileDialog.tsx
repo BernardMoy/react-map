@@ -23,6 +23,7 @@ interface Props {
   setReset: React.Dispatch<React.SetStateAction<number>>;
   setRouteStartNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
   setRouteEndNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
+  setUnit: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function UploadFileDialog({
@@ -37,6 +38,7 @@ export default function UploadFileDialog({
   setReset,
   setRouteStartNodeID,
   setRouteEndNodeID,
+  setUnit,
 }: Props) {
   const handleClose = () => {
     // directly close the dialog
@@ -55,7 +57,8 @@ export default function UploadFileDialog({
       setGraph,
       setLines,
       reset,
-      setReset
+      setReset,
+      setUnit
     );
 
     // reset the route start and route end node id

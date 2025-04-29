@@ -112,6 +112,7 @@ export default function TopBar() {
       edges: edges.get(),
       graph: graph.getAdj(),
       lines: lines,
+      unit: unit,
     };
 
     // download the data as json
@@ -338,6 +339,7 @@ export default function TopBar() {
         setReset={setReset}
         setRouteStartNodeID={setRouteStartNodeID}
         setRouteEndNodeID={setRouteEndNodeID}
+        setUnit={setUnit}
       />
     </Box>
   );

@@ -11,7 +11,8 @@ export default function loadFromJson(
   setGraph: React.Dispatch<React.SetStateAction<Graph>>,
   setLines: React.Dispatch<React.SetStateAction<Line[]>>,
   reset: number,
-  setReset: React.Dispatch<React.SetStateAction<number>>
+  setReset: React.Dispatch<React.SetStateAction<number>>,
+  setUnit: React.Dispatch<React.SetStateAction<string>>
 ) {
   // parse the json file from the text
   const file = JSON.parse(jsonText);
@@ -33,6 +34,7 @@ export default function loadFromJson(
   let loadedEdges: DataSet<Edge> = new DataSet<Edge>();
   let loadedGraph: Graph = new Graph();
   let loadedLines: Line[] = [];
+  let loadedUnit: string = "mins"; // unit may not be present. If not, set it to empty string (or mins)
 
   // read the json file
   try {
@@ -58,11 +60,15 @@ export default function loadFromJson(
     // read the lines
     loadedLines = file.lines as Line[];
 
+    // read the unit
+    loadedUnit = file.unit as string;
+
     // at the end, set the fields to be the loaded ones
     setNodes(loadedNodes);
     setEdges(loadedEdges);
     setGraph(loadedGraph);
     setLines(loadedLines);
+    setUnit(loadedUnit);
 
     // force refresh the graph
     setReset(reset + 1);
