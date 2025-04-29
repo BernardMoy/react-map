@@ -187,6 +187,7 @@ export default function TopBar() {
           color="primary"
           type="text"
           error={false}
+          value={unit}
           onChange={(text) => setUnit(text.target.value)}
         />
       </Box>
