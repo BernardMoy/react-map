@@ -60,8 +60,8 @@ export default function loadFromJson(
     // read the lines
     loadedLines = file.lines as Line[];
 
-    // read the unit
-    loadedUnit = file.unit as string;
+    // read the unit that can be undefined (default to mins)
+    loadedUnit = file.unit == undefined ? "mins" : (file.unit as string);
 
     // at the end, set the fields to be the loaded ones
     setNodes(loadedNodes);
