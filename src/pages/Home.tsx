@@ -4,6 +4,7 @@ import TopBar from "../components/TopBar";
 import Content from "../components/Content";
 import {
   CONTENT_MARGIN,
+  DEFAULT_UNIT,
   EDGE_WIDTH,
   EDGE_WIDTH_HOVERED,
   EDGE_WIDTH_SELECTED,
@@ -232,7 +233,7 @@ export default function Home() {
   );
 
   // store the unit as string
-  const [unit, setUnit] = useState<string>("mins");
+  const [unit, setUnit] = useState<string>(DEFAULT_UNIT);
 
   // store the selected graph edge
   const [selectedEdgeID, setSelectedEdgeID] = useState<IdType | null>(null);

@@ -2,6 +2,7 @@
 import { DataSet, Edge, IdType, Network, Node } from "vis-network/standalone";
 import { Destination, Graph } from "./Graph";
 import { Line } from "../pages/Home";
+import { DEFAULT_UNIT } from "./Values";
 
 // through the state set methods
 export default function loadFromJson(
@@ -34,7 +35,7 @@ export default function loadFromJson(
   let loadedEdges: DataSet<Edge> = new DataSet<Edge>();
   let loadedGraph: Graph = new Graph();
   let loadedLines: Line[] = [];
-  let loadedUnit: string = "mins"; // unit may not be present. If not, set it to empty string (or mins)
+  let loadedUnit: string = DEFAULT_UNIT; // unit may not be present. If not, set it to empty string (or mins)
 
   // read the json file
   try {
@@ -61,7 +62,7 @@ export default function loadFromJson(
     loadedLines = file.lines as Line[];
 
     // read the unit that can be undefined (default to mins)
-    loadedUnit = file.unit == undefined ? "mins" : (file.unit as string);
+    loadedUnit = file.unit == undefined ? DEFAULT_UNIT : (file.unit as string);
 
     // at the end, set the fields to be the loaded ones
     setNodes(loadedNodes);
