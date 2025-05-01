@@ -430,6 +430,14 @@ export default function Home() {
             scaleFactor: 0.3,
           },
         },
+
+        /*
+        smooth: {
+          enabled: true,
+          type: "curvedCW",
+          roundness: 0.5,
+        },
+        */
       },
       nodes: {
         chosen: {
