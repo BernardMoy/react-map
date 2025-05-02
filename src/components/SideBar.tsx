@@ -46,6 +46,10 @@ export default function SideBar() {
   // the line to be deleted to be passed to the delete line dialog
   const [targetLine, setTargetLine] = useState<Line | null>(null);
 
+  const topBarHeight = document.getElementById("topBar")?.offsetHeight || 0;
+  const calculatedGraphHeight =
+    window.innerHeight - topBarHeight - 16 * (CONTENT_MARGIN + TITLE_MARGIN);
+
   return (
     <Drawer
       variant="permanent"
@@ -84,101 +88,113 @@ export default function SideBar() {
           />
         </Box>
 
-        <List>
-          {tabNumber === 0 ? (
-            <Box
-              display="flex"
-              flexDirection="column"
-              gap={CONTENT_MARGIN}
-              alignItems="center"
-            >
-              {/* The search field */}
-              <Box display="flex" alignItems="end">
-                <SearchIcon color="secondary" />
-                <TextField
-                  id="stationsSearchField"
-                  variant="standard"
-                  label="Search stations"
-                  color="secondary"
-                  type="text"
-                  sx={{ ml: CONTENT_MARGIN }}
-                  value={stationsSearchText}
-                  onChange={(text) => setStationsSearchText(text.target.value)}
-                />
-                <IconButton onClick={() => setStationsSearchText("")}>
-                  <CloseIcon color="disabled" />
-                </IconButton>
-              </Box>
-
-              {/* Display a list of stations */}
-              {graph
-                .getNode()
-                .filter((word) => word.toString().includes(stationsSearchText))
-                .map((value, index) => (
-                  // unique keys are necessary here
-                  <ListItem
-                    key={`station ${index}`}
-                    onClick={() => {
-                      // set focus for the node
-                      network?.focus(value);
-                    }}
-                    sx={{
-                      cursor: "pointer",
-                      ":hover": {
-                        backgroundColor: BACKGROUND_COLOR,
-                      },
-                    }}
-                  >
-                    <ListItemText primary={value} />
-                  </ListItem>
-                ))}
-            </Box>
-          ) : (
-            lines.map((value, index) => (
-              // display a list of lines with name and color
-              <ListItem key={`line ${index}`}>
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  width="100%" // the box must have full width
-                  gap={CONTENT_MARGIN}
-                  alignItems="center"
-                >
-                  <CircleIcon style={{ color: value.lineColor }} />
-                  <ListItemText
-                    primary={value.lineName}
-                    sx={{ wordBreak: "break-word", flexGrow: 1 }}
+        <Box
+          sx={{
+            flexGrow: 1,
+            maxHeight: calculatedGraphHeight,
+            overflowY: "auto",
+          }}
+        >
+          <List>
+            {tabNumber === 0 ? (
+              <Box
+                display="flex"
+                flexDirection="column"
+                gap={CONTENT_MARGIN}
+                alignItems="center"
+              >
+                {/* The search field */}
+                <Box display="flex" alignItems="end">
+                  <SearchIcon color="secondary" />
+                  <TextField
+                    id="stationsSearchField"
+                    variant="standard"
+                    label="Search stations"
+                    color="secondary"
+                    type="text"
+                    sx={{ ml: CONTENT_MARGIN }}
+                    value={stationsSearchText}
+                    onChange={(text) =>
+                      setStationsSearchText(text.target.value)
+                    }
                   />
-
-                  {/* If the graph does not contain this line, show a delete button */}
-                  {!graph.hasLine(value) && (
-                    <IconButton
-                      onClick={() => {
-                        // set the target line to the clicked value
-                        setTargetLine(value);
-                        // open the delete line dialog
-                        setOpenDeleteLineDialog(true);
-                      }}
-                    >
-                      <DeleteIcon color="error" />
-                    </IconButton>
-                  )}
-
-                  {/* Else, show a disabled delete button */}
-                  {graph.hasLine(value) && (
-                    <IconButton
-                      onClick={() => {
-                        alert("Delete all edges of this line first.");
-                      }}
-                    >
-                      <DeleteIcon color="disabled" />
-                    </IconButton>
-                  )}
+                  <IconButton onClick={() => setStationsSearchText("")}>
+                    <CloseIcon color="disabled" />
+                  </IconButton>
                 </Box>
-              </ListItem>
-            ))
-          )}
-        </List>
+
+                {/* Display a list of stations */}
+                {graph
+                  .getNode()
+                  .filter((word) =>
+                    word.toString().includes(stationsSearchText)
+                  )
+                  .map((value, index) => (
+                    // unique keys are necessary here
+                    <ListItem
+                      key={`station ${index}`}
+                      onClick={() => {
+                        // set focus for the node
+                        network?.focus(value);
+                      }}
+                      sx={{
+                        cursor: "pointer",
+                        ":hover": {
+                          backgroundColor: BACKGROUND_COLOR,
+                        },
+                      }}
+                    >
+                      <ListItemText primary={value} />
+                    </ListItem>
+                  ))}
+              </Box>
+            ) : (
+              lines.map((value, index) => (
+                // display a list of lines with name and color
+                <ListItem key={`line ${index}`}>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    width="100%" // the box must have full width
+                    gap={CONTENT_MARGIN}
+                    alignItems="center"
+                  >
+                    <CircleIcon style={{ color: value.lineColor }} />
+                    <ListItemText
+                      primary={value.lineName}
+                      sx={{ wordBreak: "break-word", flexGrow: 1 }}
+                    />
+
+                    {/* If the graph does not contain this line, show a delete button */}
+                    {!graph.hasLine(value) && (
+                      <IconButton
+                        onClick={() => {
+                          // set the target line to the clicked value
+                          setTargetLine(value);
+                          // open the delete line dialog
+                          setOpenDeleteLineDialog(true);
+                        }}
+                      >
+                        <DeleteIcon color="error" />
+                      </IconButton>
+                    )}
+
+                    {/* Else, show a disabled delete button */}
+                    {graph.hasLine(value) && (
+                      <IconButton
+                        onClick={() => {
+                          alert("Delete all edges of this line first.");
+                        }}
+                      >
+                        <DeleteIcon color="disabled" />
+                      </IconButton>
+                    )}
+                  </Box>
+                </ListItem>
+              ))
+            )}
+          </List>
+        </Box>
 
         {/* The text saying there are no stations or no lines */}
         <Box display="flex" justifyContent="center" my={TITLE_MARGIN}>
