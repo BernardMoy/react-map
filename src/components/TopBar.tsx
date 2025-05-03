@@ -68,6 +68,8 @@ export default function TopBar() {
   };
 
   const onAddLineClicked = () => {
+    // clear the selection of add line and add connection
+    setMode(0);
     setOpenNewLineDialog(true);
   };
 
