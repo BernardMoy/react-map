@@ -106,6 +106,7 @@ interface ContentContextProps {
   selectedNodeID: IdType | null;
   setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
   lines: Line[];
+  nodes: DataSet<Node>;
 }
 
 // create the contexts here and initialise them with values
@@ -182,6 +183,7 @@ export const ContentContext = createContext<ContentContextProps>({
   selectedNodeID: null,
   setSelectedNodeID: () => {},
   lines: [],
+  nodes: new DataSet([]),
 });
 
 // main function
@@ -578,6 +580,7 @@ export default function Home() {
               selectedNodeID,
               setSelectedNodeID,
               lines,
+              nodes,
             }}
           >
             <Content />

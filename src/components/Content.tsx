@@ -6,7 +6,7 @@ import { CONTENT_MARGIN } from "./Values";
 
 export default function Content() {
   // get the context
-  const { mode, selectedNodeID, lines } = useContext(ContentContext);
+  const { mode, selectedNodeID, lines, nodes } = useContext(ContentContext);
 
   return (
     <Box display="flex" flexDirection="column" gap={CONTENT_MARGIN}>
