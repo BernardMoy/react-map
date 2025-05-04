@@ -15,9 +15,16 @@ export default function Content() {
         <Alert severity="info">Click on the canvas to add a new node.</Alert>
       )}
 
+      {/* Warning messages for the add connection option (mode == 2) */}
       {mode === 2 && lines.length === 0 && (
         <Alert severity="warning">
           You have no lines. Create a line before adding a connection.
+        </Alert>
+      )}
+
+      {mode == 2 && nodes.length == 0 && (
+        <Alert severity="warning">
+          You have no nodes. Create a node before adding a connection.
         </Alert>
       )}
 
