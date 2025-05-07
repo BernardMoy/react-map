@@ -442,6 +442,7 @@ export default function Home() {
         */
       },
       nodes: {
+        shape: "box",
         chosen: {
           node: function (
             values: any,
