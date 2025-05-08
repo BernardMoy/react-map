@@ -103,25 +103,27 @@ export default function SideBar() {
                 gap={CONTENT_MARGIN}
                 alignItems="center"
               >
-                {/* The search field */}
-                <Box display="flex" alignItems="end">
-                  <SearchIcon color="secondary" />
-                  <TextField
-                    id="stationsSearchField"
-                    variant="standard"
-                    label="Search stations"
-                    color="secondary"
-                    type="text"
-                    sx={{ ml: CONTENT_MARGIN }}
-                    value={stationsSearchText}
-                    onChange={(text) =>
-                      setStationsSearchText(text.target.value)
-                    }
-                  />
-                  <IconButton onClick={() => setStationsSearchText("")}>
-                    <CloseIcon color="disabled" />
-                  </IconButton>
-                </Box>
+                {/* The search field if there are stations */}
+                {graph.getNode().length !== 0 && (
+                  <Box display="flex" alignItems="end">
+                    <SearchIcon color="secondary" />
+                    <TextField
+                      id="stationsSearchField"
+                      variant="standard"
+                      label="Search stations"
+                      color="secondary"
+                      type="text"
+                      sx={{ ml: CONTENT_MARGIN }}
+                      value={stationsSearchText}
+                      onChange={(text) =>
+                        setStationsSearchText(text.target.value)
+                      }
+                    />
+                    <IconButton onClick={() => setStationsSearchText("")}>
+                      <CloseIcon color="disabled" />
+                    </IconButton>
+                  </Box>
+                )}
 
                 {/* Display a list of stations */}
                 {graph
