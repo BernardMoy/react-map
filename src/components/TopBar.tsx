@@ -238,7 +238,7 @@ export default function TopBar() {
 
           {/* The deselect button */}
           <CustomButton
-            text={"Deselect"}
+            text={"Deselect / Refresh"}
             variant={"outlined"}
             color={"success"}
             startIcon={<DeselectIcon />}
