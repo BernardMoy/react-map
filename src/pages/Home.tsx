@@ -496,6 +496,16 @@ export default function Home() {
     };
   }, [mode, reset]); // re attach the add node selected listener, otherwise the conditional clicking will not work
 
+  const sideBarContextValue = {
+    lines,
+    setLines,
+    graph,
+    setGraph,
+    network,
+    tabNumber,
+    setTabNumber,
+  };
+
   return (
     <Box
       sx={{
@@ -557,17 +567,7 @@ export default function Home() {
         }}
       >
         <Box sx={{ my: CONTENT_MARGIN }}>
-          <SideBarContext.Provider
-            value={{
-              lines,
-              setLines,
-              graph,
-              setGraph,
-              network,
-              tabNumber,
-              setTabNumber,
-            }}
-          >
+          <SideBarContext.Provider value={sideBarContextValue}>
             <SideBar />
           </SideBarContext.Provider>
         </Box>
