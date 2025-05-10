@@ -300,10 +300,6 @@ export default function TopBar() {
       <NewLineDialog
         open={openNewLineDialog}
         setOpen={setOpenNewLineDialog} // this is necessary to control the open state
-        lines={lines}
-        setLines={setLines}
-        tabNumber={tabNumber}
-        setTabNumber={setTabNumber}
       />
 
       <DeleteNodeDialog
