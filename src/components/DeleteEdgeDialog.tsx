@@ -10,26 +10,24 @@ import {
 import CustomButton from "./CustomButton";
 import { DataSet, IdType, Network, Node } from "vis-network/standalone";
 import { Graph } from "./Graph";
+import { useContext } from "react";
+import { TopBarContext } from "../pages/Home";
 
 interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
-  network: Network | null;
-  selectedEdgeID: IdType | null;
-  setSelectedEdgeID: (value: IdType | null) => void;
-  graph: Graph;
-  setGraph: (value: Graph) => void;
 }
 
-export default function DeleteEdgeDialog({
-  open,
-  setOpen,
-  network,
-  selectedEdgeID,
-  setSelectedEdgeID,
-  graph,
-  setGraph,
-}: Props) {
+export default function DeleteEdgeDialog({ open, setOpen }: Props) {
+  // get the context
+  const {
+    network,
+
+    graph,
+    setGraph,
+    setSelectedEdgeID,
+  } = useContext(TopBarContext);
+
   const handleClose = () => {
     // directly close the dialog
     setOpen(false);

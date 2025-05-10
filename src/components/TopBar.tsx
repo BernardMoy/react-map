@@ -305,40 +305,17 @@ export default function TopBar() {
       <DeleteNodeDialog
         open={openDeleteNodeDialog}
         setOpen={setOpenDeleteNodeDialog}
-        network={network}
-        selectedNodeID={selectedNodeID}
-        setSelectedNodeID={setSelectedNodeID}
-        graph={graph}
-        setGraph={setGraph}
-        routeStartNodeID={routeStartNodeID}
-        routeEndNodeID={routeEndNodeID}
-        setRouteStartNodeID={setRouteStartNodeID}
-        setRouteEndNodeID={setRouteEndNodeID}
       />
 
       <DeleteEdgeDialog
         open={openDeleteEdgeDialog}
         setOpen={setOpenDeleteEdgeDialog}
-        network={network}
-        selectedEdgeID={selectedEdgeID}
-        setSelectedEdgeID={setSelectedEdgeID}
-        graph={graph}
-        setGraph={setGraph}
       />
 
       <UploadFileDialog
         open={openUploadFileDialog}
         setOpen={setOpenUploadFileDialog}
         jsonText={jsonText}
-        setNodes={setNodes}
-        setEdges={setEdges}
-        setGraph={setGraph}
-        setLines={setLines}
-        reset={reset}
-        setReset={setReset}
-        setRouteStartNodeID={setRouteStartNodeID}
-        setRouteEndNodeID={setRouteEndNodeID}
-        setUnit={setUnit}
       />
     </Box>
   );

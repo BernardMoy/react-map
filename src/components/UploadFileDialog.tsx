@@ -6,40 +6,33 @@ import {
   Typography,
 } from "@mui/material";
 import CustomButton from "./CustomButton";
-import { DataSet, Node, Edge, IdType } from "vis-network/standalone";
-import { Graph } from "./Graph";
-import { Line } from "../pages/Home";
+import { Line, TopBarContext } from "../pages/Home";
 import loadFromJson from "./JsonLoader";
+import { useContext } from "react";
 
 interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
   jsonText: string; // json file in the format of string
-  setNodes: React.Dispatch<React.SetStateAction<DataSet<Node>>>;
-  setEdges: React.Dispatch<React.SetStateAction<DataSet<Edge>>>;
-  setGraph: React.Dispatch<React.SetStateAction<Graph>>;
-  setLines: React.Dispatch<React.SetStateAction<Line[]>>;
-  reset: number;
-  setReset: React.Dispatch<React.SetStateAction<number>>;
-  setRouteStartNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
-  setRouteEndNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
-  setUnit: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function UploadFileDialog({
-  open,
-  setOpen,
-  jsonText,
-  setNodes,
-  setEdges,
-  setGraph,
-  setLines,
-  reset,
-  setReset,
-  setRouteStartNodeID,
-  setRouteEndNodeID,
-  setUnit,
-}: Props) {
+export default function UploadFileDialog({ open, setOpen, jsonText }: Props) {
+  // get the context
+  const {
+    setLines,
+    setGraph,
+    setRouteStartNodeID,
+
+    setRouteEndNodeID,
+    reset,
+    setReset,
+
+    setNodes,
+
+    setEdges,
+    setUnit,
+  } = useContext(TopBarContext);
+
   const handleClose = () => {
     // directly close the dialog
     setOpen(false);

@@ -10,34 +10,28 @@ import {
 import CustomButton from "./CustomButton";
 import { DataSet, IdType, Network, Node } from "vis-network/standalone";
 import { Graph } from "./Graph";
+import { useContext } from "react";
+import { TopBarContext } from "../pages/Home";
 
 interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
-  network: Network | null;
-  selectedNodeID: IdType | null;
-  setSelectedNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
-  graph: Graph;
-  setGraph: React.Dispatch<React.SetStateAction<Graph>>;
-  routeStartNodeID: IdType | null;
-  setRouteStartNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
-  routeEndNodeID: IdType | null;
-  setRouteEndNodeID: React.Dispatch<React.SetStateAction<IdType | null>>;
 }
 
-export default function DeleteNodeDialog({
-  open,
-  setOpen,
-  network,
-  selectedNodeID,
-  setSelectedNodeID,
-  graph,
-  setGraph,
-  routeStartNodeID,
-  setRouteStartNodeID,
-  routeEndNodeID,
-  setRouteEndNodeID,
-}: Props) {
+export default function DeleteNodeDialog({ open, setOpen }: Props) {
+  // get the context
+  const {
+    network,
+    selectedNodeID,
+    setSelectedNodeID,
+    graph,
+    setGraph,
+    routeStartNodeID,
+    setRouteStartNodeID,
+    routeEndNodeID,
+    setRouteEndNodeID,
+  } = useContext(TopBarContext);
+
   const handleClose = () => {
     // directly close the dialog
     setOpen(false);

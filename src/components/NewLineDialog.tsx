@@ -9,26 +9,17 @@ import {
 } from "@mui/material";
 import { CONTENT_MARGIN } from "./Values";
 import CustomButton from "./CustomButton";
-import { useState } from "react";
-import { Line } from "../pages/Home";
+import { useContext, useState } from "react";
+import { Line, TopBarContext } from "../pages/Home";
 
 interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
-  lines: Line[]; // pass the lines variable from context
-  setLines: (value: Line[]) => void;
-  tabNumber: number;
-  setTabNumber: (value: number) => void;
 }
 
-export default function NewLineDialog({
-  open,
-  setOpen,
-  lines,
-  setLines,
-  tabNumber,
-  setTabNumber,
-}: Props) {
+export default function NewLineDialog({ open, setOpen }: Props) {
+  // get the context
+  const { lines, setLines, setTabNumber } = useContext(TopBarContext);
   // store the input text
   const [lineInput, setLineInput] = useState("");
 
