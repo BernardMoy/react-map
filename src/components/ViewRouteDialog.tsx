@@ -11,15 +11,21 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { FullRoute } from "./FullRoute";
 import RouteTimeline from "./RouteTimeline";
 import { CONTENT_MARGIN, VIEW_ROUTE_DIALOG_MIN_WIDTH } from "./Values";
+import { useContext } from "react";
+import { SideBarRightContext } from "../pages/Home";
 
 interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
-  route: FullRoute | null;
-  unit: string;
 }
 
-export default function ViewRouteDialog({ open, setOpen, route, unit }: Props) {
+export default function ViewRouteDialog({ open, setOpen }: Props) {
+  const {
+    route,
+
+    unit,
+  } = useContext(SideBarRightContext);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     // prevent full page refresh
     event.preventDefault();

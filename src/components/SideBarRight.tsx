@@ -348,8 +348,6 @@ export default function SideBarRight() {
         <ViewRouteDialog
           open={openViewRouteDialog}
           setOpen={setOpenViewRouteDialog}
-          route={route}
-          unit={unit}
         />
       </Box>
     </Drawer>
